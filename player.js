@@ -61,15 +61,32 @@ function Player(engine)
 
         if(keyStates.z == 1 || keyStates.z == 2)
         {
-            if(shoot_cooldown == 0)
+            if(keyStates.shift == 1 || keyStates.shift == 2)
             {
-                var b = engine.makeBullet(x - 10, y, 260, 30, PlayerBullet, "images/player_bullet.png");
-                engine.changeSpriteOpacity(b.sprite, 0.3);
-                b = engine.makeBullet(x, y, 270, 30, PlayerBullet, "images/player_bullet.png");
-                engine.changeSpriteOpacity(b.sprite, 0.3);
-                b = engine.makeBullet(x + 10, y, 280, 30, PlayerBullet, "images/player_bullet.png");
-                engine.changeSpriteOpacity(b.sprite, 0.3);
-                shoot_cooldown = 6;
+                
+                if(shoot_cooldown == 0)
+                {
+                    var b = engine.makeBullet(x - 13, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
+                    engine.changeSpriteOpacity(b.sprite, 0.3);
+                    b = engine.makeBullet(x, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
+                    engine.changeSpriteOpacity(b.sprite, 0.3);
+                    b = engine.makeBullet(x + 13, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
+                    engine.changeSpriteOpacity(b.sprite, 0.3);
+                    shoot_cooldown = 6;
+                }
+            }
+            else
+            {
+                if(shoot_cooldown == 0)
+                {
+                    var b = engine.makeBullet(x - 10, y, 260, 30, PlayerBullet, "images/player_bullet.png");
+                    engine.changeSpriteOpacity(b.sprite, 0.3);
+                    b = engine.makeBullet(x, y, 270, 30, PlayerBullet, "images/player_bullet.png");
+                    engine.changeSpriteOpacity(b.sprite, 0.3);
+                    b = engine.makeBullet(x + 10, y, 280, 30, PlayerBullet, "images/player_bullet.png");
+                    engine.changeSpriteOpacity(b.sprite, 0.3);
+                    shoot_cooldown = 6;
+                }
             }
         }
 
@@ -96,6 +113,7 @@ function Player(engine)
 
 function PlayerBullet(bullet)
 {
+
     this.hitbox = HitboxCircle(3);
     this.kind = 1;
 
