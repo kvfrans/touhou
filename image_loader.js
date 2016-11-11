@@ -6,6 +6,7 @@ function loadImages()
         "player_left.png",
         "player_right.png",
         "player_bullet.png",
+        "spellcard_ring.png"
     ];
 
     for(var i = 0; i < to_load.length; i++)
