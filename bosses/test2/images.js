@@ -3,7 +3,8 @@ function loadBossImages(bossname)
     var to_load = [
         "boss.png",
         "player_bullet_same.png",
-        "player_bullet_same2.png"
+        "player_bullet_same2.png",
+        "harambe.png"
     ];
 
     for(var i = 0; i < to_load.length; i++)

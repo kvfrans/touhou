@@ -32,6 +32,9 @@ function Boss(engine)
                     b.bulletclass.setParams(80 + (5 - k)*40, -90);
                 }
             }
+
+            engine.effects.displayOverlay(image_prefix+"harambe.png");
+
             state = 1;
             timer = 0;
         }
@@ -50,9 +53,14 @@ function Boss(engine)
                     b.bulletclass.setParams(80 + (5 - k)*40, 90);
                 }
             }
+
+
+
             state = 2;
             timer = 0;
         }
+
+
 
 
     }

@@ -76,7 +76,7 @@ function Player(engine)
                     shoot_cooldown = 6;
                 }
             }
-            //unshift is normal fire
+            //unshift is normal fire 
             else
             {
                 if(shoot_cooldown == 0)
