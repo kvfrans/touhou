@@ -1,6 +1,9 @@
-### Touhou Docs
+=======
+# Touhou Docs
 
-It's an engine for creating bullet-hell like games in the browser.
+engine for web-based bullet dodging game
+
+Run 'python -m SimpleHTTPServer', then go to localhost:8000
 
 To create a new level, make a new folder in the bosses folder. The structure should go:
 ```
