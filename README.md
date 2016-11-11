@@ -60,20 +60,20 @@ Everything you write in `boss.js` can call functions from the `engine` class.
 
 `engine.moveSprite(sprite, x, y)`
 
-Move sprite to positions x, y.
+>Move sprite to positions x, y.
 
 `engine.rotateSprite(sprite, degrees)`
 
-Rotate a sprite, around the center.
+>Rotate a sprite, around the center.
 
 `engine.changeSpriteTexture(sprite, texturename)`
 
-Change a sprite's image to another.
+>Change a sprite's image to another.
 
 `engine.changeSpriteOpacity(sprite, opacity)`
 
-Change sprite's transparency, from 0 to 1.
+>Change sprite's transparency, from 0 to 1.
 
 `engine.removeSprite(sprite)`
 
-Remove a sprite from the game.
+>Remove a sprite from the game.
