@@ -64,7 +64,7 @@ function Player(engine)
             //shift = focus
             if(keyStates.shift == 1 || keyStates.shift == 2)
             {
-                
+
                 if(shoot_cooldown == 0)
                 {
                     var b = engine.makeBullet(x - 13, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
@@ -76,7 +76,7 @@ function Player(engine)
                     shoot_cooldown = 6;
                 }
             }
-            //unshift is normal fire 
+            //unshift is normal fire
             else
             {
                 if(shoot_cooldown == 0)
@@ -116,7 +116,7 @@ function Player(engine)
 function PlayerBullet(bullet)
 {
 
-    this.hitbox = HitboxCircle(3);
+    this.hitbox = new HitboxCircle(3);
     this.kind = 1;
 
     this.update = function()

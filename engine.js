@@ -8,6 +8,7 @@ function Engine()
     var bulletHandler = new BulletHandler(this);
     var effects = new Effects(this);
     this.effects = effects;
+    this.player = player;
     var engine = this;
 
     var namedSprites = {};

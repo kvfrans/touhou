@@ -33,7 +33,6 @@ function Boss(engine)
                 }
             }
 
-            engine.effects.displayOverlay(image_prefix+"harambe.png");
 
             state = 1;
             timer = 0;
@@ -41,7 +40,7 @@ function Boss(engine)
 
         timer += 1;
 
-        if(state == 1 && timer == 120)    
+        if(state == 1 && timer == 120)
         {
             // make five rounds of yellow leafs
             for(var k = 0; k < 5; k++)
@@ -71,7 +70,7 @@ function Boss(engine)
 
 function Blue(bullet)
 {
-    this.hitbox = HitboxCircle(3);
+    this.hitbox = new HitboxCircle(3);
     this.kind = 0;
 
     var timer = 0;

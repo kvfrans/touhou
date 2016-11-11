@@ -40,6 +40,14 @@ var BulletHandler = function(engine)
                 engine.removeSprite(bullet.sprite);
                 bullets.splice(i, 1);
             }
+
+            var distance = Math.sqrt(Math.pow(engine.player.getX()-bullet.x, 2)+Math.pow(engine.player.getY()-bullet.y,2))
+            if(distance < 5)
+            {
+              engine.removeSprite(bullet.sprite);
+              bullets.splice(i, 1);
+              engine.effects.displayOverlay("bosses/test2/images/harambe.png");
+            }
         }
     }
 
