@@ -61,6 +61,7 @@ function Player(engine)
 
         if(keyStates.z == 1 || keyStates.z == 2)
         {
+            //shift = focus
             if(keyStates.shift == 1 || keyStates.shift == 2)
             {
                 
@@ -75,6 +76,7 @@ function Player(engine)
                     shoot_cooldown = 6;
                 }
             }
+            //unshift is normal fire
             else
             {
                 if(shoot_cooldown == 0)
