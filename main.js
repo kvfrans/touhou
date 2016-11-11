@@ -14,7 +14,8 @@ var Sprite = PIXI.Sprite;
 var engine;
 
 loadImages();
-loadBoss("in_1_wriggle");
+loadBoss("test2");
+console.log("meme");
 loader.load(init);
 function init()
 {
