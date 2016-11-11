@@ -6,6 +6,8 @@ function Engine()
     var player = new Player(this);
     var boss = new Boss(this);
     var bulletHandler = new BulletHandler(this);
+    var effects = new Effects(this);
+    this.effects = effects;
     var engine = this;
 
     var namedSprites = {};
@@ -102,9 +104,41 @@ function Engine()
         bullet.sin = Math.sin(direction/180 * Math.PI);
         bullet.cos = Math.cos(direction/180 * Math.PI);
         engine.rotateSprite(bullet.sprite, direction + 90);
+        if(bullet.rotate == false)
+        {
+            engine.rotateSprite(bullet.sprite, 0);
+        }
     }
 
     player.playerInit();
     boss.bossInit();
 
+}
+
+function Overlay(bullet)
+{
+    this.hitbox = HitboxCircle(0);
+    this.kind = 0;
+
+    var timer = 0;
+
+    engine.changeSpriteOpacity(bullet.sprite, 0);
+    bullet.rotate = false;
+    engine.setBulletDirection(bullet, 90);
+
+    this.update = function()
+    {
+        timer += 1;
+
+        if(timer < 50)
+        {
+            engine.changeSpriteOpacity(bullet.sprite, bullet.sprite.alpha + 0.01);
+            bullet.speed -= 0.1;
+        }
+        if(timer > 100)
+        {
+            engine.changeSpriteOpacity(bullet.sprite, bullet.sprite.alpha - 0.01);
+            bullet.speed += 0.1;
+        }
+    }
 }
