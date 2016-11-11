@@ -52,11 +52,11 @@ Everything you write in `boss.js` can call functions from the `engine` class.
 
 `engine.makeNamedSprite(name, texture, x, y)`
 
-Creates a sprite with a texture and x,y coordinated.
+>Creates a sprite with a texture and x,y coordinated.
 
 `engine.spriteFromName(name)`
 
-Get a previously made sprite from its name.
+>Get a previously made sprite from its name.
 
 `engine.moveSprite(sprite, x, y)`
 
