@@ -35,10 +35,6 @@ function SpellcardCircleBg(bullet)
     }
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 function Overlay(bullet)
 {
     this.hitbox = HitboxCircle(0);

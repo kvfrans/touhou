@@ -27,7 +27,7 @@ var BulletHandler = function(engine)
     this.bullets = bullets
     this.bulletUpdate = function()
 
-    {  
+    {
         // console.log(bullets.length);
         for(var i = bullets.length - 1; i >= 0; i--)
         {
@@ -67,8 +67,6 @@ var BulletHandler = function(engine)
                 var distance = Math.sqrt(Math.pow(engine.bosscore.x - bullet.x, 2) + Math.pow(engine.bosscore.y - bullet.y,2))
                 if(distance < bullet.hitbox.radius + 30)
                 {
-<<<<<<< HEAD
-
                     if(engine.bosscore.health == 0)
                     {
                         engine.effects.displayOverlay("bosses/test2/images/harambe.png")
@@ -80,11 +78,8 @@ var BulletHandler = function(engine)
                         remove = true;
                         console.log("hit");
                     }
-
-=======
                     engine.bosscore.health -= 1;
                     remove = true;
->>>>>>> origin/master
                 }
             }
 
