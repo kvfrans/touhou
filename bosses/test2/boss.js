@@ -67,6 +67,41 @@ function Boss(engine)
 
         if(state == 2 && timer > 100 && timer < 150)
         {
+            if(timer - 101 == 0){
+                right = Math.round(Math.random());
+                // up = Math.round(Math.random());
+                up += 1;
+            }
+
+            if (right == 1){
+                if(core.x + accel <= 700){
+                    //if can move right and should move right
+                    console.log("moving right");
+                    core.x = core.x + accel;
+                }else{
+                    //if can't move right but should move right
+                    console.log("moving left");
+                    core.x = core.x - accel;
+                    right = 0;
+                }
+            }else{
+                if(core.x - accel >= 50){
+                    //if can move left and should move left
+                    console.log("moving left");
+                    core.x = core.x - accel;
+                }else{
+                    //if can't move left but should move left
+                    console.log("moving right");
+                    core.x = core.x + accel;
+                    right = 1;
+                }
+            }
+
+            if(up % 2 == 1){
+                core.y = core.y - accel;
+            }else{
+                core.y = core.y + accel;
+            }
             if(timer < 125)
             {
                 accel += 0.2;
@@ -75,8 +110,8 @@ function Boss(engine)
             {
                 accel -= 0.2;
             }
-            core.x = core.x + accel;
-            core.y = core.y + accel;
+            // core.x = core.x + 0.5*accel;
+            // core.y = core.y + 0.5*accel;
             engine.moveSprite(bossSprite, core.x, core.y)
         }
 
