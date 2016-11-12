@@ -25,6 +25,8 @@ var BulletHandler = function(engine)
     var bullets = []
     this.bullets = bullets
     this.bulletUpdate = function()
+
+
     {
         for(var i = bullets.length - 1; i >= 0; i--)
         {
@@ -46,8 +48,22 @@ var BulletHandler = function(engine)
                 var distance = Math.sqrt(Math.pow(engine.player.getX()-bullet.x, 2)+Math.pow(engine.player.getY()-bullet.y,2))
                 if(distance < bullet.hitbox.radius + 10)
                 {
-                  engine.removeSprite(bullet.sprite);
-                  bullets.splice(i, 1);
+                    engine.removeSprite(bullet.sprite);
+                    bullets.splice(i, 1);
+                }
+            }
+            else if(bullet.kind == 1)
+            {
+                if(bullet.y < -200)
+                {
+                    engine.removeSprite(bullet.sprite);
+                    bullets.splice(i, 1);
+                }
+                var distance = Math.sqrt(Math.pow(engine.bosscore.x - bullet.x, 2) + Math.pow(engine.bosscore.y - bullet.y,2))
+                if(distance < bullet.hitbox.radius + 10)
+                {
+                    engine.bosscore.health -= 1;
+                    console.log("doodoo");
                 }
             }
         }
