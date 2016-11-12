@@ -121,7 +121,7 @@ function Engine()
 function Overlay(bullet)
 {
     this.hitbox = HitboxCircle(0);
-    this.kind = 0;
+    this.kind = 2;
 
     var timer = 0;
 

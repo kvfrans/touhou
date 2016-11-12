@@ -1,8 +1,9 @@
 function Effects(engine)
 {
-    this.displayOverlay = function(textuername)
+    this.displayOverlay = function(texturename)
     {
-        var bullet = engine.makeBullet(330, 0, 90, 7, Overlay, textuername);
+        console.log(texturename);
+        var bullet = engine.makeBullet(330, 0, 90, 7, Overlay, texturename);
     }
 
     this.spellcardCircle = function(core)
