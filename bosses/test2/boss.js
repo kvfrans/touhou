@@ -29,6 +29,14 @@ function Boss(engine)
     this.bossUpdate = function(player)
     {
         // State system! Each state = different behavior from the boss.
+
+        var rect = engine.drawHealth(10, 10, core.health/100 * 690, 20, 0xFF0000);
+        console.log(core.health);
+        if(core.health <= 0){
+            engine.removeSprite(bossSprite);
+            engine.removeSprite(rect);
+        }
+
         if(state == 0)
         {
         	engine.effects.displayOverlay("images/harambe.png");
