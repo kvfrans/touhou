@@ -29,9 +29,6 @@ function Boss(engine)
     this.bossUpdate = function(player)
     {
         // State system! Each state = different behavior from the boss.
-        if(core.health <= 0){
-            engine.removeSprite(bossSprite);
-        }
 
         if(state == 0)
         {
@@ -68,25 +65,37 @@ function Boss(engine)
             timer = 0;
         }
 
+        if(state == 2 && timer > 100 && timer < 150)
+        {
+            if(timer < 125)
+            {
+                accel += 0.2;
+            }
+            if(timer > 125)
+            {
+                accel -= 0.2;
+            }
+            core.x = core.x + accel;
+            core.y = core.y + accel;
+            engine.moveSprite(bossSprite, core.x, core.y)
+        }
+
         if(state == 2 && timer == 150)
         {
         	state = 0;
             timer = 0;
         }
 
-
         if((state == 0 || state == 1 || state) == 2 && core.health <= 0)
         {
+            engine.removeSprite(bossSprite);
             engine.clearBullets();
             core.health = 500;
             state = 3;
             console.log("same");
         }
-
         timer += 1;
-
     }
-
 }
 
 function Blue(bullet)

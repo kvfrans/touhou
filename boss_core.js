@@ -8,6 +8,6 @@ function BossCore(x, y, health)
 
     this.update = function()
     {
-        engine.drawHealth(10, 10, bosscore.health/bosscore.maxhealth * 690, 20, 0xFF0000);
+        engine.drawHealth(10, 10, bosscore.health/bosscore.maxhealth * 500, 20, 0xFF0000);
     }
 }
