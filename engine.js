@@ -99,6 +99,14 @@ function Engine()
         return bullet;
     }
 
+    this.drawHealth = function(x, y, width, height, color){
+        graphics.clear();
+        graphics.beginFill(color);
+        var sprite = graphics.drawRect(x, y, width, height);
+        graphics.endFill();
+        stage.addChild(sprite);
+    }
+
     this.setBulletPosition = function(bullet, x, y)
     {
         bullet.x = x;

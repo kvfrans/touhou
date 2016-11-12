@@ -15,10 +15,13 @@ function Boss(engine)
     //boss sprite
     var bossSprite;
 
+    //ghetto variables for square
+
     // called at the very beginning
     this.bossInit = function()
     {
         bossSprite = engine.makeNamedSprite("boss", image_prefix+"boss.png", core.x, core.y, 24)
+
         // engine.effects.spellcardCircle(core);
     }
 
@@ -26,6 +29,9 @@ function Boss(engine)
     this.bossUpdate = function(player)
     {
         // State system! Each state = different behavior from the boss.
+
+        engine.drawHealth(10, 10, core.health/100 * 690, 20, 0x000000);
+        console.log(core.health);
 
 
         if(state == 0)
@@ -73,8 +79,9 @@ function Boss(engine)
         if((state == 0 || state == 1 || state) == 2 && core.health <= 0)
         {
             engine.clearBullets();
-            core.health = 100;
+            core.health = 500;
             state = 3;
+            console.log("same");
         }
 
         timer += 1;

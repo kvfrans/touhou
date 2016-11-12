@@ -8,7 +8,7 @@ function Player(engine)
     var sprite;
     this.immunityCountDown = 0;
     // var health = 10;
-    this.health = 10;
+    this.health = 2;
 
 
     var shoot_cooldown = 0;
