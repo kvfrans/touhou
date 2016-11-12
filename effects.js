@@ -5,11 +5,11 @@ function Effects(engine)
         var bullet = engine.makeBullet(330, 0, 90, 7, Overlay, textuername);
     }
 
-    this.spellcardCircle = function(x, y)
+    this.spellcardCircle = function(core)
     {
         for(var i = 0; i < 60; i++)
         {
-            var b = engine.makeBullet(x, y, i*6, 8, SpellcardCircleBg, "images/spellcard_ring.png")
+            var b = engine.makeBullet(core.x, core.y, i*6, 8, SpellcardCircleBg, "images/spellcard_ring.png")
             engine.changeSpriteOpacity(b.sprite, 0.2);
         }
     }

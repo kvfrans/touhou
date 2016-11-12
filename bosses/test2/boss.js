@@ -1,8 +1,8 @@
 function Boss(engine)
 {
     // coordinates for the boss.
-    var x = 380;
-    var y = 200;
+    var core = new BossCore(380, 200, 100);
+    this.core = core;
 
     var state = 0;
     var timer = 0;
@@ -12,7 +12,7 @@ function Boss(engine)
     // called at the very beginning
     this.bossInit = function()
     {
-        engine.makeNamedSprite("boss", image_prefix+"boss.png", x, y, 24)
+        engine.makeNamedSprite("boss", image_prefix+"boss.png", core.x, core.y, 24)
     }
 
     // gets called every update
@@ -22,14 +22,14 @@ function Boss(engine)
 
         if(state == 0)
         {
-            engine.effects.spellcardCircle(x,y);
+            engine.effects.spellcardCircle(core);
             // make five rounds of yellow leafs
             for(var k = 0; k < 5; k++)
             {
                 // make 13 yellow leafs in part of a circle
                 for(var i = 0; i < 13; i++)
                 {
-                    var b = engine.makeBullet(x, y, -10*i + 60 + 180, 1 + 0.7*(5 - k), Blue, image_prefix+"player_bullet_same.png");
+                    var b = engine.makeBullet(core.x, core.y, -10*i + 60 + 180, 1 + 0.7*(5 - k), Blue, image_prefix+"player_bullet_same.png");
                     b.bulletclass.setParams(80 + (5 - k)*40, -90);
                 }
             }
@@ -49,7 +49,7 @@ function Boss(engine)
                 // make 13 yellow leafs in part of a circle
                 for(var i = 0; i < 13; i++)
                 {
-                    var b = engine.makeBullet(x, y, -10*i + 60, 1 + 0.7*(5 - k), Blue, image_prefix+"player_bullet_same2.png");
+                    var b = engine.makeBullet(core.x, core.y, -10*i + 60, 1 + 0.7*(5 - k), Blue, image_prefix+"player_bullet_same2.png");
                     b.bulletclass.setParams(80 + (5 - k)*40, 90);
                 }
             }
