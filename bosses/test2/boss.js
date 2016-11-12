@@ -2,7 +2,7 @@ function Boss(engine)
 {
     // coordinates for the boss.
 
-    var core = new BossCore(380, 200, 100);
+    var core = new BossCore(380, 200, 150);
     this.core = core;
 
     var state = 0;
@@ -30,7 +30,7 @@ function Boss(engine)
     {
         // State system! Each state = different behavior from the boss.
 
-        engine.drawHealth(10, 10, core.health/100 * 690, 20, 0x000000);
+        engine.drawHealth(10, 10, core.health/100 * 690, 20, 0xFF0000);
         console.log(core.health);
 
 
