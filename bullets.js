@@ -60,6 +60,7 @@ var BulletHandler = function(engine)
                 var distance = Math.sqrt(Math.pow(engine.bosscore.x - bullet.x, 2) + Math.pow(engine.bosscore.y - bullet.y,2))
                 if(distance < bullet.hitbox.radius + 30)
                 {
+                    console.log(distance);
                     engine.bosscore.health -= 1;
                     remove = true;
                     console.log("doodoo");
