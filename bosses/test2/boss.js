@@ -7,8 +7,9 @@ function Boss(engine)
 
     var state = 0;
     var timer = 0;
-    var accel = 0;
-
+    var accel = .75;
+    var right;
+    var up;
     var image_prefix = "bosses/test2/images/";
 
     //boss sprite
@@ -62,23 +63,63 @@ function Boss(engine)
 
         if(state == 2 && timer > 100 && timer < 150)
         {
-            core.x = core.x + accel;
-            core.y = core.y - 0.6*accel;
-            if(timer < 125)
-            {
-                accel += 0.2;
+
+
+            if(timer - 101 == 0){
+                console.log(timer);
+                right = Math.round(Math.random());
+                up = Math.round(Math.random());
+                console.log(right);
+                console.log(up);
             }
-            else
-            {
-                accel -= 0.2;
+
+
+            if(right == 1){
+                console.log("moving right");
+                core.x = core.x + accel;
+                // if(up == 1){
+                //     core.y = core.y + 0.6*accel;
+                // }else{
+                //     core.y = core.y - 0.6*accel;
+                // }
+            }else{
+                console.log("moving left");
+                core.x = core.x - accel;
+                // if(up == 1){
+                //     core.y = core.y + 0.6*accel;
+                // }else{
+                //     core.y = core.y - 0.6*accel;
+                // }
             }
+            if(up == 1){
+                {
+                    // console.log("moving up");
+                    core.y = core.y - 0.6*accel;
+                }
+            }else{
+                {
+                    // console.log("moving down")
+                    core.y = core.y + 0.6*accel;
+                }
+            }
+            //
+            // if(timer < 125)
+            // {
+            //     accel += 0.2;
+            // }
+            // else
+            // {
+            //     accel -= 0.2;
+            // }
             engine.moveSprite(bossSprite, core.x, core.y);
+
         }
 
 
         if(timer == 240)
         {
             state = 0;
+
         }
         timer += 1;
 

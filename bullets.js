@@ -28,7 +28,7 @@ var BulletHandler = function(engine)
 
 
     {
-        console.log(bullets.length);
+        // console.log(bullets.length);
         for(var i = bullets.length - 1; i >= 0; i--)
         {
             var bullet = bullets[i];
@@ -60,10 +60,10 @@ var BulletHandler = function(engine)
                 var distance = Math.sqrt(Math.pow(engine.bosscore.x - bullet.x, 2) + Math.pow(engine.bosscore.y - bullet.y,2))
                 if(distance < bullet.hitbox.radius + 30)
                 {
-                    console.log(distance);
+                    // console.log(distance);
                     engine.bosscore.health -= 1;
                     remove = true;
-                    console.log("doodoo");
+                    // console.log("doodoo");
                 }
             }
 
