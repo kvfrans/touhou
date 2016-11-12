@@ -29,6 +29,8 @@ function Boss(engine)
     this.bossUpdate = function(player)
     {
         // State system! Each state = different behavior from the boss.
+
+
         if(state == 0)
         {
         	engine.effects.displayOverlay("images/harambe.png");
