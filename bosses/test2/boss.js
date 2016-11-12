@@ -7,6 +7,7 @@ function Boss(engine)
 
     var state = 0;
     var timer = 0;
+    var accel = 0;
 
     var image_prefix = "bosses/test2/images/";
 
@@ -17,6 +18,7 @@ function Boss(engine)
     this.bossInit = function()
     {
         bossSprite = engine.makeNamedSprite("boss", image_prefix+"boss.png", core.x, core.y, 24)
+        // engine.effects.spellcardCircle(core);
     }
 
     // gets called every update
@@ -26,14 +28,14 @@ function Boss(engine)
 
         if(state == 0)
         {
-            engine.effects.spellcardCircle(core);
+            var playerangle = Math.atan2(core.y - player.getY(), core.x - player.getX()) * 180 / Math.PI;
             // make five rounds of yellow leafs
             for(var k = 0; k < 5; k++)
             {
                 // make 13 yellow leafs in part of a circle
                 for(var i = 0; i < 13; i++)
                 {
-                    var b = engine.makeBullet(core.x, core.y, -10*i + 60 + 180, 1 + 0.7*(5 - k), Blue, image_prefix+"leaf_blue.png");
+                    var b = engine.makeBullet(core.x, core.y, -10*i + 60 + 270 + playerangle, 1 + 0.7*(5 - k), Blue, image_prefix+"leaf_blue.png");
                     b.bulletclass.setParams(80 + (5 - k)*40, -90);
                 }
             }
@@ -43,13 +45,14 @@ function Boss(engine)
         }
         if(state == 1 && timer == 120)
         {
+            var playerangle = Math.atan2(core.y - player.getY(), core.x - player.getX()) * 180 / Math.PI;
             // make five rounds of yellow leafs
             for(var k = 0; k < 5; k++)
             {
                 // make 13 yellow leafs in part of a circle
                 for(var i = 0; i < 13; i++)
                 {
-                    var b = engine.makeBullet(core.x, core.y, -10*i + 60, 1 + 0.7*(5 - k), Blue, image_prefix+"leaf_yellow.png");
+                    var b = engine.makeBullet(core.x, core.y, -10*i + 60 + 90 + playerangle, 1 + 0.7*(5 - k), Blue, image_prefix+"leaf_yellow.png");
                     b.bulletclass.setParams(80 + (5 - k)*40, 90);
                 }
             }
@@ -57,13 +60,24 @@ function Boss(engine)
             timer = 0;
         }
 
-        if(state == 2 && timer == 100){
-            core.x += 10;
-            engine.moveSprite(bossSprite , core.x, core.y);
+        if(state == 2 && timer > 100 && timer < 150)
+        {
+            core.x = core.x + accel;
+            core.y = core.y - 0.6*accel;
+            if(timer < 125)
+            {
+                accel += 0.2;
+            }
+            else
+            {
+                accel -= 0.2;
+            }
+            engine.moveSprite(bossSprite, core.x, core.y);
         }
-        
 
-        if(timer == 240){
+
+        if(timer == 240)
+        {
             state = 0;
         }
         timer += 1;
