@@ -41,8 +41,8 @@ var BulletHandler = function(engine)
                 bullets.splice(i, 1);
             }
 
-            var distance = Math.sqrt(Math.pow(engine.player.getX()-bullet.x, 2)+Math.pow(engine.player.getY()-bullet.y,2))
-            if(distance < 5)
+            var distance = Math.sqrt(Math.pow(engine.player.getX()-bullet.x, 2)+Math.pow(engine.player.getY()-bullet.y, 2))
+            if(distance < 10)
             {
               engine.removeSprite(bullet.sprite);
               bullets.splice(i, 1);
@@ -59,7 +59,7 @@ var BulletHandler = function(engine)
 
 function Generic(bullet)
 {
-    this.hitbox = HitboxCircle(3);
+    this.hitbox = new HitboxCircle(3);
     this.kind = 0;
 
     this.setParams = function(hitboxradius)
