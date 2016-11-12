@@ -34,7 +34,6 @@ function Boss(engine)
                 }
             }
 
-
             state = 1;
             timer = 0;
         }

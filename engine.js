@@ -113,6 +113,7 @@ function Engine()
 
     player.playerInit();
     boss.bossInit();
+    this.bosscore = boss.core;
 
 }
 
