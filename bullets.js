@@ -61,7 +61,7 @@ var BulletHandler = function(engine)
 
 function Generic(bullet)
 {
-    this.hitbox = HitboxCircle(3);
+    this.hitbox = new HitboxCircle(3);
     this.kind = 0;
 
     this.setParams = function(hitboxradius)
