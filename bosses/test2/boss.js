@@ -29,7 +29,9 @@ function Boss(engine)
     this.bossUpdate = function(player)
     {
         // State system! Each state = different behavior from the boss.
-
+        if(core.health <= 0){
+            engine.removeSprite(bossSprite);
+        }
 
         if(state == 0)
         {
