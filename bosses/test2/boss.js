@@ -59,7 +59,7 @@ function Boss(engine)
 
         if(state == 2 && timer == 100){
             for(int i=10; i>0; i--){
-                engine.moveSprite(bossSprite, core.x + i*0.2, y);
+                engine.moveSprite(bossSprite, core.x + i*0.2, core.y);
             }
         }
 
