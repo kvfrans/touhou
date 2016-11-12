@@ -12,6 +12,7 @@ function Bullet(x, y, direction, speed, sprite, bulletclass)
     this.bulletclass = new bulletclass(this)
     this.hitbox = this.bulletclass.hitbox;
     this.kind = this.bulletclass.kind;
+
 }
 
 function HitboxCircle(radius)
@@ -26,9 +27,8 @@ var BulletHandler = function(engine)
     this.bullets = bullets
     this.bulletUpdate = function()
 
-
-    {
-        console.log(bullets.length);
+    {  
+        // console.log(bullets.length);
         for(var i = bullets.length - 1; i >= 0; i--)
         {
             var bullet = bullets[i];
@@ -53,6 +53,13 @@ var BulletHandler = function(engine)
                 if(distance < bullet.hitbox.radius + 10)
                 {
                     remove = true;
+                    if(engine.player.immunityCountDown == 0)
+                    {
+                        engine.player.health -= 1;
+                        engine.player.immunityCountDown = 20;
+                        engine.clearBullets();
+                    }
+
                 }
             }
             else if(bullet.kind == 1)
@@ -60,6 +67,7 @@ var BulletHandler = function(engine)
                 var distance = Math.sqrt(Math.pow(engine.bosscore.x - bullet.x, 2) + Math.pow(engine.bosscore.y - bullet.y,2))
                 if(distance < bullet.hitbox.radius + 30)
                 {
+<<<<<<< HEAD
 
                     if(engine.bosscore.health == 0)
                     {
@@ -73,6 +81,10 @@ var BulletHandler = function(engine)
                         console.log("hit");
                     }
 
+=======
+                    engine.bosscore.health -= 1;
+                    remove = true;
+>>>>>>> origin/master
                 }
             }
 
@@ -87,6 +99,16 @@ var BulletHandler = function(engine)
     this.addBullet = function(bullet)
     {
         bullets.push(bullet);
+    }
+
+    this.clearBullets = function()
+    {
+        for(var i = bullets.length - 1; i >= 0; i--)
+        {
+            var bullet = bullets[i];
+            engine.removeSprite(bullet.sprite);
+            bullets.splice(i, 1);
+        }
     }
 }
 

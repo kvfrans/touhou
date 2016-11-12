@@ -7,7 +7,9 @@ function Boss(engine)
 
     var state = 0;
     var timer = 0;
-
+    var accel = 0;
+    var right;
+    var up = 0;
     var image_prefix = "bosses/test2/images/";
 
     //boss sprite
@@ -17,6 +19,7 @@ function Boss(engine)
     this.bossInit = function()
     {
         bossSprite = engine.makeNamedSprite("boss", image_prefix+"boss.png", core.x, core.y, 24)
+        // engine.effects.spellcardCircle(core);
     }
 
     // gets called every update
@@ -24,16 +27,18 @@ function Boss(engine)
     {
         // State system! Each state = different behavior from the boss.
 
+
         if(state == 0)
         {
-            engine.effects.spellcardCircle(core);
+        	engine.effects.displayOverlay("images/harambe.png");
+            var playerangle = Math.atan2(core.y - player.getY(), core.x - player.getX()) * 180 / Math.PI;
             // make five rounds of yellow leafs
             for(var k = 0; k < 5; k++)
             {
                 // make 13 yellow leafs in part of a circle
                 for(var i = 0; i < 13; i++)
                 {
-                    var b = engine.makeBullet(core.x, core.y, -10*i + 60 + 180, 1 + 0.7*(5 - k), Blue, image_prefix+"leaf_blue.png");
+                    var b = engine.makeBullet(core.x, core.y, -10*i + 60 + 270 + playerangle, 1 + 0.7*(5 - k), Blue, image_prefix+"leaf_blue.png");
                     b.bulletclass.setParams(80 + (5 - k)*40, -90);
                 }
             }
@@ -43,13 +48,14 @@ function Boss(engine)
         }
         if(state == 1 && timer == 120)
         {
+            var playerangle = Math.atan2(core.y - player.getY(), core.x - player.getX()) * 180 / Math.PI;
             // make five rounds of yellow leafs
             for(var k = 0; k < 5; k++)
             {
                 // make 13 yellow leafs in part of a circle
                 for(var i = 0; i < 13; i++)
                 {
-                    var b = engine.makeBullet(core.x, core.y, -10*i + 60, 1 + 0.7*(5 - k), Blue, image_prefix+"leaf_yellow.png");
+                    var b = engine.makeBullet(core.x, core.y, -10*i + 60 + 90 + playerangle, 1 + 0.7*(5 - k), Blue, image_prefix+"leaf_yellow.png");
                     b.bulletclass.setParams(80 + (5 - k)*40, 90);
                 }
             }
@@ -57,17 +63,24 @@ function Boss(engine)
             timer = 0;
         }
 
-        if(state == 2 && timer == 100){
-            for(int i=10; i>0; i--){
-                engine.moveSprite(bossSprite, core.x + i*0.2, core.y);
-            }
+        if(state == 2 && timer == 150)
+        {
+        	state = 0;
+            timer = 0;
         }
 
-        if(timer == 240){
-            state = 0;
+
+        if((state == 0 || state == 1 || state) == 2 && core.health <= 0)
+        {
+            engine.clearBullets();
+            core.health = 100;
+            state = 3;
         }
+
+        timer += 1;
 
     }
+
 }
 
 function Blue(bullet)

@@ -7,7 +7,8 @@ function loadImages()
         "player_right.png",
         "player_bullet.png",
         "spellcard_ring.png",
-        "focus_bullet.png"
+        "focus_bullet.png",
+        "harambe.png"
     ];
 
     for(var i = 0; i < to_load.length; i++)

@@ -32,6 +32,7 @@ function Engine()
         sprite.scale.set(scaling,scaling);
         stage.addChild(sprite);
         namedSprites[name] = sprite;
+        return sprite;
     }
 
     this.moveSprite = function(sprite, x, y)
@@ -63,6 +64,11 @@ function Engine()
     this.spriteFromName = function(name)
     {
         return namedSprites[name];
+    }
+
+    this.clearBullets = function()
+    {
+        bulletHandler.clearBullets();
     }
 
     this.textureFromName = function (name)

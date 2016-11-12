@@ -6,6 +6,10 @@ function Player(engine)
     var speed = 12;
     var spriteName = "images/player_straight.png";
     var sprite;
+    this.immunityCountDown = 0;
+    // var health = 10;
+    this.health = 10;
+
 
     var shoot_cooldown = 0;
 
@@ -90,6 +94,18 @@ function Player(engine)
                     shoot_cooldown = 6;
                 }
             }
+            console.log(this.health)
+
+   
+        }
+        if (this.health == 0)
+        {
+            console.log("game over");
+        }
+
+        if(this.immunityCountDown > 0)
+        {
+            this.immunityCountDown -= 1
         }
 
         if(shoot_cooldown > 0)
@@ -116,7 +132,7 @@ function Player(engine)
 function PlayerBullet(bullet)
 {
 
-    this.hitbox = new HitboxCircle(3);
+    this.hitbox = new HitboxCircle(1);
     this.kind = 1;
 
     this.update = function()
