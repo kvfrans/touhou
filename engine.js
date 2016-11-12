@@ -32,6 +32,7 @@ function Engine()
         sprite.scale.set(scaling,scaling);
         stage.addChild(sprite);
         namedSprites[name] = sprite;
+        return sprite;
     }
 
     this.moveSprite = function(sprite, x, y)

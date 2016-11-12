@@ -58,14 +58,15 @@ function Boss(engine)
         }
 
         if(state == 2 && timer == 100){
-            for(int i=10; i>0; i--){
-                engine.moveSprite(bossSprite, core.x + i*0.2, core.y);
-            }
+            core.x += 10;
+            engine.moveSprite(  , core.x, core.y);
         }
+        
 
         if(timer == 240){
             state = 0;
         }
+        timer += 1;
 
     }
 }
