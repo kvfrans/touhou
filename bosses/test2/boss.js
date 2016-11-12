@@ -26,7 +26,7 @@ function Boss(engine)
     this.bossUpdate = function(player)
     {
         // State system! Each state = different behavior from the boss.
-        
+
 
         if(state == 0)
         {
@@ -63,90 +63,24 @@ function Boss(engine)
             timer = 0;
         }
 
-        if(state == 2 && timer > 100 && timer < 150)
-        {
-
-
-            // if(timer - 101 == 0){
-            //     console.log(timer);
-            //     right = Math.round(Math.random());
-            //     // up = Math.round(Math.random());
-            //     up += 1;
-            //     console.log(right);
-            //     console.log(up);
-            // }
-
-
-            // if(right == 1){
-
-            //     if(core.x + accel <= 700){
-            //         //if can move right and should move right
-            //         console.log("moving right");
-            //         core.x = core.x + accel;
-            //     }else{
-            //         //if can't move right but should move right
-            //         console.log("moving left");
-            //         core.x = core.x - accel;
-            //         right = 0;
-            //     }
-            // }else{
-            //     if(core.x - accel >= 50){
-            //         //if can move left and should move left
-            //         console.log("moving left");
-            //         core.x = core.x - accel;
-            //     }else{
-            //         //if can't move left but should move left
-            //         console.log("moving right");
-            //         core.x = core.x + accel;
-            //         right = 1;
-            //     }
-
-            // }
-            // if(up % 2 == 1){
-            //     // console.log("moving up");
-            //     // if(core.y - accel > 50)
-            //     // {
-            //     //     //if can move up and should move up
-            //     //     core.y = core.y - accel;
-            //     // }else{
-            //     //     //if can't move up but should move up
-            //     //     core.y = core.y + accel;
-            //     //     up = 0;
-            //     // }
-            //     core.y = core.y - accel;
-            // }else{
-            //     // console.log("moving down")
-            //     // if(core.y + accel > 400)
-            //     // {
-            //     //     //if can move down and should move down
-            //     //     core.y = core.y + accel;
-            //     // }else{
-            //     //     //if can't move down but should move down
-            //     //     core.y = core.y - accel;
-            //     //     up = 1;
-            //     // }
-            // }
-            //     core.y = core.y + accel;
-
-        }
         if(state == 2 && timer == 150)
         {
         	state = 0;
+            timer = 0;
         }
 
-        if(timer < 125)
+
+        if((state == 0 || state == 1 || state) == 2 && core.health <= 0)
         {
-            accel += 0.2;
+            engine.clearBullets();
+            core.health = 100;
+            state = 3;
         }
-        else
-        {
-            accel -= 0.2;
-        }
-        engine.moveSprite(bossSprite, core.x, core.y);
+
         timer += 1;
 
     }
-    
+
 }
 
 function Blue(bullet)
