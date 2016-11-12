@@ -1,6 +1,7 @@
 function Boss(engine)
 {
     // coordinates for the boss.
+
     var core = new BossCore(380, 200, 100);
     this.core = core;
 
@@ -9,10 +10,13 @@ function Boss(engine)
 
     var image_prefix = "bosses/test2/images/";
 
+    //boss sprite
+    var bossSprite;
+
     // called at the very beginning
     this.bossInit = function()
     {
-        engine.makeNamedSprite("boss", image_prefix+"boss.png", core.x, core.y, 24)
+        bossSprite = engine.makeNamedSprite("boss", image_prefix+"boss.png", core.x, core.y, 24)
     }
 
     // gets called every update
@@ -52,23 +56,17 @@ function Boss(engine)
             state = 2;
             timer = 0;
         }
-        if(state == 2 && timer == 120)
-        {
-            // make five rounds of yellow leafs
-            for(var k = 0; k < 5; k++)
-            {
-                // make 13 yellow leafs in part of a circle
-                for(var i = 0; i < 13; i++)
-                {
-                    var b = engine.makeBullet(core.x, core.y, -10*i + 60 + 180, 1 + 0.7*(5 - k), Blue, image_prefix+"leaf_blue.png");
-                    b.bulletclass.setParams(80 + (5 - k)*40, -90);
-                }
-            }
 
-            state = 3;
-            timer = 0;
+        if(state == 2 && timer == 100){
+            for(int i=10; i>0; i--){
+                engine.moveSprite(bossSprite, core.x + i*0.2, y);
+            }
         }
-        timer += 1;
+
+        if(timer == 240){
+            state = 0;
+        }
+
     }
 }
 
