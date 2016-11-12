@@ -4,7 +4,8 @@ function loadBossImages(bossname)
         "boss.png",
         "leaf_blue.png",
         "leaf_yellow.png",
-        "harambe.png"
+        "harambe.png",
+        "sponge.png",
     ];
 
     for(var i = 0; i < to_load.length; i++)

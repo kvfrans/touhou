@@ -20,7 +20,7 @@ function Boss(engine)
     // called at the very beginning
     this.bossInit = function()
     {
-        bossSprite = engine.makeNamedSprite("boss", image_prefix+"boss.png", core.x, core.y, 24)
+        bossSprite = engine.makeNamedSprite("boss", image_prefix+"sponge.png", core.x, core.y, 24)
 
         // engine.effects.spellcardCircle(core);
     }
