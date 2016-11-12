@@ -1,6 +1,7 @@
 function Boss(engine)
 {
     // coordinates for the boss.
+
     var core = new BossCore(380, 200, 100);
     this.core = core;
 
@@ -9,10 +10,13 @@ function Boss(engine)
 
     var image_prefix = "bosses/test2/images/";
 
+    //boss sprite
+    var bossSprite;
+
     // called at the very beginning
     this.bossInit = function()
     {
-        engine.makeNamedSprite("boss", image_prefix+"boss.png", core.x, core.y, 24)
+        bossSprite = engine.makeNamedSprite("boss", image_prefix+"boss.png", core.x, core.y, 24)
     }
 
     // gets called every update
@@ -54,6 +58,16 @@ function Boss(engine)
             }
             state = 2;
             timer = 0;
+        }
+
+        if(state == 2 && timer == 100){
+            for(int i=10; i>0; i--){
+                engine.moveSprite(bossSprite, core.x + i*0.2, y);
+            }
+        }
+
+        if(timer == 240){
+            state = 0;
         }
     }
 }
