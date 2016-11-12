@@ -26,6 +26,7 @@ var BulletHandler = function(engine)
     this.bullets = bullets
     this.bulletUpdate = function()
     {
+        console.log(bullets.length);
         for(var i = bullets.length - 1; i >= 0; i--)
         {
             var bullet = bullets[i];
@@ -35,19 +36,22 @@ var BulletHandler = function(engine)
 
             bullet.bulletclass.update()
 
-            if(bullet.kind == 0)
+            if(bullet.kind == 0 || bullet.kind == 1)
             {
                 if(bullet.y < -200 || bullet.y > 1200 || bullet.x < -200 || bullet.y > 900)
                 {
                     engine.removeSprite(bullet.sprite);
                     bullets.splice(i, 1);
                 }
+            }
 
+            if(bullet.kind == 0)
+            {
                 var distance = Math.sqrt(Math.pow(engine.player.getX()-bullet.x, 2)+Math.pow(engine.player.getY()-bullet.y,2))
                 if(distance < bullet.hitbox.radius + 10)
                 {
-                  engine.removeSprite(bullet.sprite);
-                  bullets.splice(i, 1);
+                    engine.removeSprite(bullet.sprite);
+                    bullets.splice(i, 1);
                 }
             }
         }
