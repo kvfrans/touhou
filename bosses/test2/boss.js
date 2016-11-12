@@ -29,7 +29,7 @@ function Boss(engine)
                 // make 13 yellow leafs in part of a circle
                 for(var i = 0; i < 13; i++)
                 {
-                    var b = engine.makeBullet(core.x, core.y, -10*i + 60 + 180, 1 + 0.7*(5 - k), Blue, image_prefix+"player_bullet_same.png");
+                    var b = engine.makeBullet(core.x, core.y, -10*i + 60 + 180, 1 + 0.7*(5 - k), Blue, image_prefix+"leaf_blue.png");
                     b.bulletclass.setParams(80 + (5 - k)*40, -90);
                 }
             }
@@ -37,9 +37,6 @@ function Boss(engine)
             state = 1;
             timer = 0;
         }
-
-        timer += 1;
-
         if(state == 1 && timer == 120)
         {
             // make five rounds of yellow leafs
@@ -48,13 +45,30 @@ function Boss(engine)
                 // make 13 yellow leafs in part of a circle
                 for(var i = 0; i < 13; i++)
                 {
-                    var b = engine.makeBullet(core.x, core.y, -10*i + 60, 1 + 0.7*(5 - k), Blue, image_prefix+"player_bullet_same2.png");
+                    var b = engine.makeBullet(core.x, core.y, -10*i + 60, 1 + 0.7*(5 - k), Blue, image_prefix+"leaf_yellow.png");
                     b.bulletclass.setParams(80 + (5 - k)*40, 90);
                 }
             }
             state = 2;
             timer = 0;
         }
+        if(state == 2 && timer == 120)
+        {
+            // make five rounds of yellow leafs
+            for(var k = 0; k < 5; k++)
+            {
+                // make 13 yellow leafs in part of a circle
+                for(var i = 0; i < 13; i++)
+                {
+                    var b = engine.makeBullet(core.x, core.y, -10*i + 60 + 180, 1 + 0.7*(5 - k), Blue, image_prefix+"leaf_blue.png");
+                    b.bulletclass.setParams(80 + (5 - k)*40, -90);
+                }
+            }
+
+            state = 3;
+            timer = 0;
+        }
+        timer += 1;
     }
 }
 
