@@ -19,6 +19,7 @@ function Engine()
     {
         player.playerUpdate(keyboard.keyStates);
         boss.bossUpdate(player);
+        boss.core.update();
         bulletHandler.bulletUpdate();
         keyboard.keyboardUpdate();
     }
