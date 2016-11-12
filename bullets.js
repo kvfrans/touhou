@@ -25,30 +25,51 @@ var BulletHandler = function(engine)
     var bullets = []
     this.bullets = bullets
     this.bulletUpdate = function()
+
+
     {
+        console.log(bullets.length);
         for(var i = bullets.length - 1; i >= 0; i--)
         {
             var bullet = bullets[i];
             bullet.x += bullet.speed * bullet.cos;
             bullet.y += bullet.speed * bullet.sin;
             engine.moveSprite(bullet.sprite, bullet.x, bullet.y);
-
             bullet.bulletclass.update()
 
-            if(bullet.kind == 0)
+            var remove = false;
+
+            if(bullet.kind == 0 || bullet.kind == 1)
             {
                 if(bullet.y < -200 || bullet.y > 1200 || bullet.x < -200 || bullet.y > 900)
                 {
-                    engine.removeSprite(bullet.sprite);
-                    bullets.splice(i, 1);
+                    remove = true;
                 }
+            }
 
+            if(bullet.kind == 0)
+            {
                 var distance = Math.sqrt(Math.pow(engine.player.getX()-bullet.x, 2)+Math.pow(engine.player.getY()-bullet.y,2))
                 if(distance < bullet.hitbox.radius + 10)
                 {
-                  engine.removeSprite(bullet.sprite);
-                  bullets.splice(i, 1);
+                    remove = true;
                 }
+            }
+            else if(bullet.kind == 1)
+            {
+                var distance = Math.sqrt(Math.pow(engine.bosscore.x - bullet.x, 2) + Math.pow(engine.bosscore.y - bullet.y,2))
+                if(distance < bullet.hitbox.radius + 30)
+                {
+                    engine.bosscore.health -= 1;
+                    remove = true;
+                    console.log("doodoo");
+                }
+            }
+
+            if(remove)
+            {
+                engine.removeSprite(bullet.sprite);
+                bullets.splice(i, 1);
             }
         }
     }
