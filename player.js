@@ -132,7 +132,7 @@ function Player(engine)
 function PlayerBullet(bullet)
 {
 
-    this.hitbox = new HitboxCircle(3);
+    this.hitbox = new HitboxCircle(1);
     this.kind = 1;
 
     this.update = function()

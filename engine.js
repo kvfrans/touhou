@@ -66,6 +66,11 @@ function Engine()
         return namedSprites[name];
     }
 
+    this.clearBullets = function()
+    {
+        bulletHandler.clearBullets();
+    }
+
     this.textureFromName = function (name)
     {
         return resources[name].texture;

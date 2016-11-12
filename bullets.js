@@ -57,6 +57,7 @@ var BulletHandler = function(engine)
                     {
                         engine.player.health -= 1;
                         engine.player.immunityCountDown = 20;
+                        engine.clearBullets();
                     }
 
                 }
@@ -82,6 +83,16 @@ var BulletHandler = function(engine)
     this.addBullet = function(bullet)
     {
         bullets.push(bullet);
+    }
+
+    this.clearBullets = function()
+    {
+        for(var i = bullets.length - 1; i >= 0; i--)
+        {
+            var bullet = bullets[i];
+            engine.removeSprite(bullet.sprite);
+            bullets.splice(i, 1);
+        }
     }
 }
 
