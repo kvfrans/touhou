@@ -116,31 +116,3 @@ function Engine()
     this.bosscore = boss.core;
 
 }
-
-function Overlay(bullet)
-{
-    this.hitbox = HitboxCircle(0);
-    this.kind = 0;
-
-    var timer = 0;
-
-    engine.changeSpriteOpacity(bullet.sprite, 0);
-    bullet.rotate = false;
-    engine.setBulletDirection(bullet, 90);
-
-    this.update = function()
-    {
-        timer += 1;
-
-        if(timer < 50)
-        {
-            engine.changeSpriteOpacity(bullet.sprite, bullet.sprite.alpha + 0.01);
-            bullet.speed -= 0.1;
-        }
-        if(timer > 100)
-        {
-            engine.changeSpriteOpacity(bullet.sprite, bullet.sprite.alpha - 0.01);
-            bullet.speed += 0.1;
-        }
-    }
-}

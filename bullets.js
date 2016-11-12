@@ -60,9 +60,19 @@ var BulletHandler = function(engine)
                 var distance = Math.sqrt(Math.pow(engine.bosscore.x - bullet.x, 2) + Math.pow(engine.bosscore.y - bullet.y,2))
                 if(distance < bullet.hitbox.radius + 30)
                 {
-                    engine.bosscore.health -= 1;
-                    remove = true;
-                    console.log("doodoo");
+
+                    if(engine.bosscore.health == 0)
+                    {
+                        engine.effects.displayOverlay("bosses/test2/images/harambe.png")
+                        console.log("daed ag");
+                    }
+                    else
+                    {
+                        engine.bosscore.health -= 1;
+                        remove = true;
+                        console.log("hit");
+                    }
+
                 }
             }
 
