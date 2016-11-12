@@ -57,7 +57,7 @@ var BulletHandler = function(engine)
                     {
                         engine.player.health -= 1;
                         engine.player.immunityCountDown = 20;
-                        engine.clearBullets();
+                        // engine.clearBullets();
                     }
 
                 }
