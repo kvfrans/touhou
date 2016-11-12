@@ -7,9 +7,10 @@ function Effects(engine)
 
     this.spellcardCircle = function(x, y)
     {
-        for(var i = 0; i < 360; i++)
+        for(var i = 0; i < 60; i++)
         {
-            engine.makeBullet(x, y, i, 8, SpellcardCircleBg, "images/spellcard_ring.png")
+            var b = engine.makeBullet(x, y, i*6, 8, SpellcardCircleBg, "images/spellcard_ring.png")
+            engine.changeSpriteOpacity(b.sprite, 0.2);
         }
     }
 }
@@ -24,11 +25,10 @@ function SpellcardCircleBg(bullet)
         {
             bullet.speed = 6;
             engine.setBulletDirection(bullet, bullet.direction + 90);
-            console.log(bullet.x);
         }
         if(timer > 50)
         {
-            engine.setBulletDirection(bullet, bullet.direction + 1.16);
+            engine.setBulletDirection(bullet, bullet.direction + 0.9);
         }
     }
 }

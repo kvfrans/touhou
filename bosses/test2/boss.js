@@ -22,6 +22,7 @@ function Boss(engine)
 
         if(state == 0)
         {
+            engine.effects.spellcardCircle(x,y);
             // make five rounds of yellow leafs
             for(var k = 0; k < 5; k++)
             {
@@ -52,25 +53,15 @@ function Boss(engine)
                     b.bulletclass.setParams(80 + (5 - k)*40, 90);
                 }
             }
-
-
-
             state = 2;
             timer = 0;
         }
-
-
-
-
     }
-
-
-
 }
 
 function Blue(bullet)
 {
-    this.hitbox = new HitboxCircle(3);
+    this.hitbox = new HitboxCircle(13);
     this.kind = 0;
 
     var timer = 0;

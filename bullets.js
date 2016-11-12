@@ -10,8 +10,8 @@ function Bullet(x, y, direction, speed, sprite, bulletclass)
     engine.rotateSprite(this.sprite, direction + 90);
 
     this.bulletclass = new bulletclass(this)
-    this.hitbox = bulletclass.hitbox;
-    this.kind = bulletclass.kind;
+    this.hitbox = this.bulletclass.hitbox;
+    this.kind = this.bulletclass.kind;
 }
 
 function HitboxCircle(radius)
@@ -35,18 +35,20 @@ var BulletHandler = function(engine)
 
             bullet.bulletclass.update()
 
-            if(bullet.y < -200 || bullet.y > 1200 || bullet.x < -200 || bullet.y > 900)
+            if(bullet.kind == 0)
             {
-                engine.removeSprite(bullet.sprite);
-                bullets.splice(i, 1);
-            }
+                if(bullet.y < -200 || bullet.y > 1200 || bullet.x < -200 || bullet.y > 900)
+                {
+                    engine.removeSprite(bullet.sprite);
+                    bullets.splice(i, 1);
+                }
 
-            var distance = Math.sqrt(Math.pow(engine.player.getX()-bullet.x, 2)+Math.pow(engine.player.getY()-bullet.y,2))
-            if(distance < 5)
-            {
-              engine.removeSprite(bullet.sprite);
-              bullets.splice(i, 1);
-              engine.effects.displayOverlay("bosses/test2/images/harambe.png");
+                var distance = Math.sqrt(Math.pow(engine.player.getX()-bullet.x, 2)+Math.pow(engine.player.getY()-bullet.y,2))
+                if(distance < bullet.hitbox.radius + 10)
+                {
+                  engine.removeSprite(bullet.sprite);
+                  bullets.splice(i, 1);
+                }
             }
         }
     }
