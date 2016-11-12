@@ -50,7 +50,7 @@ var BulletHandler = function(engine)
             if(bullet.kind == 0)
             {
                 var distance = Math.sqrt(Math.pow(engine.player.getX()-bullet.x, 2)+Math.pow(engine.player.getY()-bullet.y,2))
-                if(distance < bullet.hitbox.radius + 10)
+                if(distance < bullet.hitbox.radius + 1)
                 {
                     remove = true;
                     if(engine.player.immunityCountDown == 0)

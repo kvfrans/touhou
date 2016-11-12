@@ -12,6 +12,7 @@ var loader = PIXI.loader;
 var resources = PIXI.loader.resources;
 var Sprite = PIXI.Sprite;
 var engine;
+var graphics = new PIXI.Graphics();
 
 loadImages();
 loadBoss("test2");
