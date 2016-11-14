@@ -11,7 +11,7 @@ function Effects(engine)
         for(var i = 0; i < 60; i++)
         {
             var b = engine.makeBullet(core.x, core.y, i*6, 8, SpellcardCircleBg, "images/spellcard_ring.png")
-            engine.changeSpriteOpacity(b.sprite, 0.2);
+            engine.setSpriteOpacity(b.sprite, 0.2);
         }
     }
 }
@@ -42,7 +42,7 @@ function Overlay(bullet)
 
     var timer = 0;
 
-    engine.changeSpriteOpacity(bullet.sprite, 0);
+    engine.setSpriteOpacity(bullet.sprite, 0);
     bullet.rotate = false;
     engine.setBulletDirection(bullet, 90);
 
@@ -52,12 +52,12 @@ function Overlay(bullet)
 
         if(timer < 50)
         {
-            engine.changeSpriteOpacity(bullet.sprite, bullet.sprite.alpha + 0.01);
+            engine.setSpriteOpacity(bullet.sprite, bullet.sprite.alpha + 0.01);
             bullet.speed -= 0.1;
         }
         if(timer > 100)
         {
-            engine.changeSpriteOpacity(bullet.sprite, bullet.sprite.alpha - 0.01);
+            engine.setSpriteOpacity(bullet.sprite, bullet.sprite.alpha - 0.01);
             bullet.speed += 0.1;
         }
     }

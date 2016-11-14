@@ -16,7 +16,7 @@ var graphics = new PIXI.Graphics();
 
 loadImages();
 console.log("Loading!");
-loadBoss("in_1_wriggle");
+loadBoss("test2");
 loader.load(init);
 function init()
 {

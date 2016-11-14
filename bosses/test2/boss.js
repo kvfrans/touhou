@@ -126,7 +126,7 @@ function Boss(engine)
             }
             // core.x = core.x + 0.5*accel;
             // core.y = core.y + 0.5*accel;
-            engine.moveSprite(bossSprite, core.x, core.y)
+            engine.setSpritePosition(bossSprite, core.x, core.y)
         }
 
 
