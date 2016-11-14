@@ -2,7 +2,7 @@ function Boss(engine)
 {
     // coordinates for the boss.
 
-    var core = new BossCore(380, 200, 150);
+    var core = new BossCore(380, 200, 200);
     this.core = core;
 
     var state = 0;
@@ -11,6 +11,7 @@ function Boss(engine)
     var right;
     var up = 0;
     var image_prefix = "bosses/test2/images/";
+    var secondaryColor = false;
 
     //boss sprite
     var bossSprite;
@@ -48,6 +49,7 @@ function Boss(engine)
             state = 1;
             timer = 0;
         }
+
         if(state == 1 && timer == 120)
         {
             var playerangle = Math.atan2(core.y - player.getY(), core.x - player.getX()) * 180 / Math.PI;
@@ -63,9 +65,21 @@ function Boss(engine)
             }
             state = 2;
             timer = 0;
+
+            for(var i = 0; i < 6; i++){
+                var a = engine.makeBullet(core.x-10, core.y, 180+playerangle, 1 + 0.7*(6 - i), Blue, image_prefix + "player_bullet_same.png");
+                var b = engine.makeBullet(core.x+10, core.y, 180+playerangle, 1 + 0.7*(6 - i), Blue, image_prefix + "player_bullet_same.png");
+                var c = engine.makeBullet(core.x-10, core.y, 200+playerangle, 1 + 0.7*(6 - i), Blue, image_prefix + "player_bullet_same.png");
+                var d = engine.makeBullet(core.x+10, core.y, 160+playerangle, 1 + 0.7*(6 - i), Blue, image_prefix + "player_bullet_same.png");
+                a.bulletclass.setParams(100, 0);
+                b.bulletclass.setParams(100, 0);
+                c.bulletclass.setParams(100, 0);
+                d.bulletclass.setParams(100, 0);
+            }
+
         }
 
-        if(state == 2 && timer > 100 && timer < 150)
+        if((state == 2 || state == 5) && timer > 100 && timer < 150)
         {
             if(timer - 101 == 0){
                 right = Math.round(Math.random());
@@ -115,21 +129,72 @@ function Boss(engine)
             engine.moveSprite(bossSprite, core.x, core.y)
         }
 
+
+        //code for circular bullet pattern
+        if(state == 4){
+            for(var k = 0; k < 5; k++)
+            {
+                // make 72
+                for(var i = 0; i < 72; i++)
+                {
+                    if(secondaryColor = false)
+                    {
+                        var b = engine.makeBullet(core.x, core.y, 5*i, 1 + 0.7*(5 - k), Blue, image_prefix+"player_bullet_same2.png");
+                        b.bulletclass.setParams(200, 0);
+                    }
+                    else
+                    {
+                        var b = engine.makeBullet(core.x, core.y, 5*i, 1 + 0.7*(5 - k), Blue, image_prefix+"player_bullet_same.png");
+                        b.bulletclass.setParams(200, 0);
+                    }
+                }
+            }
+
+            
+
+            state = 5;
+            timer = 0;
+        }
+
+        //pause state after 4
+        if(state == 5 && timer == 150){
+            state = 4;
+            timer = 0;
+        }
+
+
         if(state == 2 && timer == 150)
         {
         	state = 0;
             timer = 0;
         }
 
-        if((state == 0 || state == 1 || state) == 2 && core.health <= 0)
+        //if boss hp enters <75%, set secondary fire true
+        if((state == 0 || state == 1 || state == 2) && core.health <= 150)
+        {
+            secondaryFire = true;
+        }
+
+
+        //if boss hp enters 30%, goes into state 4
+
+        if((state == 0 || state == 1 || state == 2) && core.health <= 60)
+        {
+            core.health = 60;
+            engine.clearBullets();
+            state = 4;
+        }
+
+        if((state == 0 || state == 1 || state == 2) && core.health <= 0)
         {
             engine.removeSprite(bossSprite);
             engine.clearBullets();
             core.health = 500;
             state = 3;
-            console.log("same");
+            // console.log("same");
         }
         timer += 1;
+        secondaryColor = !secondaryColor;
     }
 }
 
