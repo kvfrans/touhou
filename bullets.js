@@ -7,7 +7,8 @@ function Bullet(x, y, direction, speed, sprite, bulletclass)
     this.sin = Math.sin(direction/180 * Math.PI);
     this.speed = speed;
     this.sprite = sprite;
-    engine.rotateSprite(this.sprite, direction + 90);
+    this.remove = false;
+    engine.setSpriteRotation(this.sprite, direction + 90);
 
     this.bulletclass = new bulletclass(this)
     this.hitbox = this.bulletclass.hitbox;
@@ -32,12 +33,17 @@ var BulletHandler = function(engine)
         for(var i = bullets.length - 1; i >= 0; i--)
         {
             var bullet = bullets[i];
+            bullet.bulletclass.update()
             bullet.x += bullet.speed * bullet.cos;
             bullet.y += bullet.speed * bullet.sin;
-            engine.moveSprite(bullet.sprite, bullet.x, bullet.y);
-            bullet.bulletclass.update()
+            engine.setSpritePosition(bullet.sprite, bullet.x, bullet.y);
+
 
             var remove = false;
+            if(bullet.remove)
+            {
+                remove = true;
+            }
 
             if(bullet.kind == 0 || bullet.kind == 1)
             {
@@ -69,14 +75,12 @@ var BulletHandler = function(engine)
                 {
                     if(engine.bosscore.health == 0)
                     {
-                        engine.effects.displayOverlay("bosses/test2/images/harambe.png")
                         console.log("daed ag");
                     }
                     else
                     {
                         engine.bosscore.health -= 1;
                         remove = true;
-                        console.log("hit");
                     }
                     engine.bosscore.health -= 1;
                     remove = true;
@@ -103,6 +107,7 @@ var BulletHandler = function(engine)
             var bullet = bullets[i];
             engine.removeSprite(bullet.sprite);
             bullets.splice(i, 1);
+            engine.makeBullet(bullet.x, bullet.y, 270, 22, Score, "images/score.png")
         }
     }
 }

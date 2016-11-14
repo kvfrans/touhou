@@ -62,3 +62,26 @@ function Overlay(bullet)
         }
     }
 }
+
+function Score(bullet)
+{
+    this.hitbox = HitboxCircle(0);
+    this.kind = 2;
+    // engine.setSpriteOpacity(bullet.sprite, 0.3);
+
+    var timer = 0;
+
+    this.update = function()
+    {
+        timer += 1;
+
+        var playerangle = 180 + Math.atan2(bullet.y - engine.player.getY(), bullet.x - engine.player.getX()) * 180 / Math.PI;
+        engine.setBulletDirection(bullet, playerangle);
+
+        var dist = (bullet.y - engine.player.getY())**2 + (bullet.x - engine.player.getX())**2
+        if(dist < 400)
+        {
+            engine.removeBullet(bullet);
+        }
+    }
+}

@@ -72,14 +72,9 @@ function Player(engine)
                 if(shoot_cooldown == 0)
                 {
                     var b = engine.makeBullet(x - 13, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
-                    engine.changeSpriteOpacity(b.sprite, 0.3);
-
                     b = engine.makeBullet(x, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
-                    engine.changeSpriteOpacity(b.sprite, 0.3);
-
                     b = engine.makeBullet(x + 13, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
-                    engine.changeSpriteOpacity(b.sprite, 0.3);
-                    shoot_cooldown = 9;
+                    shoot_cooldown = 6;
                 }
             }
             //unshift is normal fire
@@ -88,16 +83,11 @@ function Player(engine)
                 if(shoot_cooldown == 0)
                 {
                     var b = engine.makeBullet(x - 10, y, 260, 30, PlayerBullet, "images/player_bullet.png");
-                    engine.changeSpriteOpacity(b.sprite, 0.3);
                     b = engine.makeBullet(x, y, 270, 30, PlayerBullet, "images/player_bullet.png");
-                    engine.changeSpriteOpacity(b.sprite, 0.3);
                     b = engine.makeBullet(x + 10, y, 280, 30, PlayerBullet, "images/player_bullet.png");
-                    engine.changeSpriteOpacity(b.sprite, 0.3);
                     shoot_cooldown = 6;
                 }
             }
-            console.log(this.health)
-
 
         }
         if (this.health == 0)
@@ -115,8 +105,8 @@ function Player(engine)
             shoot_cooldown -= 1;
         }
 
-        engine.moveSprite(sprite, x, y);
-        engine.changeSpriteTexture(sprite, spriteName);
+        engine.setSpritePosition(sprite, x, y);
+        engine.setSpriteTexture(sprite, spriteName);
 
     }
 
@@ -136,6 +126,7 @@ function PlayerBullet(bullet)
 
     this.hitbox = new HitboxCircle(1);
     this.kind = 1;
+    engine.setSpriteOpacity(bullet.sprite, 0.3);
 
     this.update = function()
     {

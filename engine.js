@@ -36,23 +36,23 @@ function Engine()
         return sprite;
     }
 
-    this.moveSprite = function(sprite, x, y)
+    this.setSpritePosition = function(sprite, x, y)
     {
         sprite.x = engine.convertCoord(x);
         sprite.y = engine.convertCoord(y);
     }
 
-    this.rotateSprite = function(sprite, degrees)
+    this.setSpriteRotation = function(sprite, degrees)
     {
         sprite.rotation = degrees/180 * Math.PI;
     }
 
-    this.changeSpriteTexture = function(sprite, texturename)
+    this.setSpriteTexture = function(sprite, texturename)
     {
         sprite.setTexture(engine.textureFromName(texturename));
     }
 
-    this.changeSpriteOpacity = function(sprite, opacity)
+    this.setSpriteOpacity = function(sprite, opacity)
     {
         sprite.alpha = opacity;
     }
@@ -72,7 +72,12 @@ function Engine()
         bulletHandler.clearBullets();
     }
 
-    this.textureFromName = function (name)
+    this.removeBullet = function(bullet)
+    {
+        bullet.remove = true;
+    }
+
+    this.textureFromName = function(name)
     {
         return resources[name].texture;
     }
@@ -107,7 +112,7 @@ function Engine()
             graphics.beginFill(color);
             var sprite = graphics.drawRect(x, y, width, height);
             graphics.endFill();
-            stage.addChild(sprite);    
+            stage.addChild(sprite);
         }
 
     }
@@ -123,10 +128,10 @@ function Engine()
         bullet.direction = direction;
         bullet.sin = Math.sin(direction/180 * Math.PI);
         bullet.cos = Math.cos(direction/180 * Math.PI);
-        engine.rotateSprite(bullet.sprite, direction + 90);
+        engine.setSpriteRotation(bullet.sprite, direction + 90);
         if(bullet.rotate == false)
         {
-            engine.rotateSprite(bullet.sprite, 0);
+            engine.setSpriteRotation(bullet.sprite, 0);
         }
     }
 

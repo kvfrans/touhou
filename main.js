@@ -15,8 +15,8 @@ var engine;
 var graphics = new PIXI.Graphics();
 
 loadImages();
-loadBoss("test2");
-console.log("meme");
+console.log("Loading!");
+loadBoss("in_1_wriggle");
 loader.load(init);
 function init()
 {
