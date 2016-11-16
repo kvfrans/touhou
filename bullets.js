@@ -1,3 +1,5 @@
+var show_hitboxes = true;
+
 function Bullet(x, y, direction, speed, sprite, bulletclass)
 {
     this.x = x;
@@ -7,12 +9,27 @@ function Bullet(x, y, direction, speed, sprite, bulletclass)
     this.sin = Math.sin(direction/180 * Math.PI);
     this.speed = speed;
     this.sprite = sprite;
+    this.debug_sprite = "none";
     this.remove = false;
     engine.setSpriteRotation(this.sprite, direction + 90);
 
     this.bulletclass = new bulletclass(this)
     this.hitbox = this.bulletclass.hitbox;
     this.kind = this.bulletclass.kind;
+
+    if(show_hitboxes)
+    {
+        if(this.kind == 0)
+        {
+            this.debug_sprite = new Sprite(engine.textureFromName("images/bullet_hitbox.png"));
+            this.debug_sprite.anchor.set(0.5,0.5);
+            this.debug_sprite.x = this.sprite.x
+            this.debug_sprite.y = this.sprite.y
+            engine.setSpriteScale(this.debug_sprite, this.hitbox.radius / 16.0,this.hitbox.radius / 16.0)
+            // this.debug_sprite.scale.set(1, 1)
+            stage.addChild(this.debug_sprite);
+        }
+    }
 
 }
 
@@ -27,7 +44,6 @@ var BulletHandler = function(engine)
     var bullets = []
     this.bullets = bullets
     this.bulletUpdate = function()
-
     {
         // console.log(bullets.length);
         for(var i = bullets.length - 1; i >= 0; i--)
@@ -37,6 +53,10 @@ var BulletHandler = function(engine)
             bullet.x += bullet.speed * bullet.cos;
             bullet.y += bullet.speed * bullet.sin;
             engine.setSpritePosition(bullet.sprite, bullet.x, bullet.y);
+            if(bullet.debug_sprite != "none")
+            {
+                engine.setSpritePosition(bullet.debug_sprite, bullet.x, bullet.y);
+            }
 
 
             var remove = false;
@@ -47,7 +67,7 @@ var BulletHandler = function(engine)
 
             if(bullet.kind == 0 || bullet.kind == 1)
             {
-                if(bullet.y < -200 || bullet.y > 1200 || bullet.x < -200 || bullet.y > 900)
+                if(engine.convertCoord(bullet.y) < -200 || engine.convertCoord(bullet.y) > 1200 || engine.convertCoord(bullet.x) < -200 || engine.convertCoord(bullet.y) > 900)
                 {
                     remove = true;
                 }
@@ -55,8 +75,11 @@ var BulletHandler = function(engine)
 
             if(bullet.kind == 0)
             {
-                var distance = Math.sqrt(Math.pow(engine.player.getX()-bullet.x, 2)+Math.pow(engine.player.getY()-bullet.y,2))
-                if(distance < bullet.hitbox.radius + 1)
+                var distance = Math.sqrt(
+                    Math.pow(engine.player.getX() - bullet.x, 2)
+                    + Math.pow(engine.player.getY() - bullet.y,2))
+
+                if(distance < bullet.hitbox.radius + engine.player.radius)
                 {
                     remove = true;
                     if(engine.player.immunityCountDown == 0)
@@ -90,6 +113,7 @@ var BulletHandler = function(engine)
             if(remove)
             {
                 engine.removeSprite(bullet.sprite);
+                if(bullet.debug_sprite != "none"){ engine.removeSprite(bullet.debug_sprite); }
                 bullets.splice(i, 1);
             }
         }
@@ -106,23 +130,22 @@ var BulletHandler = function(engine)
         {
             var bullet = bullets[i];
             engine.removeSprite(bullet.sprite);
+            if(bullet.debug_sprite != "none"){ engine.removeSprite(bullet.debug_sprite); }
             bullets.splice(i, 1);
             engine.makeBullet(bullet.x, bullet.y, 270, 22, Score, "images/score.png")
         }
     }
 }
 
-function Generic(bullet)
+function Generic(size)
 {
-    this.hitbox = new HitboxCircle(3);
-    this.kind = 0;
-
-    this.setParams = function(hitboxradius)
+    return function(bullet)
     {
-        this.hitbox = HitboxCircle(hitboxradius);
-    }
+        this.hitbox = new HitboxCircle(size);
+        this.kind = 0;
 
-    this.update = function()
-    {
+        this.update = function()
+        {
+        }
     }
 }

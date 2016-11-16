@@ -22,6 +22,7 @@ function Engine()
         boss.core.update();
         bulletHandler.bulletUpdate();
         keyboard.keyboardUpdate();
+        effects.updateEffects();
     }
 
     this.makeNamedSprite = function(name, texturename, x, y)
@@ -36,10 +37,26 @@ function Engine()
         return sprite;
     }
 
+    this.makeNamedText = function(name, text, x, y)
+    {
+        var sprite = new PIXI.Text(text ,{font : 'Arial', fontSize: 40, fill : 0xD2527F, align : 'center', dropShadow: true});
+        sprite.x = engine.convertCoord(x);
+        sprite.y = engine.convertCoord(y);
+        sprite.scale.set(scaling,scaling);
+        stage.addChild(sprite);
+        namedSprites[name] = sprite;
+        return sprite;
+    }
+
     this.setSpritePosition = function(sprite, x, y)
     {
         sprite.x = engine.convertCoord(x);
         sprite.y = engine.convertCoord(y);
+    }
+
+    this.setSpriteScale = function(sprite, x, y)
+    {
+        sprite.scale.set(x * scaling, y * scaling)
     }
 
     this.setSpriteRotation = function(sprite, degrees)
@@ -123,6 +140,11 @@ function Engine()
         bullet.y = y;
     }
 
+    this.setBulletSpeed = function(bullet, speed)
+    {
+        bullet.speed = speed;
+    }
+
     this.setBulletDirection = function(bullet, direction)
     {
         bullet.direction = direction;
@@ -135,8 +157,24 @@ function Engine()
         }
     }
 
+    this.setBulletHitbox = function(bullet, hitbox)
+    {
+        bullet.hitbox = hitbox;
+        if(show_hitboxes)
+        {
+            stage.removeChild(bullet.debug_sprite)
+            bullet.debug_sprite = new Sprite(engine.textureFromName("images/bullet_hitbox.png"));
+            bullet.debug_sprite.anchor.set(0.5,0.5);
+            bullet.debug_sprite.x = bullet.sprite.x
+            bullet.debug_sprite.y = bullet.sprite.y
+            engine.setSpriteScale(bullet.debug_sprite, bullet.hitbox.radius / 16.0,bullet.hitbox.radius / 16.0)
+            stage.addChild(bullet.debug_sprite);
+        }
+    }
+
     player.playerInit();
     boss.bossInit();
+    effects.effectsInit();
     this.bosscore = boss.core;
 
 }

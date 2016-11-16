@@ -10,7 +10,9 @@ function loadImages()
         "focus_bullet.png",
         "harambe_kun.png",
         "score.png",
-        "harambe.png"
+        "harambe.png",
+        "white.png",
+        "bullet_hitbox.png",
     ];
 
     for(var i = 0; i < to_load.length; i++)

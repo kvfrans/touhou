@@ -4,6 +4,7 @@
 var xratio = 775
 var yratio = 900
 var scaling = 0.71;
+// var scaling = 1;
 
 var renderer = PIXI.autoDetectRenderer(xratio * scaling, yratio * scaling, {backgroundColor : 0x2C3E50});
 document.body.appendChild(renderer.view);
@@ -16,7 +17,7 @@ var graphics = new PIXI.Graphics();
 
 loadImages();
 console.log("Loading!");
-loadBoss("test2");
+loadBoss("in_1_wriggle");
 loader.load(init);
 function init()
 {

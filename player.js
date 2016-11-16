@@ -6,9 +6,12 @@ function Player(engine)
     var speed = 12;
     var spriteName = "images/player_straight.png";
     var sprite;
+    var hitbox_sprite;
     this.immunityCountDown = 0;
     // var health = 10;
     this.health = 2;
+    this.radius = 8;
+    var player = this;
 
 
     var shoot_cooldown = 0;
@@ -74,7 +77,7 @@ function Player(engine)
                     var b = engine.makeBullet(x - 13, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
                     b = engine.makeBullet(x, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
                     b = engine.makeBullet(x + 13, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
-                    shoot_cooldown = 6;
+                    shoot_cooldown = 2;
                 }
             }
             //unshift is normal fire
@@ -106,6 +109,7 @@ function Player(engine)
         }
 
         engine.setSpritePosition(sprite, x, y);
+        engine.setSpritePosition(hitbox_sprite, x, y);
         engine.setSpriteTexture(sprite, spriteName);
 
     }
@@ -116,8 +120,10 @@ function Player(engine)
         this.getY = function() { return y };
         this.getSpriteName = function() { return spriteName };
 
-        engine.makeNamedSprite("player", "images/player_straight.png", x, y)
-        sprite = engine.spriteFromName("player");
+        sprite = engine.makeNamedSprite("player", "images/player_straight.png", x, y)
+
+        hitbox_sprite = engine.makeNamedSprite("player_hitbox", "images/bullet_hitbox.png", x, y)
+        engine.setSpriteScale(hitbox_sprite, player.radius / 16.0, player.radius / 16.0)
     }
 }
 
