@@ -3,7 +3,8 @@
 // The virtual game screen will be 775 x 900. This does not correspond to actual screen rendering size which changes on screen resolution
 var xratio = 775
 var yratio = 900
-var scaling = 0.71;
+var scaling = ($(window).height() / 900) - 0.05;
+console.log(scaling);
 // var scaling = 1;
 
 var renderer = PIXI.autoDetectRenderer(xratio * scaling, yratio * scaling, {backgroundColor : 0x2C3E50});
