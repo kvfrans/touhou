@@ -30,6 +30,7 @@ loader.load(init);
 function init()
 {
     engine = new Engine();
+    // $("body").append("<p>same</p>")
     animate();
 }
 

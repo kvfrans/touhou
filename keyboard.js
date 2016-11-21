@@ -11,7 +11,12 @@ function Keyboard()
         key.keyname = keyName;
         //The `downHandler`
         key.downHandler = function(event) {
-            if (event.keyCode === key.code) {
+            if (isMobile && key.code === 16 | key.code === 90) {
+                if (key.isUp && key.press) key.press();
+                key.isDown = true;
+                key.isUp = false;
+            }
+            else if (event.keyCode === key.code) {
                 if (key.isUp && key.press) key.press();
                 key.isDown = true;
                 key.isUp = false;
@@ -22,7 +27,12 @@ function Keyboard()
 
         //The `upHandler`
         key.upHandler = function(event) {
-            if (event.keyCode === key.code) {
+            if (isMobile && key.code === 16) {
+                if (key.isDown && key.release) key.release();
+                key.isDown = false;
+                key.isUp = true;
+            }
+            else if (event.keyCode === key.code) {
                 if (key.isDown && key.release) key.release();
                 key.isDown = false;
                 key.isUp = true;
@@ -36,6 +46,12 @@ function Keyboard()
         );
         window.addEventListener(
             "keyup", key.upHandler.bind(key), false
+        );
+        window.addEventListener(
+            "touchstart", key.downHandler.bind(key), false
+        );
+        window.addEventListener(
+            "touchend", key.upHandler.bind(key), false
         );
         return key;
     }
