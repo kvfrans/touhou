@@ -23,6 +23,8 @@ var Sprite = PIXI.Sprite;
 var engine;
 var graphics = new PIXI.Graphics();
 
+console.re.log('remote log test');
+
 loadImages();
 console.log("Loading!");
 loadBoss("in_1_wriggle");

@@ -93,7 +93,7 @@ function Boss(engine)
                 total = 0;
                 var direction_x = desired_x - core.x;
                 var direction_y = desired_y - core.y;
-                var magnitude = Math.sqrt(direction_x**2 + direction_y**2);
+                var magnitude = Math.sqrt(Math.pow(direction_x, 2) + Math.pow(direction_y, 2));
                 vector_x = direction_x / magnitude;
                 vector_y = direction_y / magnitude;
                 var totalmovements = 600;

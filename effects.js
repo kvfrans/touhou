@@ -153,7 +153,7 @@ function Score(bullet)
         var playerangle = 180 + Math.atan2(bullet.y - engine.player.getY(), bullet.x - engine.player.getX()) * 180 / Math.PI;
         engine.setBulletDirection(bullet, playerangle);
 
-        var dist = (bullet.y - engine.player.getY())**2 + (bullet.x - engine.player.getX())**2
+        var dist = Math.pow(bullet.y - engine.player.getY(), 2) + Math.pow(bullet.x - engine.player.getX(), 2)
         if(dist < 400)
         {
             engine.removeBullet(bullet);
