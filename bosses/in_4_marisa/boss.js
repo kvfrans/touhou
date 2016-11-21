@@ -1,4 +1,4 @@
-var image_prefix = "bosses/in_1_wriggle/resources/";
+var image_prefix = "bosses/in_4_marisa/resources/";
 
 function Boss(engine)
 {
@@ -6,7 +6,7 @@ function Boss(engine)
 
     var core = new BossCore(380, 200, 150);
     this.core = core;
-    var image_prefix = "bosses/in_1_wriggle/resources/";
+    var image_prefix = "bosses/in_4_marisa/resources/";
     var state = "1_leftleaf";
     var next_state = "1_leftleaf";
     var timer = 0;
@@ -30,7 +30,9 @@ function Boss(engine)
     // called at the very beginning
     this.bossInit = function()
     {
+        console.log("marisa");
         bossSprite = engine.makeNamedSprite("boss", image_prefix+"boss.png", core.x, core.y, 24)
+        console.log(bossSprite)
 
         // var sound = new Howl({
         //     src: [image_prefix+'bg.mp3']

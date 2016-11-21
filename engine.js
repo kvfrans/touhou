@@ -13,6 +13,19 @@ function Engine()
 
     var namedSprites = {};
 
+    var bgstage = new PIXI.DisplayObjectContainer();
+    var backstage = new PIXI.DisplayObjectContainer();
+    var midstage = new PIXI.DisplayObjectContainer();
+    var frontstage = new PIXI.DisplayObjectContainer();
+    this.bgstage = bgstage;
+    this.backstage = backstage;
+    this.midstage = midstage;
+    this.frontstage = frontstage;
+    stage.addChild(bgstage);
+    stage.addChild(backstage);
+    stage.addChild(midstage);
+    stage.addChild(frontstage);
+
 
     // called every frame
     this.engineUpdate = function()
@@ -32,7 +45,7 @@ function Engine()
         sprite.x = engine.convertCoord(x);
         sprite.y = engine.convertCoord(y);
         sprite.scale.set(scaling,scaling);
-        stage.addChild(sprite);
+        midstage.addChild(sprite);
         namedSprites[name] = sprite;
         return sprite;
     }
@@ -43,7 +56,7 @@ function Engine()
         sprite.x = engine.convertCoord(x);
         sprite.y = engine.convertCoord(y);
         sprite.scale.set(scaling,scaling);
-        stage.addChild(sprite);
+        frontstage.addChild(sprite);
         namedSprites[name] = sprite;
         return sprite;
     }
@@ -76,7 +89,12 @@ function Engine()
 
     this.removeSprite = function(sprite)
     {
-        stage.removeChild(sprite);
+        midstage.removeChild(sprite);
+    }
+
+    this.removeSpriteBg = function(sprite)
+    {
+        midstage.removeChild(sprite);
     }
 
     this.spriteFromName = function(name)
@@ -116,7 +134,7 @@ function Engine()
         sprite.x = engine.convertCoord(x);
         sprite.y = engine.convertCoord(y);
         sprite.scale.set(scaling,scaling);
-        stage.addChild(sprite);
+        midstage.addChild(sprite);
         var bullet = new Bullet(x, y, direction, speed, sprite, bulletclass);
         bulletHandler.addBullet(bullet);
         return bullet;

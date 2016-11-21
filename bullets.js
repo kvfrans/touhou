@@ -27,7 +27,7 @@ function Bullet(x, y, direction, speed, sprite, bulletclass)
             this.debug_sprite.y = this.sprite.y
             engine.setSpriteScale(this.debug_sprite, this.hitbox.radius / 16.0,this.hitbox.radius / 16.0)
             // this.debug_sprite.scale.set(1, 1)
-            stage.addChild(this.debug_sprite);
+            engine.midstage.addChild(this.debug_sprite);
         }
     }
 
@@ -129,10 +129,13 @@ var BulletHandler = function(engine)
         for(var i = bullets.length - 1; i >= 0; i--)
         {
             var bullet = bullets[i];
-            engine.removeSprite(bullet.sprite);
-            if(bullet.debug_sprite != "none"){ engine.removeSprite(bullet.debug_sprite); }
-            bullets.splice(i, 1);
-            engine.makeBullet(bullet.x, bullet.y, 270, 22, Score, "images/score.png")
+            if(bullet.kind == 0)
+            {
+                engine.removeSprite(bullet.sprite);
+                if(bullet.debug_sprite != "none"){ engine.removeSprite(bullet.debug_sprite); }
+                bullets.splice(i, 1);
+                engine.makeBullet(bullet.x, bullet.y, 270, 22, Score, "images/score.png")
+            }
         }
     }
 }

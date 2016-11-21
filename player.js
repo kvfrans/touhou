@@ -77,7 +77,7 @@ function Player(engine)
                     var b = engine.makeBullet(x - 13, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
                     b = engine.makeBullet(x, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
                     b = engine.makeBullet(x + 13, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
-                    shoot_cooldown = 2;
+                    shoot_cooldown = 9;
                 }
             }
             //unshift is normal fire
@@ -88,7 +88,7 @@ function Player(engine)
                     var b = engine.makeBullet(x - 10, y, 260, 30, PlayerBullet, "images/player_bullet.png");
                     b = engine.makeBullet(x, y, 270, 30, PlayerBullet, "images/player_bullet.png");
                     b = engine.makeBullet(x + 10, y, 280, 30, PlayerBullet, "images/player_bullet.png");
-                    shoot_cooldown = 6;
+                    shoot_cooldown = 2;
                 }
             }
 

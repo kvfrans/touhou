@@ -13,6 +13,9 @@ function loadImages()
         "harambe.png",
         "white.png",
         "bullet_hitbox.png",
+        "spell_charge.png",
+        "bg.png",
+        "spellcard_bg.png"
     ];
 
     for(var i = 0; i < to_load.length; i++)

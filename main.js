@@ -8,10 +8,10 @@ console.log("isMobile:" + isMobile);
 // The virtual game screen will be 775 x 900. This does not correspond to actual screen rendering size which changes on screen resolution
 var xratio = 775
 var yratio = 900
-var scaling = (window.innerHeight-16)/yratio; //margin 8 on all sides
+var scaling = (window.innerHeight-32)/yratio; //margin 16 on all sides
 // var scaling = 1;
 if (isMobile) {
-    var scaling = (window.innerWidth-16)/xratio; //margin 8 on all sides
+    var scaling = (window.innerWidth-32)/xratio; //margin 16 on all sides
 }
 
 var renderer = PIXI.autoDetectRenderer(xratio * scaling, yratio * scaling, {backgroundColor : 0x2C3E50});
@@ -26,6 +26,7 @@ var graphics = new PIXI.Graphics();
 loadImages();
 console.log("Loading!");
 loadBoss("in_1_wriggle");
+// loadBoss("in_4_marisa");
 loader.load(init);
 function init()
 {
@@ -39,4 +40,12 @@ function animate() {
     requestAnimationFrame(animate);
     engine.engineUpdate();
     renderer.render(stage);
+}
+
+
+function restart()
+{
+    for (var i = stage.children.length - 1; i >= 0; i--) {	stage.removeChild(stage.children[i]);};
+
+    engine = new Engine();
 }

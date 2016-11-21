@@ -8,18 +8,23 @@ function Effects(engine)
     var flashduration;
     var flashcountdown = 0;
 
+    var spellcard_bg = [];
+
+    var timer = 0;
+
     this.effectsInit = function()
     {
         flashbackground = engine.makeNamedSprite("flashbackground", "images/white.png", 330, 450);
         engine.setSpriteScale(flashbackground, 50, 50);
         engine.setSpriteOpacity(flashbackground, 0);
+
     }
 
     this.updateEffects = function()
     {
+
         if(spellcard_name != "none")
         {
-            spellcard_timer += 1;
             if(spellcard_timer < 40)
             {
                 engine.setSpriteOpacity(spellcard_name, spellcard_timer / 40.0)
@@ -31,12 +36,43 @@ function Effects(engine)
                 engine.setSpritePosition(spellcard_name, 50, 400 - 350*scaling)
                 engine.setSpriteScale(spellcard_name, 1 - 0.5*scaling, 1 - 0.5*scaling);
             }
+            if(spellcard_timer % 845 == 0)
+            {
+                var bg = engine.makeBullet(375, 1300, 270, 1, Bg, "images/spellcard_bg.png")
+                engine.setSpriteScale(bg.sprite, 3.3, 3.3)
+                engine.midstage.removeChild(bg.sprite);
+                engine.backstage.addChild(bg.sprite);
+                spellcard_bg.push(bg);
+            }
+            spellcard_timer += 1;
         }
         if(flashcountdown > 0)
         {
             flashcountdown -= 1;
             engine.setSpriteOpacity(flashbackground, flashcountdown/(flashduration + 0.0));
         }
+
+        if(timer == 0)
+        {
+            var bg = engine.makeBullet(375, 444, 90, 1, Bg, "images/bg.png")
+            engine.setSpriteScale(bg.sprite, 3.3, 3.3)
+            engine.midstage.removeChild(bg.sprite);
+            engine.bgstage.addChild(bg.sprite);
+
+            var bg = engine.makeBullet(375, 1288, 90, 1, Bg, "images/bg.png")
+            engine.setSpriteScale(bg.sprite, 3.3, 3.3)
+            engine.midstage.removeChild(bg.sprite);
+            engine.bgstage.addChild(bg.sprite);
+        }
+        if(timer % 810 == 0)
+        {
+            var bg = engine.makeBullet(375, -400, 90, 1, Bg, "images/bg.png")
+            engine.setSpriteScale(bg.sprite, 3.3, 3.3)
+            engine.midstage.removeChild(bg.sprite);
+            engine.bgstage.addChild(bg.sprite);
+        }
+
+        timer += 1;
     }
 
     this.flash = function(flashlength)
@@ -69,18 +105,69 @@ function Effects(engine)
         spellcard_timer = 0;
 
         engine.effects.flash(10);
+
+        var bg = engine.makeBullet(375, 456, 270, 1, Bg, "images/spellcard_bg.png")
+        engine.setSpriteScale(bg.sprite, 3.3, 3.3)
+        engine.midstage.removeChild(bg.sprite);
+        engine.backstage.addChild(bg.sprite);
+        spellcard_bg.push(bg);
+
     }
 
     this.endSpellcard = function()
     {
-        engine.removeSprite(spellcard_name);
+        engine.frontstage.removeChild(spellcard_name);
+        spellcard_name = "none"
+        engine.effects.flash(10);
         for(var i = spellcard_circle.length - 1; i >= 0; i--)
         {
             var bullet = spellcard_circle[i];
             engine.removeBullet(bullet);
             spellcard_circle.splice(i, 1);
         }
-        engine.effects.flash(10);
+        for(var i = spellcard_bg.length - 1; i >= 0; i--)
+        {
+            console.log("rip");
+            engine.backstage.removeChild(spellcard_bg[i].sprite);
+            engine.removeBullet(spellcard_bg[i]);
+        }
+    }
+
+    this.spellCharge = function()
+    {
+        for(var i = 0; i < 120; i++)
+        {
+            var dir = i*3;
+            var b = engine.makeBullet(engine.bosscore.x + Math.cos(dir/180 * Math.PI)*500, engine.bosscore.y + Math.sin(dir/180 * Math.PI)*500, i*3 + 180, (Math.abs(i%10 - 5)/10)*5, SpellCharge, "images/spell_charge.png")
+            engine.setSpriteScale(b.sprite, Math.random()*3, 3)
+            spellcard_circle.push(b);
+        }
+    }
+
+}
+
+function SpellCharge(bullet)
+{
+    this.kind = 2;
+    var timer = 0;
+    engine.setSpriteOpacity(bullet.sprite, 0.0);
+
+    this.update = function()
+    {
+        engine.setBulletSpeed(bullet, bullet.speed + 0.4);
+        timer++;
+        if(timer < 20)
+        {
+            engine.setSpriteOpacity(bullet.sprite, (timer/20) * 0.8);
+        }
+        if(timer > 40)
+        {
+            engine.setSpriteOpacity(bullet.sprite, 0.8 - ((timer-40)/20) * 0.8);
+        }
+        if(timer == 45)
+        {
+            engine.removeBullet(bullet);
+        }
     }
 }
 
@@ -158,5 +245,15 @@ function Score(bullet)
         {
             engine.removeBullet(bullet);
         }
+    }
+}
+
+
+function Bg(bullet)
+{
+    this.kind = 2;
+
+    this.update = function()
+    {
     }
 }
