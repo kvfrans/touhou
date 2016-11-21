@@ -15,7 +15,8 @@ function loadImages()
         "bullet_hitbox.png",
         "spell_charge.png",
         "bg.png",
-        "spellcard_bg.png"
+        "spellcard_bg.png",
+        "enemy_marker.png",
     ];
 
     for(var i = 0; i < to_load.length; i++)

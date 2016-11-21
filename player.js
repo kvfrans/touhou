@@ -64,7 +64,7 @@ function Player(engine)
         y += currentspeed*diry;
 
         x = Math.min(775, Math.max(0, x))
-        y = Math.min(900, Math.max(0, y))
+        y = Math.min(860, Math.max(0, y))
 
         if(keyStates.z == 1 || keyStates.z == 2)
         {
@@ -120,9 +120,9 @@ function Player(engine)
         this.getY = function() { return y };
         this.getSpriteName = function() { return spriteName };
 
-        sprite = engine.makeNamedSprite("player", "images/player_straight.png", x, y)
+        sprite = engine.makeNamedSprite("player", "images/player_straight.png", x, y, 2)
 
-        hitbox_sprite = engine.makeNamedSprite("player_hitbox", "images/bullet_hitbox.png", x, y)
+        hitbox_sprite = engine.makeNamedSprite("player_hitbox", "images/bullet_hitbox.png", x, y, 2)
         engine.setSpriteScale(hitbox_sprite, player.radius / 16.0, player.radius / 16.0)
     }
 }

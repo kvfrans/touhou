@@ -25,9 +25,10 @@ function Bullet(x, y, direction, speed, sprite, bulletclass)
             this.debug_sprite.anchor.set(0.5,0.5);
             this.debug_sprite.x = this.sprite.x
             this.debug_sprite.y = this.sprite.y
+            this.debug_sprite.layernum = 2;
             engine.setSpriteScale(this.debug_sprite, this.hitbox.radius / 16.0,this.hitbox.radius / 16.0)
             // this.debug_sprite.scale.set(1, 1)
-            engine.midstage.addChild(this.debug_sprite);
+            engine.layers[2].addChild(this.debug_sprite);
         }
     }
 

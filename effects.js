@@ -38,10 +38,8 @@ function Effects(engine)
             }
             if(spellcard_timer % 845 == 0)
             {
-                var bg = engine.makeBullet(375, 1300, 270, 1, Bg, "images/spellcard_bg.png")
+                var bg = engine.makeBullet(375, 1300, 270, 1, Bg, "images/spellcard_bg.png", 1)
                 engine.setSpriteScale(bg.sprite, 3.3, 3.3)
-                engine.midstage.removeChild(bg.sprite);
-                engine.backstage.addChild(bg.sprite);
                 spellcard_bg.push(bg);
             }
             spellcard_timer += 1;
@@ -54,22 +52,16 @@ function Effects(engine)
 
         if(timer == 0)
         {
-            var bg = engine.makeBullet(375, 444, 90, 1, Bg, "images/bg.png")
+            var bg = engine.makeBullet(375, 444, 90, 1, Bg, "images/bg.png", 0)
             engine.setSpriteScale(bg.sprite, 3.3, 3.3)
-            engine.midstage.removeChild(bg.sprite);
-            engine.bgstage.addChild(bg.sprite);
 
-            var bg = engine.makeBullet(375, 1288, 90, 1, Bg, "images/bg.png")
+            var bg = engine.makeBullet(375, 1288, 90, 1, Bg, "images/bg.png", 0)
             engine.setSpriteScale(bg.sprite, 3.3, 3.3)
-            engine.midstage.removeChild(bg.sprite);
-            engine.bgstage.addChild(bg.sprite);
         }
         if(timer % 810 == 0)
         {
-            var bg = engine.makeBullet(375, -400, 90, 1, Bg, "images/bg.png")
+            var bg = engine.makeBullet(375, -400, 90, 1, Bg, "images/bg.png", 0)
             engine.setSpriteScale(bg.sprite, 3.3, 3.3)
-            engine.midstage.removeChild(bg.sprite);
-            engine.bgstage.addChild(bg.sprite);
         }
 
         timer += 1;
@@ -99,24 +91,22 @@ function Effects(engine)
     {
         this.displayOverlay(texturename)
         this.spellcardCircle()
-        spellcard_name = engine.makeNamedText("spellcard_name", name, 50, 400);
+        spellcard_name = engine.makeNamedText("spellcard_name", name, 50, 400, 3);
         // engine.setSpriteScale(spellcard_name, 5, 1);
         engine.setSpriteOpacity(spellcard_name, 0.5)
         spellcard_timer = 0;
 
         engine.effects.flash(10);
 
-        var bg = engine.makeBullet(375, 456, 270, 1, Bg, "images/spellcard_bg.png")
+        var bg = engine.makeBullet(375, 456, 270, 1, Bg, "images/spellcard_bg.png", 1)
         engine.setSpriteScale(bg.sprite, 3.3, 3.3)
-        engine.midstage.removeChild(bg.sprite);
-        engine.backstage.addChild(bg.sprite);
         spellcard_bg.push(bg);
 
     }
 
     this.endSpellcard = function()
     {
-        engine.frontstage.removeChild(spellcard_name);
+        engine.removeSprite(spellcard_name);
         spellcard_name = "none"
         engine.effects.flash(10);
         for(var i = spellcard_circle.length - 1; i >= 0; i--)
@@ -128,7 +118,7 @@ function Effects(engine)
         for(var i = spellcard_bg.length - 1; i >= 0; i--)
         {
             console.log("rip");
-            engine.backstage.removeChild(spellcard_bg[i].sprite);
+            engine.removeSprite(spellcard_bg[i].sprite);
             engine.removeBullet(spellcard_bg[i]);
         }
     }

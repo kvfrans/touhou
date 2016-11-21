@@ -30,7 +30,7 @@ function Boss(engine)
     // called at the very beginning
     this.bossInit = function()
     {
-        bossSprite = engine.makeNamedSprite("boss", image_prefix+"boss.png", core.x, core.y, 24)
+        bossSprite = engine.makeNamedSprite("boss", image_prefix+"boss.png", core.x, core.y, 2)
 
         // var sound = new Howl({
         //     src: [image_prefix+'bg.mp3']

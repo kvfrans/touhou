@@ -2,6 +2,8 @@
 
 function Engine()
 {
+    var engine = this;
+
     var keyboard = new Keyboard();
     var player = new Player(this);
     var boss = new Boss(this);
@@ -9,22 +11,25 @@ function Engine()
     var effects = new Effects(this);
     this.effects = effects;
     this.player = player;
-    var engine = this;
+
 
     var namedSprites = {};
 
-    var bgstage = new PIXI.DisplayObjectContainer();
-    var backstage = new PIXI.DisplayObjectContainer();
-    var midstage = new PIXI.DisplayObjectContainer();
-    var frontstage = new PIXI.DisplayObjectContainer();
-    this.bgstage = bgstage;
-    this.backstage = backstage;
-    this.midstage = midstage;
-    this.frontstage = frontstage;
-    stage.addChild(bgstage);
-    stage.addChild(backstage);
-    stage.addChild(midstage);
-    stage.addChild(frontstage);
+    var layers = [];
+    this.layers = layers;
+    for(var s = 0; s < 6; s++)
+    {
+        var st = new PIXI.DisplayObjectContainer();
+        layers[s] = st;
+        stage.addChild(st);
+
+    }
+    // 0: bg-0
+    // 1: bg-1
+    // 2: mid-0
+    // 3: mid-1
+    // 4: front-0
+    // 5: front-1
 
 
     // called every frame
@@ -38,25 +43,33 @@ function Engine()
         effects.updateEffects();
     }
 
-    this.makeNamedSprite = function(name, texturename, x, y)
+    this.makeNamedSprite = function(name, texturename, x, y, layer)
     {
+        // default layer = mid-0 (2)
+        layer = typeof layer !== 'undefined' ? layer : 2;
+
         var sprite = new Sprite(engine.textureFromName(texturename));
         sprite.anchor.set(0.5,0.5);
         sprite.x = engine.convertCoord(x);
         sprite.y = engine.convertCoord(y);
         sprite.scale.set(scaling,scaling);
-        midstage.addChild(sprite);
+        sprite.layernum = layer
+        layers[layer].addChild(sprite);
         namedSprites[name] = sprite;
         return sprite;
     }
 
-    this.makeNamedText = function(name, text, x, y)
+    this.makeNamedText = function(name, text, x, y, layer)
     {
+        // default layer = mid-0 (2)
+        layer = typeof layer !== 'undefined' ? layer : 2;
+
         var sprite = new PIXI.Text(text ,{font : 'Arial', fontSize: 40, fill : 0xD2527F, align : 'center', dropShadow: true});
         sprite.x = engine.convertCoord(x);
         sprite.y = engine.convertCoord(y);
         sprite.scale.set(scaling,scaling);
-        frontstage.addChild(sprite);
+        sprite.layernum = layer;
+        layers[layer].addChild(sprite);
         namedSprites[name] = sprite;
         return sprite;
     }
@@ -89,12 +102,7 @@ function Engine()
 
     this.removeSprite = function(sprite)
     {
-        midstage.removeChild(sprite);
-    }
-
-    this.removeSpriteBg = function(sprite)
-    {
-        midstage.removeChild(sprite);
+        engine.layers[sprite.layernum].removeChild(sprite);
     }
 
     this.spriteFromName = function(name)
@@ -127,20 +135,25 @@ function Engine()
         return fake * scaling;
     }
 
-    this.makeBullet = function(x, y, direction, speed, bulletclass, texturename)
+    this.makeBullet = function(x, y, direction, speed, bulletclass, texturename, layer)
     {
+        // default layer = mid-0 (2)
+        layer = typeof layer !== 'undefined' ? layer : 2;
+
         var sprite = new Sprite(engine.textureFromName(texturename));
         sprite.anchor.set(0.5,0.5);
         sprite.x = engine.convertCoord(x);
         sprite.y = engine.convertCoord(y);
         sprite.scale.set(scaling,scaling);
-        midstage.addChild(sprite);
+        sprite.layernum = layer;
+        layers[layer].addChild(sprite);
         var bullet = new Bullet(x, y, direction, speed, sprite, bulletclass);
         bulletHandler.addBullet(bullet);
         return bullet;
     }
 
-    this.drawHealth = function(x, y, width, height, color){
+    this.drawHealth = function(x, y, width, height, color)
+    {
         graphics.clear();
         if(width > 0)
         {
@@ -149,6 +162,12 @@ function Engine()
             graphics.endFill();
             stage.addChild(sprite);
         }
+
+        // draws the bottom bar (move this to a disp. class later)
+        graphics.beginFill(0x00000);
+        var sprite = graphics.drawRect(engine.convertCoord(0), engine.convertCoord(860), engine.convertCoord(775), engine.convertCoord(40));
+        graphics.endFill();
+        stage.addChild(sprite);
 
     }
 
