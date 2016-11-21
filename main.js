@@ -23,6 +23,8 @@ var Sprite = PIXI.Sprite;
 var engine;
 var graphics = new PIXI.Graphics();
 
+console.re.log('remote log test'); // go to http://console.re/touhou
+
 loadImages();
 console.log("Loading!");
 loadBoss("in_1_wriggle");
@@ -31,6 +33,7 @@ loader.load(init);
 function init()
 {
     engine = new Engine();
+    // $("body").append("<p>same</p>")
     animate();
 }
 
