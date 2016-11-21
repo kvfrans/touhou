@@ -23,7 +23,7 @@ var Sprite = PIXI.Sprite;
 var engine;
 var graphics = new PIXI.Graphics();
 
-console.re.log('remote log test');
+console.re.log('remote log test'); // go to http://console.re/touhou
 
 loadImages();
 console.log("Loading!");
