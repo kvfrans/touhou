@@ -8,6 +8,7 @@ function Engine()
     var bulletHandler = new BulletHandler(this);
     var effects = new Effects(this);
     this.effects = effects;
+    this.player = player;
     var engine = this;
 
     var namedSprites = {};
@@ -18,8 +19,10 @@ function Engine()
     {
         player.playerUpdate(keyboard.keyStates);
         boss.bossUpdate(player);
+        boss.core.update();
         bulletHandler.bulletUpdate();
         keyboard.keyboardUpdate();
+        effects.updateEffects();
     }
 
     this.makeNamedSprite = function(name, texturename, x, y)
@@ -31,25 +34,42 @@ function Engine()
         sprite.scale.set(scaling,scaling);
         stage.addChild(sprite);
         namedSprites[name] = sprite;
+        return sprite;
     }
 
-    this.moveSprite = function(sprite, x, y)
+    this.makeNamedText = function(name, text, x, y)
+    {
+        var sprite = new PIXI.Text(text ,{font : 'Arial', fontSize: 40, fill : 0xD2527F, align : 'center', dropShadow: true});
+        sprite.x = engine.convertCoord(x);
+        sprite.y = engine.convertCoord(y);
+        sprite.scale.set(scaling,scaling);
+        stage.addChild(sprite);
+        namedSprites[name] = sprite;
+        return sprite;
+    }
+
+    this.setSpritePosition = function(sprite, x, y)
     {
         sprite.x = engine.convertCoord(x);
         sprite.y = engine.convertCoord(y);
     }
 
-    this.rotateSprite = function(sprite, degrees)
+    this.setSpriteScale = function(sprite, x, y)
+    {
+        sprite.scale.set(x * scaling, y * scaling)
+    }
+
+    this.setSpriteRotation = function(sprite, degrees)
     {
         sprite.rotation = degrees/180 * Math.PI;
     }
 
-    this.changeSpriteTexture = function(sprite, texturename)
+    this.setSpriteTexture = function(sprite, texturename)
     {
         sprite.setTexture(engine.textureFromName(texturename));
     }
 
-    this.changeSpriteOpacity = function(sprite, opacity)
+    this.setSpriteOpacity = function(sprite, opacity)
     {
         sprite.alpha = opacity;
     }
@@ -64,7 +84,17 @@ function Engine()
         return namedSprites[name];
     }
 
-    this.textureFromName = function (name)
+    this.clearBullets = function()
+    {
+        bulletHandler.clearBullets();
+    }
+
+    this.removeBullet = function(bullet)
+    {
+        bullet.remove = true;
+    }
+
+    this.textureFromName = function(name)
     {
         return resources[name].texture;
     }
@@ -92,10 +122,27 @@ function Engine()
         return bullet;
     }
 
+    this.drawHealth = function(x, y, width, height, color){
+        graphics.clear();
+        if(width > 0)
+        {
+            graphics.beginFill(color);
+            var sprite = graphics.drawRect(x, y, width, height);
+            graphics.endFill();
+            stage.addChild(sprite);
+        }
+
+    }
+
     this.setBulletPosition = function(bullet, x, y)
     {
         bullet.x = x;
         bullet.y = y;
+    }
+
+    this.setBulletSpeed = function(bullet, speed)
+    {
+        bullet.speed = speed;
     }
 
     this.setBulletDirection = function(bullet, direction)
@@ -103,42 +150,31 @@ function Engine()
         bullet.direction = direction;
         bullet.sin = Math.sin(direction/180 * Math.PI);
         bullet.cos = Math.cos(direction/180 * Math.PI);
-        engine.rotateSprite(bullet.sprite, direction + 90);
+        engine.setSpriteRotation(bullet.sprite, direction + 90);
         if(bullet.rotate == false)
         {
-            engine.rotateSprite(bullet.sprite, 0);
+            engine.setSpriteRotation(bullet.sprite, 0);
+        }
+    }
+
+    this.setBulletHitbox = function(bullet, hitbox)
+    {
+        bullet.hitbox = hitbox;
+        if(show_hitboxes)
+        {
+            stage.removeChild(bullet.debug_sprite)
+            bullet.debug_sprite = new Sprite(engine.textureFromName("images/bullet_hitbox.png"));
+            bullet.debug_sprite.anchor.set(0.5,0.5);
+            bullet.debug_sprite.x = bullet.sprite.x
+            bullet.debug_sprite.y = bullet.sprite.y
+            engine.setSpriteScale(bullet.debug_sprite, bullet.hitbox.radius / 16.0,bullet.hitbox.radius / 16.0)
+            stage.addChild(bullet.debug_sprite);
         }
     }
 
     player.playerInit();
     boss.bossInit();
+    effects.effectsInit();
+    this.bosscore = boss.core;
 
-}
-
-function Overlay(bullet)
-{
-    this.hitbox = HitboxCircle(0);
-    this.kind = 0;
-
-    var timer = 0;
-
-    engine.changeSpriteOpacity(bullet.sprite, 0);
-    bullet.rotate = false;
-    engine.setBulletDirection(bullet, 90);
-
-    this.update = function()
-    {
-        timer += 1;
-
-        if(timer < 50)
-        {
-            engine.changeSpriteOpacity(bullet.sprite, bullet.sprite.alpha + 0.01);
-            bullet.speed -= 0.1;
-        }
-        if(timer > 100)
-        {
-            engine.changeSpriteOpacity(bullet.sprite, bullet.sprite.alpha - 0.01);
-            bullet.speed += 0.1;
-        }
-    }
 }
