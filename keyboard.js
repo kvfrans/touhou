@@ -9,33 +9,95 @@ function Keyboard()
         key.press = undefined;
         key.release = undefined;
         key.keyname = keyName;
+        key.initialX = undefined;
+        key.initialY = undefined;
         //The `downHandler`
         key.downHandler = function(event) {
-            if (isMobile && key.code === 16 | key.code === 90) {
-                if (key.isUp && key.press) key.press();
-                key.isDown = true;
-                key.isUp = false;
+            if (event.type === "touchstart") {
+                key.initialY = event.clientY;
+                key.initialX = event.clientX;
+                if (key.code === 16 | key.code === 90) {
+                    if (key.isUp && key.press) key.press();
+                    key.isDown = true;
+                    key.isUp = false;
+                }
             }
             else if (event.keyCode === key.code) {
                 if (key.isUp && key.press) key.press();
                 key.isDown = true;
                 key.isUp = false;
             }
+
         // uncomment this later, it prevents browser commands
         // event.preventDefault();
         };
 
         //The `upHandler`
         key.upHandler = function(event) {
-            if (isMobile && key.code === 16) {
-                if (key.isDown && key.release) key.release();
-                key.isDown = false;
-                key.isUp = true;
+            if (event.type === "touchend") {
+                if (key.code != 90 && key.code != 88) {
+                    if (key.isDown && key.release) key.release();
+                    key.isDown = false;
+                    key.isUp = true;
+                }
             }
             else if (event.keyCode === key.code) {
                 if (key.isDown && key.release) key.release();
                 key.isDown = false;
                 key.isUp = true;
+            }
+        // event.preventDefault();
+        };
+
+        key.moveHandler = function(event) {
+            var angle = Math.atan2(event.clientY - key.initialY, event.clientX - key.initialX);
+            if (angle >= 3*Math.PI/4 || angle <= -3*Math.PI/4) {
+                if (key.code === 37 && key.isUp && key.press) {
+                    key.press();
+                    key.isDown = true;
+                    key.isUp = false;
+                }
+                if (key.code === 39 && key.isDown && key.release) {
+                    key.release();
+                    key.isDown = false;
+                    key.isUp = true;
+                }
+            }
+            if (angle >= -3*Math.PI/4 && angle <= -Math.PI/4) {
+                if (key.code === 38 && key.isUp && key.press) {
+                    key.press();
+                    key.isDown = true;
+                    key.isUp = false;
+                }
+                if (key.code === 40 && key.isDown && key.release) {
+                    key.release();
+                    key.isDown = false;
+                    key.isUp = true;
+                }
+            }
+            if (angle >= -Math.PI/4 && angle <= Math.PI/4) {
+                if (key.code === 39 && key.isUp && key.press) {
+                    key.press();
+                    key.isDown = true;
+                    key.isUp = false;
+                }
+                if (key.code === 37 && key.isDown && key.release) {
+                    key.release();
+                    key.isDown = false;
+                    key.isUp = true;
+                }
+            }
+            if (angle >= Math.PI/4 && angle <= 3*Math.PI/4) {
+                if (key.code === 40 && key.isUp && key.press) {
+                    key.press();
+                    key.isDown = true;
+                    key.isUp = false;
+                }
+                if (key.code === 38 && key.isDown && key.release) {
+                    key.release();
+                    key.isDown = false;
+                    key.isUp = true;
+                }
             }
         // event.preventDefault();
         };
@@ -49,6 +111,9 @@ function Keyboard()
         );
         window.addEventListener(
             "touchstart", key.downHandler.bind(key), false
+        );
+        window.addEventListener(
+            "touchmove", key.moveHandler.bind(key), false
         );
         window.addEventListener(
             "touchend", key.upHandler.bind(key), false
