@@ -2,11 +2,14 @@ function loadBossImages(bossname)
 {
     var to_load = [
         "boss.png",
-        "leaf_blue.png",
-        "leaf_yellow.png",
-        "orb_yellow.png",
-        "spirit_white.png",
-        "orb_white.png",
+        "circle_spell.png",
+        "star_small_yellow.png",
+        "star_small_pink.png",
+        "star_small_red.png",
+        "star_small_green.png",
+        "star_small_blue.png",
+        "star_big_red.png",
+        "star_big_blue.png",
     ];
 
     for(var i = 0; i < to_load.length; i++)

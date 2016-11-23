@@ -1,10 +1,23 @@
+<script type="text/javascript">
+   function blockMove() {
+      event.preventDefault() ;
+}
+</script>
+
 <html>
-    <body>
-        ay
+    <body ontouchmove="blockMove()">
     </body>
 </html>
+
+<style>
+body, html {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+</style>
+
 <script src="jquery.js"></script>
-<script src="//console.re/connector.js" data-channel="touhou" id="consolerescript"></script>
+<!-- <script src="//console.re/connector.js" data-channel="touhou" id="consolerescript"></script> -->
 <script src="pixi.min.js"></script>
 <script src="howler.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />

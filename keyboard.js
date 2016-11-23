@@ -14,8 +14,14 @@ function Keyboard()
         //The `downHandler`
         key.downHandler = function(event) {
             if (event.type === "touchstart") {
-                key.initialY = event.clientY;
-                key.initialX = event.clientX;
+                // console.re.log("y: " + event.clientY-16);
+                // console.re.log("x: " + event.clientX-16);
+                //
+                // console.re.log(775*scaling);
+                // console.re.log(screen.)
+
+                key.initialX = 387.5*scaling + 16;
+                key.initialY = 450*scaling + 32;
                 if (key.code === 16 | key.code === 90) {
                     if (key.isUp && key.press) key.press();
                     key.isDown = true;

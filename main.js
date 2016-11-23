@@ -23,12 +23,12 @@ var Sprite = PIXI.Sprite;
 var engine;
 var graphics = new PIXI.Graphics();
 
-console.re.log('remote log test'); // go to http://console.re/touhou
+// console.re.log('remote log test'); // go to http://console.re/touhou
 
 loadImages();
 console.log("Loading!");
-loadBoss("in_1_wriggle");
-// loadBoss("in_4_marisa");
+// loadBoss("in_1_wriggle");
+loadBoss("in_4_marisa");
 loader.load(init);
 function init()
 {
