@@ -7,8 +7,8 @@ function Boss(engine)
     var core = new BossCore(380, 200, 150);
     this.core = core;
     var image_prefix = "bosses/in_4_marisa/resources/";
-    // var state = "1_starspin";
-    var state = "3_trispin";
+    var state = "1_starspin";
+    // var state = "3_trispin";
     var next_state = "1_starspin";
     var timer = 0;
     var spellcard = "0_none"
@@ -78,21 +78,21 @@ function Boss(engine)
         }
         if(state == "2_starspinbig")
         {
-            if(timer % 20 == 0)
+            if(timer % 16 == 0)
             {
                 for(var i = 0; i < 9; i++)
                 {
-                    engine.makeBullet(core.x, core.y, i*40 + dir, 3, Generic(8), image_prefix+"star_big_red.png");
-                    engine.makeBullet(core.x, core.y, i*40 + 20 + dir, 3, Generic(8), image_prefix+"star_big_blue.png");
+                    engine.makeBullet(core.x, core.y, i*40 + dir, 3, Star(8, 3), image_prefix+"star_big_red.png");
+                    engine.makeBullet(core.x, core.y, i*40 + 20 + dir, 3, Star(8, -3), image_prefix+"star_big_blue.png");
                 }
                 dir += 8;
             }
 
-            if(timer % 7 == 0)
+            if(timer % 10 == 0)
             {
-                engine.makeBullet(0, Math.random()*900, 0 + Math.random()*45, 3, Generic(6), image_prefix+"star_small_yellow.png");
+                engine.makeBullet(0, Math.random()*900, 0 + Math.random()*45, 3, Star(6, 3), image_prefix+"star_small_yellow.png");
 
-                engine.makeBullet(775, Math.random()*900, 180 - Math.random()*45, 3, Generic(6), image_prefix+"star_small_green.png");
+                engine.makeBullet(775, Math.random()*900, 180 - Math.random()*45, 3, Star(6, 3), image_prefix+"star_small_green.png");
             }
 
         }
@@ -218,13 +218,13 @@ function DelaySpinSpawner(bullet)
         {
             if(timer % 10 == 0)
             {
-                engine.makeBullet(bullet.x, bullet.y, dir+90, 3, Generic(6), targetstar)
+                engine.makeBullet(bullet.x, bullet.y, dir+90, 3, Star(6, 3), targetstar)
 
-                engine.makeBullet(bullet.x, bullet.y, dir, 3, Generic(6), targetstar)
-                engine.makeBullet(bullet.x, bullet.y, dir, 4, Generic(6), targetstar)
+                engine.makeBullet(bullet.x, bullet.y, dir, 3, Star(6, 3), targetstar)
+                engine.makeBullet(bullet.x, bullet.y, dir, 4, Star(6, 3), targetstar)
 
                 var movein = Math.abs(((timer%144)/144)-0.5)
-                engine.makeBullet(bullet.x, bullet.y, dir+90+130*movein, 1, Generic(6), targetstar)
+                engine.makeBullet(bullet.x, bullet.y, dir+90+130*movein, 1, Star(6, 3 * (-1 + 2*(num % 2))), targetstar)
             }
         }
         dir -= 1;
@@ -265,9 +265,9 @@ function TriSpinSpawner(bullet)
         {
             if(timer % 12 == 0)
             {
-                engine.makeBullet(bullet.x, bullet.y, dir - 90, 2, Generic(6), targetstar)
-                engine.makeBullet(bullet.x, bullet.y, dir - 90 - 70, 2, Generic(6), targetstar)
-                engine.makeBullet(bullet.x, bullet.y, dir - 90 + 70, 2, Generic(6), targetstar)
+                engine.makeBullet(bullet.x, bullet.y, dir - 90, 2, Star(6, 3), targetstar)
+                engine.makeBullet(bullet.x, bullet.y, dir - 90 - 70, 2, Star(6, 3), targetstar)
+                engine.makeBullet(bullet.x, bullet.y, dir - 90 + 70, 2, Star(6, 3), targetstar)
             }
         }
         dir -= 0.3;
@@ -307,12 +307,31 @@ function TriSpinSpawnerSmall(bullet)
         {
             if(timer % 12 == 0)
             {
-                engine.makeBullet(bullet.x, bullet.y, dir - 90, 2, Generic(6), targetstar)
-                engine.makeBullet(bullet.x, bullet.y, dir - 90 - 20, 2, Generic(6), targetstar)
-                engine.makeBullet(bullet.x, bullet.y, dir - 90 + 60, 2, Generic(6), targetstar)
+                engine.makeBullet(bullet.x, bullet.y, dir - 90, 2, Star(6, 3), targetstar)
+                engine.makeBullet(bullet.x, bullet.y, dir - 90 - 20, 2, Star(6, 3), targetstar)
+                engine.makeBullet(bullet.x, bullet.y, dir - 90 + 60, 2, Star(6, 3), targetstar)
             }
         }
         dir += 0.3;
         timer += 1;
+    }
+}
+
+
+
+function Star(size, spin)
+{
+    return function(bullet)
+    {
+        this.hitbox = new HitboxCircle(size);
+        this.kind = 0;
+
+        bullet.rotate = false;
+        var dir = 0;
+        this.update = function()
+        {
+            dir += spin/2;
+            engine.setSpriteRotation(bullet.sprite, dir);
+        }
     }
 }
