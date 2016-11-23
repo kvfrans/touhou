@@ -10,8 +10,10 @@ function Player(engine)
     this.immunityCountDown = 0;
     // var health = 10;
     this.health = 2;
-    this.radius = 8;
+    this.radius = 4;
     var player = this;
+
+    this.points = 0;
 
 
     var shoot_cooldown = 0;

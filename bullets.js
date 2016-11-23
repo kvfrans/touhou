@@ -1,4 +1,4 @@
-var show_hitboxes = false;
+var show_hitboxes = true;
 
 function Bullet(x, y, direction, speed, sprite, bulletclass)
 {

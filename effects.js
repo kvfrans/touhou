@@ -234,6 +234,7 @@ function Score(bullet)
         if(dist < 400)
         {
             engine.removeBullet(bullet);
+            engine.player.points += 1;
         }
     }
 }
