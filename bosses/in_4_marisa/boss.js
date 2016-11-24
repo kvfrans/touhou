@@ -88,15 +88,42 @@ function Boss(engine)
                 dir += 8;
             }
 
-            if(timer % 10 == 0)
+            if(timer % 14 == 0 && timer > 60)
             {
-                engine.makeBullet(0, Math.random()*900, 0 + Math.random()*45, 3, Star(6, 3), image_prefix+"star_small_yellow.png");
+                engine.makeBullet(0, Math.random()*900, 0 + Math.random()*45, 2, Star(6, 3), image_prefix+"star_small_yellow.png");
 
-                engine.makeBullet(775, Math.random()*900, 180 - Math.random()*45, 3, Star(6, 3), image_prefix+"star_small_green.png");
+                engine.makeBullet(775, Math.random()*900, 180 - Math.random()*45, 2, Star(6, 3), image_prefix+"star_small_green.png");
             }
 
         }
         if(state == "3_trispin")
+        {
+            if(timer == 1 && !has_trispun)
+            {
+                has_trispun = true;
+                engine.effects.spellCharge();
+                for(var k = 0; k < 5; k++)
+                {
+                    var b = engine.makeBullet(core.x, core.y, k*72, 0, TriSpinSpawner, image_prefix+"circle_spell.png");
+                    b.bulletclass.setParams(k)
+
+                    var b = engine.makeBullet(core.x, core.y, k*72, 0, TriSpinSpawnerSmall, image_prefix+"circle_spell.png");
+                    b.bulletclass.setParams(k)
+                }
+            }
+
+            if(timer == 300)
+            {
+                state = "generic_move"
+                move_delay = 10;
+                desired_x = Math.round(Math.random() * 350) + 200
+                desired_y = Math.round(Math.random() * 200) + 100
+                next_state = "3_trispin"
+                timer = 0;
+            }
+
+        }
+        if(state == "4_eventhorizon")
         {
             if(timer == 1 && !has_trispun)
             {
@@ -134,6 +161,10 @@ function Boss(engine)
                 var magnitude = Math.sqrt(direction_x**2 + direction_y**2);
                 vector_x = direction_x / magnitude;
                 vector_y = direction_y / magnitude;
+                if(magnitude == 0)
+                {
+                    vector_x = 0; vector_y = 0
+                }
                 var totalmovements = 600;
                 magnitude_factor = magnitude / totalmovements;
             }
@@ -167,7 +198,14 @@ function Boss(engine)
             {
                 timer = 0;
                 spellcard = "1_magicspace";
-                state = "2_starspinbig";
+
+                state = "generic_move"
+                move_delay = 10;
+                desired_x = 380
+                desired_y = 200
+                next_state = "2_starspinbig"
+                timer = 0;
+
                 core.health = 150;
                 engine.effects.startSpellcard("images/harambe_kun.png","Magic Space [Asteroid Belt]")
             }
@@ -176,9 +214,33 @@ function Boss(engine)
                 // engine.effects.
                 timer = 0;
                 spellcard = "2_trispin";
-                state = "3_trispin";
+
+                state = "generic_move"
+                move_delay = 10;
+                desired_x = 380
+                desired_y = 200
+                next_state = "3_trispin"
+                timer = 0;
+
                 core.health = 150;
+                engine.effects.endSpellcard()
                 // engine.effects.startSpellcard("images/harambe_kun.png","Lamp Sign [Firefly Phenomenon]")
+            }
+            else if(spellcard == "2_trispin")
+            {
+                // engine.effects.
+                timer = 0;
+                spellcard = "3_eventhorizon";
+
+                state = "generic_move"
+                move_delay = 10;
+                desired_x = 380
+                desired_y = 200
+                next_state = "4_eventhorizon"
+                timer = 0;
+
+                core.health = 150;
+                engine.effects.startSpellcard("images/harambe_kun.png","Black Magic [Event Horizon]")
             }
         }
         timer += 1;
