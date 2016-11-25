@@ -15,7 +15,7 @@ if (isMobile) {
 }
 
 var renderer = PIXI.autoDetectRenderer(xratio * scaling, yratio * scaling, {backgroundColor : 0x2C3E50});
-document.body.appendChild(renderer.view);
+document.getElementById("canvas").appendChild(renderer.view);
 var stage = new PIXI.Container();
 var loader = PIXI.loader;
 var resources = PIXI.loader.resources;
