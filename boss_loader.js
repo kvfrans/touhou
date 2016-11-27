@@ -18,8 +18,11 @@ function require(script) {
 
 function loadBoss(bossname)
 {
-    require("bosses/"+bossname+"/images.js")
     require("bosses/"+bossname+"/boss.js")
+}
 
+function loadBossResources(bossname)
+{
+    require("bosses/"+bossname+"/images.js")
     loadBossImages(bossname);
 }

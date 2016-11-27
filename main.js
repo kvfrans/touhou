@@ -27,8 +27,9 @@ var graphics = new PIXI.Graphics();
 
 loadImages();
 console.log("Loading!");
-// loadBoss("in_1_wriggle");
-loadBoss("in_4_marisa");
+loadBossResources("in_1_wriggle")
+loadBossResources("in_4_marisa")
+loadBoss("in_1_wriggle");
 loader.load(init);
 function init()
 {
@@ -46,9 +47,9 @@ function animate() {
 }
 
 
-function restart()
+function restart(bossname)
 {
+    loadBoss(bossname);
     for (var i = stage.children.length - 1; i >= 0; i--) {	stage.removeChild(stage.children[i]);};
-
     engine = new Engine();
 }

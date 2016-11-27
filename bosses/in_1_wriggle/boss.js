@@ -263,6 +263,10 @@ function Boss(engine)
                 core.maxhealth = 550;
                 engine.effects.startSpellcard("images/harambe_kun.png","Wriggle Sign [Night Bug Storm]")
             }
+            else if(spellcard == "3_nightbug")
+            {
+                restart("in_4_marisa")
+            }
         }
         timer += 1;
     }

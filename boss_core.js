@@ -7,6 +7,8 @@ function BossCore(x, y, health)
     var bosscore = this;
     var timer = 0;
 
+    var enemy_marker;
+
 
 
     this.update = function()
@@ -15,8 +17,9 @@ function BossCore(x, y, health)
 
         if(timer == 0)
         {
-            var enemy_marker = engine.makeNamedSprite("enemy_marker", "images/enemy_marker.png", 375, 880)
+            enemy_marker = engine.makeNamedSprite("enemy_marker", "images/enemy_marker.png", 375, 880, 5)
         }
+        engine.setSpritePosition(enemy_marker, bosscore.x, 880);
         timer += 1;
     }
 }

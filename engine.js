@@ -163,12 +163,6 @@ function Engine()
             stage.addChild(sprite);
         }
 
-        // draws the bottom bar (move this to a disp. class later)
-        graphics.beginFill(0x00000);
-        var sprite = graphics.drawRect(engine.convertCoord(0), engine.convertCoord(860), engine.convertCoord(775), engine.convertCoord(40));
-        graphics.endFill();
-        stage.addChild(sprite);
-
     }
 
     this.setBulletPosition = function(bullet, x, y)

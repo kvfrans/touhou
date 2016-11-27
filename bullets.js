@@ -68,7 +68,7 @@ var BulletHandler = function(engine)
 
             if(bullet.kind == 0 || bullet.kind == 1)
             {
-                if(engine.convertCoord(bullet.y) < -200 || engine.convertCoord(bullet.y) > 1200 || engine.convertCoord(bullet.x) < -200 || engine.convertCoord(bullet.y) > 900)
+                if(engine.convertCoord(bullet.y) < -200 || engine.convertCoord(bullet.y) > 1200 || engine.convertCoord(bullet.x) < -200 || engine.convertCoord(bullet.x) > 900)
                 {
                     remove = true;
                 }

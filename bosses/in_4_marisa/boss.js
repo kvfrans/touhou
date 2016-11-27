@@ -7,8 +7,8 @@ function Boss(engine)
     var core = new BossCore(380, 400, 150);
     this.core = core;
     var image_prefix = "bosses/in_4_marisa/resources/";
-    // var state = "1_starspin";
-    var state = "4_eventhorizon";
+    var state = "1_starspin";
+    // var state = "4_eventhorizon";
     var next_state = "1_starspin";
     var timer = 0;
     var spellcard = "0_none"
@@ -192,7 +192,7 @@ function Boss(engine)
                 timer = 0;
 
                 core.health = 150;
-                engine.effects.startSpellcard("images/harambe_kun.png","Magic Space [Asteroid Belt]")
+                engine.effects.startSpellcard(image_prefix+"donald.png","Magic Space [Asteroid Belt]")
             }
             else if(spellcard == "1_magicspace")
             {
@@ -225,7 +225,7 @@ function Boss(engine)
                 timer = 0;
 
                 core.health = 150;
-                engine.effects.startSpellcard("images/harambe_kun.png","Black Magic [Event Horizon]")
+                engine.effects.startSpellcard(image_prefix+"donald.png","Black Magic [Event Horizon]")
             }
         }
         timer += 1;
@@ -455,6 +455,11 @@ function TwistSpawner(bullet)
             }
             dir += 0.4;
             radius -= 1.1;
+        }
+        else
+        {
+            engine.setBulletPosition(bullet, engine.bosscore.x + Math.cos(dir/180 * Math.PI)*radius, engine.bosscore.y + Math.sin(dir/180 * Math.PI)*radius);
+            timer = 0;
         }
 
         timer += 1;
