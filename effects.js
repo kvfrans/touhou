@@ -133,6 +133,16 @@ function Effects(engine)
             spellcard_circle.push(b);
         }
     }
+    this.spellChargePlayer = function()
+    {
+        for(var i = 0; i < 120; i++)
+        {
+            var dir = i*3;
+            var b = engine.makeBullet(engine.player.x + Math.cos(dir/180 * Math.PI)*300, engine.player.y + Math.sin(dir/180 * Math.PI)*300, i*3 + 180, (Math.abs(i%10 - 5)/10)*20, SpellChargePlayer, "images/spell_charge_red.png")
+            engine.setSpriteScale(b.sprite, Math.random()*3, 3)
+            spellcard_circle.push(b);
+        }
+    }
 
 }
 
@@ -155,6 +165,31 @@ function SpellCharge(bullet)
             engine.setSpriteOpacity(bullet.sprite, 0.8 - ((timer-40)/20) * 0.8);
         }
         if(timer == 45)
+        {
+            engine.removeBullet(bullet);
+        }
+    }
+}
+
+function SpellChargePlayer(bullet)
+{
+    this.kind = 2;
+    var timer = 0;
+    engine.setSpriteOpacity(bullet.sprite, 0.0);
+
+    this.update = function()
+    {
+        engine.setBulletSpeed(bullet, bullet.speed + 0.9);
+        timer += 2;
+        if(timer < 10)
+        {
+            engine.setSpriteOpacity(bullet.sprite, (timer/20) * 0.8);
+        }
+        if(timer > 20)
+        {
+            engine.setSpriteOpacity(bullet.sprite, 0.8 - ((timer-40)/20) * 0.8);
+        }
+        if(timer == 36)
         {
             engine.removeBullet(bullet);
         }

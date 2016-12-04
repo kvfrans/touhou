@@ -9,8 +9,10 @@ function Engine()
     var boss = new Boss(this);
     var bulletHandler = new BulletHandler(this);
     var effects = new Effects(this);
+    var ui = new UI(this);
     this.effects = effects;
     this.player = player;
+    this.ui = ui;
 
 
     var namedSprites = {};
@@ -37,10 +39,10 @@ function Engine()
     {
         player.playerUpdate(keyboard.keyStates);
         boss.bossUpdate(player);
-        boss.core.update();
         bulletHandler.bulletUpdate();
         keyboard.keyboardUpdate();
         effects.updateEffects();
+        ui.updateUI();
     }
 
     this.makeNamedSprite = function(name, texturename, x, y, layer)
@@ -152,19 +154,6 @@ function Engine()
         return bullet;
     }
 
-    this.drawHealth = function(x, y, width, height, color)
-    {
-        graphics.clear();
-        if(width > 0)
-        {
-            graphics.beginFill(color);
-            var sprite = graphics.drawRect(x, y, width, height);
-            graphics.endFill();
-            stage.addChild(sprite);
-        }
-
-    }
-
     this.setBulletPosition = function(bullet, x, y)
     {
         bullet.x = x;
@@ -207,5 +196,6 @@ function Engine()
     boss.bossInit();
     effects.effectsInit();
     this.bosscore = boss.core;
+    this.bullethandler = bulletHandler;
 
 }

@@ -86,10 +86,12 @@ var BulletHandler = function(engine)
                     if(engine.player.immunityCountDown == 0)
                     {
                         engine.player.health -= 1;
-                        engine.player.immunityCountDown = 20;
-                        // engine.clearBullets();
+                        engine.player.immunityCountDown = 50;
+                        engine.ui.updatePlayerHealth();
+                        engine.effects.flash(10);
+                        engine.effects.spellChargePlayer();
+                        engine.makeBullet(engine.player.getX(), engine.player.getY(), 0, 0, PlayerClearingBullet, "images/spell_circle.png")
                     }
-
                 }
             }
             else if(bullet.kind == 1)

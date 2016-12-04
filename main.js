@@ -14,7 +14,7 @@ if (isMobile) {
     var scaling = (window.innerWidth-32)/xratio; //margin 16 on all sides
 }
 
-var renderer = PIXI.autoDetectRenderer(xratio * scaling, yratio * scaling, {backgroundColor : 0x2C3E50});
+var renderer = PIXI.autoDetectRenderer((xratio+300) * scaling, yratio * scaling, {backgroundColor : 0x2C3E50});
 document.getElementById("canvas").appendChild(renderer.view);
 var stage = new PIXI.Container();
 var loader = PIXI.loader;

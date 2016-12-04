@@ -14,9 +14,15 @@ function loadImages()
         "white.png",
         "bullet_hitbox.png",
         "spell_charge.png",
+        "spell_charge_red.png",
         "bg.png",
         "spellcard_bg.png",
         "enemy_marker.png",
+        "blackpixel.png",
+        "redpixel.png",
+        "sidebar.png",
+        "health_icon.png",
+        "spell_circle.png",
     ];
 
     for(var i = 0; i < to_load.length; i++)

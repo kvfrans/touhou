@@ -4,7 +4,7 @@ function Boss(engine)
 {
     // coordinates for the boss.
 
-    var core = new BossCore(380, 200, 150);
+    var core = new BossCore(380, 200, 200);
     this.core = core;
     var image_prefix = "bosses/in_1_wriggle/resources/";
     var state = "1_leftleaf";
@@ -235,7 +235,7 @@ function Boss(engine)
                 move_delay = 25;
                 desired_x = 380;
                 desired_y = 200;
-                core.health = 150;
+                core.resetHealth(400);
                 engine.effects.startSpellcard("images/harambe_kun.png","Lamp Sign [Firefly Phenomenon]")
             }
             else if(spellcard == "1_firefly")
@@ -247,7 +247,7 @@ function Boss(engine)
                 move_delay = 25;
                 desired_x = 380;
                 desired_y = 200;
-                core.health = 150;
+                core.resetHealth(300);
                 engine.effects.endSpellcard();
             }
             else if(spellcard == "2_none")
@@ -259,8 +259,7 @@ function Boss(engine)
                 move_delay = 25;
                 desired_x = 380;
                 desired_y = 200;
-                core.health = 550;
-                core.maxhealth = 550;
+                core.resetHealth(550);
                 engine.effects.startSpellcard("images/harambe_kun.png","Wriggle Sign [Night Bug Storm]")
             }
             else if(spellcard == "3_nightbug")
@@ -449,7 +448,6 @@ function ThreeStage(bullet)
         }
         else if(state == 3 && timer == 30)
         {
-            console.log(next);
             engine.removeBullet(bullet);
             if(next == 0)
             {

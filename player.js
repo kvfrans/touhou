@@ -1,19 +1,19 @@
 // handles player movement
 function Player(engine)
 {
-    var x = 380;
-    var y = 800;
+    this.x = 380;
+    this.y = 800;
     var speed = 12;
     var spriteName = "images/player_straight.png";
     var sprite;
     var hitbox_sprite;
     this.immunityCountDown = 0;
-    // var health = 10;
-    this.health = 2;
+    this.health = 6;
     this.radius = 4;
+    this.points = 0;
     var player = this;
 
-    this.points = 0;
+
 
 
     var shoot_cooldown = 0;
@@ -49,55 +49,58 @@ function Player(engine)
             currentspeed *= 0.7;
         }
 
-        if(dirx < 0)
+        if(player.immunityCountDown == 0)
         {
-            spriteName = "images/player_left.png";
-        }
-        if(dirx == 0)
-        {
-            spriteName = "images/player_straight.png";
-        }
-        if(dirx > 0)
-        {
-            spriteName = "images/player_right.png";
-        }
 
-        x += currentspeed*dirx;
-        y += currentspeed*diry;
-
-        x = Math.min(775, Math.max(0, x))
-        y = Math.min(860, Math.max(0, y))
-
-        if(keyStates.z == 1 || keyStates.z == 2)
-        {
-            //shift = focus
-            if(keyStates.shift == 1 || keyStates.shift == 2)
+            if(dirx < 0)
             {
-
-                if(shoot_cooldown == 0)
-                {
-                    var b = engine.makeBullet(x - 13, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
-                    b = engine.makeBullet(x, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
-                    b = engine.makeBullet(x + 13, y, 270, 60, PlayerBullet, "images/focus_bullet.png");
-                    shoot_cooldown = 9;
-                }
+                spriteName = "images/player_left.png";
             }
-            //unshift is normal fire
-            else
+            if(dirx == 0)
             {
-                if(shoot_cooldown == 0)
-                {
-                    var b = engine.makeBullet(x - 10, y, 260, 30, PlayerBullet, "images/player_bullet.png");
-                    b = engine.makeBullet(x, y, 270, 30, PlayerBullet, "images/player_bullet.png");
-                    b = engine.makeBullet(x + 10, y, 280, 30, PlayerBullet, "images/player_bullet.png");
-                    shoot_cooldown = 2;
-                }
+                spriteName = "images/player_straight.png";
+            }
+            if(dirx > 0)
+            {
+                spriteName = "images/player_right.png";
             }
 
-        }
-        if (this.health == 0)
-        {
-            console.log("game over");
+            player.x += currentspeed*dirx;
+            player.y += currentspeed*diry;
+
+            player.x = Math.min(775, Math.max(0, player.x))
+            player.y = Math.min(860, Math.max(0, player.y))
+
+
+
+            if(keyStates.z == 1 || keyStates.z == 2)
+            {
+                //shift = focus
+                if(keyStates.shift == 1 || keyStates.shift == 2)
+                {
+
+                    if(shoot_cooldown == 0)
+                    {
+                        var b = engine.makeBullet(player.x - 13, player.y, 270, 60, PlayerBullet, "images/focus_bullet.png");
+                        b = engine.makeBullet(player.x, player.y, 270, 60, PlayerBullet, "images/focus_bullet.png");
+                        b = engine.makeBullet(player.x + 13, player.y, 270, 60, PlayerBullet, "images/focus_bullet.png");
+                        shoot_cooldown = 9;
+                    }
+                }
+                //unshift is normal fire
+                else
+                {
+                    if(shoot_cooldown == 0)
+                    {
+                        var b = engine.makeBullet(player.x - 10, player.y, 260, 30, PlayerBullet, "images/player_bullet.png");
+                        b = engine.makeBullet(player.x, player.y, 270, 30, PlayerBullet, "images/player_bullet.png");
+                        b = engine.makeBullet(player.x + 10, player.y, 280, 30, PlayerBullet, "images/player_bullet.png");
+                        shoot_cooldown = 2;
+                    }
+                }
+
+            }
+
         }
 
         if(this.immunityCountDown > 0)
@@ -110,21 +113,22 @@ function Player(engine)
             shoot_cooldown -= 1;
         }
 
-        engine.setSpritePosition(sprite, x, y);
-        engine.setSpritePosition(hitbox_sprite, x, y);
+        engine.setSpritePosition(sprite, player.x, player.y);
+        engine.setSpritePosition(hitbox_sprite, player.x, player.y);
         engine.setSpriteTexture(sprite, spriteName);
 
     }
 
     this.playerInit = function()
     {
-        this.getX = function() { return x };
-        this.getY = function() { return y };
+        this.getX = function() { return player.x };
+        this.getY = function() { return player.y };
         this.getSpriteName = function() { return spriteName };
 
-        sprite = engine.makeNamedSprite("player", "images/player_straight.png", x, y, 2)
+        sprite = engine.makeNamedSprite("player", "images/player_straight.png", player.x, player.y, 2)
+        player.sprite = sprite;
 
-        hitbox_sprite = engine.makeNamedSprite("player_hitbox", "images/bullet_hitbox.png", x, y, 2)
+        hitbox_sprite = engine.makeNamedSprite("player_hitbox", "images/bullet_hitbox.png", player.x, player.y, 2)
         engine.setSpriteScale(hitbox_sprite, player.radius / 16.0, player.radius / 16.0)
     }
 }
@@ -138,5 +142,65 @@ function PlayerBullet(bullet)
 
     this.update = function()
     {
+    }
+}
+
+function PlayerClearingBullet(bullet)
+{
+    this.hitbox = new HitboxCircle(1);
+    this.kind = 2;
+    engine.setSpriteOpacity(bullet.sprite, 0.3);
+    engine.setSpriteScale(bullet.sprite, 0, 0);
+    var timer = 0;
+    var ready = false;
+
+    this.update = function()
+    {
+        if(ready)
+        {
+            engine.setSpriteScale(bullet.sprite, timer/50, timer/50);
+            engine.setSpriteOpacity(bullet.sprite, 0.6 * (1 - timer/100));
+            timer += 4;
+
+            if(timer == 80)
+            {
+                engine.removeBullet(bullet)
+            }
+            if(timer == 20)
+            {
+                engine.setSpriteOpacity(engine.player.sprite, 0);
+                engine.player.x = 380;
+                engine.player.y = 800;
+            }
+            if(timer > 20)
+            {
+                engine.setSpriteOpacity(engine.player.sprite, Math.min(1, (timer-20)/60));
+            }
+
+            for(var i = 0; i < engine.bullethandler.bullets.length; i++)
+            {
+                var other = engine.bullethandler.bullets[i];
+                if(other.kind == 0)
+                {
+                    var distance = Math.sqrt(
+                        Math.pow(other.x - bullet.x, 2)
+                        + Math.pow(other.y - bullet.y,2))
+
+                    if(distance < timer * 5)
+                    {
+                        engine.removeBullet(other);
+                    }
+                }
+            }
+        }
+        else
+        {
+            timer += 1;
+            if(timer > 10)
+            {
+                ready = true;
+                timer = 0;
+            }
+        }
     }
 }
