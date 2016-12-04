@@ -29,7 +29,9 @@ loadImages();
 console.log("Loading!");
 loadBossResources("in_1_wriggle")
 loadBossResources("in_4_marisa")
-loadBoss("in_1_wriggle");
+// loadBoss("in_1_wriggle");
+loadBoss("in_4_marisa");
+
 loader.load(init);
 function init()
 {

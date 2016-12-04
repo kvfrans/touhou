@@ -1,4 +1,4 @@
-var show_hitboxes = false;
+var show_hitboxes = true;
 
 function Bullet(x, y, direction, speed, sprite, bulletclass)
 {
@@ -21,14 +21,29 @@ function Bullet(x, y, direction, speed, sprite, bulletclass)
     {
         if(this.kind == 0)
         {
-            this.debug_sprite = new Sprite(engine.textureFromName("images/bullet_hitbox.png"));
-            this.debug_sprite.anchor.set(0.5,0.5);
-            this.debug_sprite.x = this.sprite.x
-            this.debug_sprite.y = this.sprite.y
-            this.debug_sprite.layernum = 2;
-            engine.setSpriteScale(this.debug_sprite, this.hitbox.radius / 16.0,this.hitbox.radius / 16.0)
-            // this.debug_sprite.scale.set(1, 1)
-            engine.layers[2].addChild(this.debug_sprite);
+            if(this.hitbox.type == "circle")
+            {
+                this.debug_sprite = new Sprite(engine.textureFromName("images/bullet_hitbox.png"));
+                this.debug_sprite.anchor.set(0.5,0.5);
+                this.debug_sprite.x = this.sprite.x
+                this.debug_sprite.y = this.sprite.y
+                this.debug_sprite.layernum = 2;
+                engine.setSpriteScale(this.debug_sprite, this.hitbox.radius / 16.0,this.hitbox.radius / 16.0)
+                // this.debug_sprite.scale.set(1, 1)
+                engine.layers[2].addChild(this.debug_sprite);
+            }
+            else if(this.hitbox.type == "rect")
+            {
+                this.debug_sprite = new Sprite(engine.textureFromName("images/bullet_hitbox_rect.png"));
+                this.debug_sprite.anchor.set(0.5,0.5);
+                this.debug_sprite.x = this.sprite.x
+                this.debug_sprite.y = this.sprite.y
+                this.debug_sprite.layernum = 2;
+                engine.setSpriteScale(this.debug_sprite, this.hitbox.height / 32.0, this.hitbox.width / 32.0)
+                engine.setSpriteRotation(this.debug_sprite, -1*this.hitbox.rotation - 90)
+                // this.debug_sprite.scale.set(1, 1)
+                engine.layers[2].addChild(this.debug_sprite);
+            }
         }
     }
 
@@ -38,6 +53,21 @@ function HitboxCircle(radius)
 {
     this.type = "circle";
     this.radius = radius;
+}
+
+function HitBoxRotatedRect(width, height, rotation)
+{
+    this.type = "rect";
+    this.width = width;
+    this.height = height;
+    this.rotation = rotation;
+    this.rotationRad = rotation * (Math.PI / 180);
+
+    this.setRotation = function(rotation)
+    {
+        this.rotation = rotation;
+        this.rotationRad = rotation * (Math.PI / 180);
+    }
 }
 
 var BulletHandler = function(engine)
@@ -57,6 +87,10 @@ var BulletHandler = function(engine)
             if(bullet.debug_sprite != "none")
             {
                 engine.setSpritePosition(bullet.debug_sprite, bullet.x, bullet.y);
+                if(bullet.hitbox.type == "rect")
+                {
+                    engine.setSpriteRotation(bullet.debug_sprite, -1*bullet.hitbox.rotation - 90)
+                }
             }
 
 
@@ -76,13 +110,72 @@ var BulletHandler = function(engine)
 
             if(bullet.kind == 0)
             {
-                var distance = Math.sqrt(
-                    Math.pow(engine.player.getX() - bullet.x, 2)
-                    + Math.pow(engine.player.getY() - bullet.y,2))
+                var hit = false;
 
-                if(distance < bullet.hitbox.radius + engine.player.radius)
+                if(bullet.hitbox.type == "circle")
                 {
-                    remove = true;
+                    var distance = Math.sqrt(
+                        Math.pow(engine.player.getX() - bullet.x, 2)
+                        + Math.pow(engine.player.getY() - bullet.y,2))
+
+                    if(distance < bullet.hitbox.radius + engine.player.radius)
+                    {
+                        remove = true;
+                        hit = true;
+                    }
+                }
+                if(bullet.hitbox.type == "rect")
+                {
+                    // console.log(bullet.hitbox.width + " " + bullet.hitbox.height + " " + bullet.hitbox.rotationRad);
+
+                    var rectCenterX = bullet.x;
+                    var rectCenterY = bullet.y;
+
+                    var rectX = rectCenterX - bullet.hitbox.width / 2;
+                    var rectY = rectCenterY - bullet.hitbox.height / 2;
+
+                    var rectReferenceX = rectX;
+                    var rectReferenceY = rectY;
+
+                    // Rotate circle's center point back
+                    var unrotatedCircleX = Math.cos( bullet.hitbox.rotationRad ) * ( engine.player.x - rectCenterX ) - Math.sin( bullet.hitbox.rotationRad ) * ( engine.player.y - rectCenterY ) + rectCenterX;
+                    var unrotatedCircleY = Math.sin( bullet.hitbox.rotationRad ) * ( engine.player.x - rectCenterX ) + Math.cos( bullet.hitbox.rotationRad ) * ( engine.player.y - rectCenterY ) + rectCenterY;
+
+                    // Closest point in the rectangle to the center of circle rotated backwards(unrotated)
+                    var closestX, closestY;
+
+                    // Find the unrotated closest x point from center of unrotated circle
+                    if ( unrotatedCircleX < rectReferenceX ) {
+                        closestX = rectReferenceX;
+                    } else if ( unrotatedCircleX > rectReferenceX + bullet.hitbox.width ) {
+                        closestX = rectReferenceX + bullet.hitbox.width;
+                    } else {
+                        closestX = unrotatedCircleX;
+                    }
+
+                    // Find the unrotated closest y point from center of unrotated circle
+                    if ( unrotatedCircleY < rectReferenceY ) {
+                        closestY = rectReferenceY;
+                    } else if ( unrotatedCircleY > rectReferenceY + bullet.hitbox.height ) {
+                        closestY = rectReferenceY + bullet.hitbox.height;
+                    } else {
+                        closestY = unrotatedCircleY;
+                    }
+
+                    // Determine collision
+                    var collision = false;
+                    var distance = getDistance( unrotatedCircleX, unrotatedCircleY, closestX, closestY );
+
+                    if ( distance < engine.player.radius ) {
+                        console.log("rectcheck");
+                    }
+                    else {
+                        collision = false;
+                    }
+                }
+
+                if(hit)
+                {
                     if(engine.player.immunityCountDown == 0)
                     {
                         engine.player.health -= 1;
@@ -132,7 +225,7 @@ var BulletHandler = function(engine)
         for(var i = bullets.length - 1; i >= 0; i--)
         {
             var bullet = bullets[i];
-            if(bullet.kind == 0)
+            if(bullet.kind == 0 || bullet.kind == 0.5)
             {
                 engine.removeSprite(bullet.sprite);
                 if(bullet.debug_sprite != "none"){ engine.removeSprite(bullet.debug_sprite); }
@@ -154,4 +247,11 @@ function Generic(size)
         {
         }
     }
+}
+
+function getDistance( fromX, fromY, toX, toY ) {
+	var dX = Math.abs( fromX - toX );
+	var dY = Math.abs( fromY - toY );
+
+	return Math.sqrt( ( dX * dX ) + ( dY * dY ) );
 }

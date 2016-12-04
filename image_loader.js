@@ -13,6 +13,7 @@ function loadImages()
         "harambe.png",
         "white.png",
         "bullet_hitbox.png",
+        "bullet_hitbox_rect.png",
         "spell_charge.png",
         "spell_charge_red.png",
         "bg.png",

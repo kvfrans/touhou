@@ -93,7 +93,11 @@ function Player(engine)
                     if(shoot_cooldown == 0)
                     {
                         var b = engine.makeBullet(player.x - 10, player.y, 260, 30, PlayerBullet, "images/player_bullet.png");
+
                         b = engine.makeBullet(player.x, player.y, 270, 30, PlayerBullet, "images/player_bullet.png");
+                        b = engine.makeBullet(player.x, player.y + 2, 270, 30, PlayerBullet, "images/player_bullet.png");
+                        b = engine.makeBullet(player.x, player.y + 4, 270, 30, PlayerBullet, "images/player_bullet.png");
+
                         b = engine.makeBullet(player.x + 10, player.y, 280, 30, PlayerBullet, "images/player_bullet.png");
                         shoot_cooldown = 2;
                     }

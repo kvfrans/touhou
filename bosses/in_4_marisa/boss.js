@@ -8,8 +8,8 @@ function Boss(engine)
     this.core = core;
     var image_prefix = "bosses/in_4_marisa/resources/";
     var state = "1_starspin";
-    // var state = "4_eventhorizon";
-    var next_state = "1_starspin";
+    var state = "6_laserspin";
+    // var next_state = "1_starspin";
     var timer = 0;
     var spellcard = "0_none"
 
@@ -135,6 +135,32 @@ function Boss(engine)
                 }
             }
         }
+        if(state == "5_spam")
+        {
+            if(timer == 1)
+            {
+                engine.effects.spellCharge();
+                for(var k = 0; k < 15; k++)
+                {
+                    var b = engine.makeBullet(core.x, core.y, k*36, 0, SpamSpawner, image_prefix+"circle_spell.png");
+                    b.bulletclass.setParams(k)
+                }
+            }
+        }
+        if(state == "6_laserspin")
+        {
+            if(timer == 1)
+            {
+                engine.effects.spellCharge();
+                for(var k = 0; k < 5; k++)
+                {
+                    var b = engine.makeBullet(core.x, core.y, k*72, 0, Laser, image_prefix+"star_small_red.png");
+                    b.bulletclass.setParams(0.5);
+                    var b = engine.makeBullet(core.x, core.y, k*72, 0, Laser, image_prefix+"star_small_red.png");
+                    b.bulletclass.setParams(-0.5);
+                }
+            }
+        }
 
         if(state == "generic_move" && timer > move_delay && timer < move_delay + 50)
         {
@@ -191,7 +217,7 @@ function Boss(engine)
                 next_state = "2_starspinbig"
                 timer = 0;
 
-                core.health = 150;
+                core.resetHealth(550);
                 engine.effects.startSpellcard(image_prefix+"donald.png","Magic Space [Asteroid Belt]")
             }
             else if(spellcard == "1_magicspace")
@@ -207,7 +233,7 @@ function Boss(engine)
                 next_state = "3_trispin"
                 timer = 0;
 
-                core.health = 150;
+                core.resetHealth(550);
                 engine.effects.endSpellcard()
                 // engine.effects.startSpellcard("images/harambe_kun.png","Lamp Sign [Firefly Phenomenon]")
             }
@@ -224,8 +250,40 @@ function Boss(engine)
                 next_state = "4_eventhorizon"
                 timer = 0;
 
-                core.health = 150;
+                core.resetHealth(750);
                 engine.effects.startSpellcard(image_prefix+"donald.png","Black Magic [Event Horizon]")
+            }
+            else if(spellcard == "3_eventhorizon")
+            {
+                // engine.effects.
+                timer = 0;
+                spellcard = "4_none";
+
+                state = "generic_move"
+                move_delay = 10;
+                desired_x = 380
+                desired_y = 400
+                next_state = "5_spam"
+                timer = 0;
+
+                core.resetHealth(450);
+                engine.effects.endSpellcard()
+            }
+            else if(spellcard == "4_none")
+            {
+                // engine.effects.
+                timer = 0;
+                spellcard = "5_typhoon";
+
+                state = "generic_move"
+                move_delay = 10;
+                desired_x = 380
+                desired_y = 400
+                next_state = "6_laserspin"
+                timer = 0;
+
+                core.resetHealth(450);
+                engine.effects.startSpellcard(image_prefix+"donald.png","Love Storm [Starlight Typhoon]")
             }
         }
         timer += 1;
@@ -236,7 +294,7 @@ function Boss(engine)
 function DelaySpinSpawner(bullet)
 {
     this.hitbox = new HitboxCircle(2);
-    this.kind = 0;
+    this.kind = 0.5;
 
     var timer = 0;
     var dir = 0;
@@ -283,7 +341,7 @@ function DelaySpinSpawner(bullet)
 function TriSpinSpawner(bullet)
 {
     this.hitbox = new HitboxCircle(2);
-    this.kind = 0;
+    this.kind = 0.5;
 
     var timer = 0;
     var dir = 0;
@@ -325,7 +383,7 @@ function TriSpinSpawner(bullet)
 function TriSpinSpawnerSmall(bullet)
 {
     this.hitbox = new HitboxCircle(2);
-    this.kind = 0;
+    this.kind = 0.5;
 
     var timer = 0;
     var dir = 0;
@@ -368,7 +426,7 @@ function TriSpinSpawnerSmall(bullet)
 function TwistSpawner(bullet)
 {
     this.hitbox = new HitboxCircle(2);
-    this.kind = 0;
+    this.kind = 0.5;
 
     var timer = 0;
     var dir = 0;
@@ -438,7 +496,7 @@ function TwistSpawner(bullet)
             {
                 engine.makeBullet(bullet.x, bullet.y, dir, 0, TwistDelay, targetstar)
             }
-            radius -= 1.1;
+            radius -= 1.4;
             dir -= 0.4;
             // b.bulletclass.setParams(180);
         }
@@ -454,14 +512,57 @@ function TwistSpawner(bullet)
                 engine.makeBullet(bullet.x, bullet.y, dir, 0, TwistDelay, targetstar)
             }
             dir += 0.4;
-            radius -= 1.1;
+            radius -= 1.4;
         }
         else
         {
             engine.setBulletPosition(bullet, engine.bosscore.x + Math.cos(dir/180 * Math.PI)*radius, engine.bosscore.y + Math.sin(dir/180 * Math.PI)*radius);
             timer = 0;
+            radius = 0;
         }
 
+        timer += 1;
+    }
+}
+
+function SpamSpawner(bullet)
+{
+    this.hitbox = new HitboxCircle(2);
+    this.kind = 0.5;
+
+    var timer = 0;
+    var dir = 0;
+    var radius = 0;
+    var num = 0;
+    var targetstar = image_prefix+"star_small_yellow.png";
+
+    this.setParams = function(num_in)
+    {
+        num = num_in;
+        dir = num_in*72 + Math.floor(num/5)*36;
+        if(num % 5 == 1) {targetstar = image_prefix+"star_small_red.png"}
+        if(num % 5 == 2) {targetstar = image_prefix+"star_small_pink.png"}
+        if(num % 5 == 3) {targetstar = image_prefix+"star_small_blue.png"}
+        if(num % 5 == 4) {targetstar = image_prefix+"star_small_green.png"}
+    }
+
+    this.update = function()
+    {
+        engine.setBulletPosition(bullet, engine.bosscore.x + Math.cos(dir/180 * Math.PI)*radius, engine.bosscore.y + Math.sin(dir/180 * Math.PI)*radius);
+        if(timer < 60)
+        {
+            dir -= 3 - Math.abs((30-timer)/30)*3;
+            radius += 1*Math.floor(num/5)*(80-timer)/60 + 2;
+        }
+        else
+        {
+            dir -= (4 - Math.floor(num/5)*1) * (2*Math.abs(Math.floor(num/5)-1)-1);
+
+            if(timer % 12 == 0)
+            {
+                var b = engine.makeBullet(bullet.x, bullet.y, dir + Math.random()*90 - 45, 3, Star(6, 3 * ((num % 2)-1)), targetstar)
+            }
+        }
         timer += 1;
     }
 }
@@ -524,7 +625,31 @@ function TwistDelay(bullet)
     }
 }
 
+function Laser(bullet)
+{
+    this.hitbox = new HitBoxRotatedRect(400, 20, bullet.direction);
+    this.kind = 0;
 
+    var dir = 0;
+    var radius = 500;
+    var hitbox = this.hitbox;
+    var movement = 0;
+
+    this.setParams = function(movement_in)
+    {
+        movement = movement_in;
+        dir = bullet.direction;
+    }
+
+    this.update = function()
+    {
+        dir += movement;
+        engine.setBulletPosition(bullet, engine.bosscore.x + Math.cos(dir/180 * Math.PI)*radius, engine.bosscore.y + Math.sin(dir/180 * Math.PI)*radius);
+        engine.setSpriteRotation(dir);
+        hitbox.setRotation(-dir);
+        // console.log(dir);
+    }
+}
 
 function Star(size, spin)
 {
