@@ -5,10 +5,11 @@ function Boss(engine)
     // coordinates for the boss.
 
     var core = new BossCore(380, 400, 150);
+    // var core = new BossCore(380, 300, 150);
     this.core = core;
     var image_prefix = "bosses/in_4_marisa/resources/";
     var state = "1_starspin";
-    var state = "6_laserspin";
+    // var state = "6_laserspin";
     // var next_state = "1_starspin";
     var timer = 0;
     var spellcard = "0_none"
@@ -82,8 +83,8 @@ function Boss(engine)
             {
                 for(var i = 0; i < 9; i++)
                 {
-                    engine.makeBullet(core.x, core.y, i*40 + dir, 3, Star(8, 3), image_prefix+"star_big_red.png");
-                    engine.makeBullet(core.x, core.y, i*40 + 20 + dir, 3, Star(8, -3), image_prefix+"star_big_blue.png");
+                    engine.makeBullet(core.x, core.y, i*40 + dir, 3, Star(10, 3), image_prefix+"star_big_red.png");
+                    engine.makeBullet(core.x, core.y, i*40 + 20 + dir, 3, Star(10, -3), image_prefix+"star_big_blue.png");
                 }
                 dir += 8;
             }
@@ -152,11 +153,11 @@ function Boss(engine)
             if(timer == 1)
             {
                 engine.effects.spellCharge();
-                for(var k = 0; k < 5; k++)
+                for(var k = 0; k < 3; k++)
                 {
-                    var b = engine.makeBullet(core.x, core.y, k*72, 0, Laser, image_prefix+"star_small_red.png");
+                    var b = engine.makeBullet(core.x, core.y, k*120, 0, Laser, image_prefix+"star_small_red.png");
                     b.bulletclass.setParams(0.5);
-                    var b = engine.makeBullet(core.x, core.y, k*72, 0, Laser, image_prefix+"star_small_red.png");
+                    var b = engine.makeBullet(core.x, core.y, k*120, 0, Laser, image_prefix+"star_small_red.png");
                     b.bulletclass.setParams(-0.5);
                 }
             }
@@ -278,7 +279,7 @@ function Boss(engine)
                 state = "generic_move"
                 move_delay = 10;
                 desired_x = 380
-                desired_y = 400
+                desired_y = 300
                 next_state = "6_laserspin"
                 timer = 0;
 
@@ -631,9 +632,11 @@ function Laser(bullet)
     this.kind = 0;
 
     var dir = 0;
-    var radius = 500;
+    var radius = 600;
     var hitbox = this.hitbox;
     var movement = 0;
+
+    var timer = 0;
 
     this.setParams = function(movement_in)
     {
@@ -647,7 +650,13 @@ function Laser(bullet)
         engine.setBulletPosition(bullet, engine.bosscore.x + Math.cos(dir/180 * Math.PI)*radius, engine.bosscore.y + Math.sin(dir/180 * Math.PI)*radius);
         engine.setSpriteRotation(dir);
         hitbox.setRotation(-dir);
-        // console.log(dir);
+
+        if(timer % 30 == 0)
+        {
+            var b = engine.makeBullet(engine.bosscore.x + Math.cos(dir/180 * Math.PI)*(radius-230), engine.bosscore.y + Math.sin(dir/180 * Math.PI)*(radius-230), 180 + dir, 2, Star(10, 3), image_prefix+"star_big_red.png")
+        }
+
+        timer++;
     }
 }
 
