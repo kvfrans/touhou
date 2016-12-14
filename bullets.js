@@ -1,4 +1,6 @@
 var show_hitboxes = true;
+// var show_hitboxes = false;
+
 
 function Bullet(x, y, direction, speed, sprite, bulletclass)
 {
@@ -19,7 +21,7 @@ function Bullet(x, y, direction, speed, sprite, bulletclass)
 
     if(show_hitboxes)
     {
-        if(this.kind == 0)
+        if(this.kind == 0 || this.kind == 0.5)
         {
             if(this.hitbox.type == "circle")
             {
@@ -108,7 +110,7 @@ var BulletHandler = function(engine)
                 }
             }
 
-            if(bullet.kind == 0)
+            if(bullet.kind == 0 || bullet.kind == 0.5)
             {
                 var hit = false;
 
@@ -163,14 +165,10 @@ var BulletHandler = function(engine)
                     }
 
                     // Determine collision
-                    var collision = false;
                     var distance = getDistance( unrotatedCircleX, unrotatedCircleY, closestX, closestY );
 
                     if ( distance < engine.player.radius ) {
-                        console.log("rectcheck");
-                    }
-                    else {
-                        collision = false;
+                        hit = true;
                     }
                 }
 
@@ -194,15 +192,13 @@ var BulletHandler = function(engine)
                 {
                     if(engine.bosscore.health == 0)
                     {
-                        console.log("daed ag");
+                        console.log("Boss down");
                     }
                     else
                     {
-                        engine.bosscore.health -= 1;
+                        engine.bosscore.health -= 3;
                         remove = true;
                     }
-                    engine.bosscore.health -= 1;
-                    remove = true;
                 }
             }
 
