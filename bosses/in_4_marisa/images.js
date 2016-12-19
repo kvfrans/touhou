@@ -12,7 +12,9 @@ function loadBossImages(bossname)
         "star_big_blue.png",
         "donald.png",
         "marisa.png",
-        "laser_green.png"
+        "laser_green.png",
+        "masterspark.png",
+        "masterspark_charge.png",
     ];
 
     for(var i = 0; i < to_load.length; i++)

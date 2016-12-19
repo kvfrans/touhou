@@ -8,7 +8,8 @@ function Boss(engine)
     this.core = core;
     var image_prefix = "bosses/in_4_marisa/resources/";
     var state = "1_starspin";
-    // var state = "6_laserspin";
+    // var state = "9_shootmoon";
+
     // var next_state = "1_starspin";
     var timer = 0;
     var spellcard = "0_none"
@@ -33,6 +34,12 @@ function Boss(engine)
 
     // params for 5_spam
     var has_5spammed = false;
+
+    // params for 7_doublespin
+    var has_7doubled = false;
+
+    // params for 8_doublespark
+    var num = 0;
 
     //boss sprite
     var bossSprite;
@@ -186,6 +193,101 @@ function Boss(engine)
                 var b = engine.makeBullet(core.x, core.y, 4*72, 3, DelayAim, image_prefix+"star_small_pink.png")
             }
         }
+        if(state == "7_doublespin")
+        {
+            if(timer == 1)
+            {
+                if(!has_7doubled)
+                {
+                    engine.effects.spellCharge();
+                    for(var k = 0; k < 12; k++)
+                    {
+                        var b = engine.makeBullet(core.x, core.y, k*30, 0, DoubleSpinSpawner, image_prefix+"circle_spell.png");
+                    }
+                    has_7doubled = true;
+                }
+            }
+            if(timer == 300)
+            {
+                state = "generic_move";
+                move_delay = 10;
+                desired_x = Math.round(Math.random() * 350) + 200
+                desired_y = Math.round(Math.random() * 200) + 100
+                next_state = "7_doublespin";
+                timer = 0;
+            }
+        }
+        if(state == "8_doublespark")
+        {
+            if(timer == 1)
+            {
+                dir = 0;
+
+            }
+            if(timer % 20 == 0)
+            {
+                var targetstar = image_prefix+"star_big_red.png";
+                if(num == 1) {targetstar = image_prefix+"star_big_red.png"}
+                if(num == 2) {targetstar = image_prefix+"star_big_blue.png"}
+                if(num == 3) {targetstar = image_prefix+"star_big_red.png"}
+                if(num == 4) {targetstar = image_prefix+"star_big_blue.png"}
+                if(num == 4) {num = 1;}
+                num += 1;
+
+                for(var k = 0; k < 12; k++)
+                {
+                    var b = engine.makeBullet(core.x, core.y, k*30 + dir, 3, Star(10, 3), targetstar, 3)
+                    if(timer % 60 == 0)
+                    {
+                        var b = engine.makeBullet(core.x, core.y, k*30 + dir, 1, Star(10, 3), targetstar, 3)
+                    }
+                }
+                dir += Math.random()*30 - 10;
+            }
+            if(timer == 1)
+            {
+                engine.effects.spellCharge();
+                var playerangle = Math.atan2(core.y - engine.player.y, core.x - engine.player.x) * 180 / Math.PI;
+                var spark = engine.makeBullet(core.x, core.y, playerangle + 10, 0, MasterSpark, image_prefix+"masterspark_charge.png")
+                var spark = engine.makeBullet(core.x, core.y, playerangle - 10, 0, MasterSpark, image_prefix+"masterspark_charge.png")
+            }
+            if(timer == 200)
+            {
+                state = "generic_move";
+                move_delay = 10;
+                desired_x = Math.round(Math.random() * 350) + 200
+                desired_y = Math.round(Math.random() * 200) + 200
+                next_state = "8_doublespark";
+                timer = 0;
+            }
+        }
+        if(state == "9_shootmoon")
+        {
+            if(timer % 100 == 0)
+            {
+                for(var k = 0; k < 12; k++)
+                {
+                    var b = engine.makeBullet(60*k + 60, 900, 270, 0, MoonLaser, image_prefix+"laser_green.png");
+                }
+            }
+            if(timer % 10 == 0)
+            {
+                var playerangle = Math.atan2(core.y - engine.player.y, core.x - engine.player.x) * 180 / Math.PI;
+                for(var k = -2; k <= 2; k++)
+                {
+                    var b = engine.makeBullet(core.x, core.y, 180 + playerangle + 30*k + Math.random()*10, 2 + Math.random(), Star(6,3), image_prefix+"star_small_yellow.png");
+                }
+            }
+
+            if(timer % 50 == 0)
+            {
+                desired_x = Math.round(Math.random() * 350) + 200
+                desired_y = Math.round(Math.random() * 200) + 200
+            }
+            core.x = core.x + (desired_x - core.x)/10
+            core.y = core.y + (desired_y - core.y)/10
+            engine.setSpritePosition(bossSprite, core.x, core.y)
+        }
 
         if(state == "generic_move" && timer > move_delay && timer < move_delay + 50)
         {
@@ -296,7 +398,6 @@ function Boss(engine)
             }
             else if(spellcard == "4_none")
             {
-                // engine.effects.
                 timer = 0;
                 spellcard = "5_typhoon";
 
@@ -309,6 +410,40 @@ function Boss(engine)
 
                 core.resetHealth(450);
                 engine.effects.startSpellcard(image_prefix+"marisa.png","Love Storm [Starlight Typhoon]")
+            }
+            else if(spellcard == "5_typhoon")
+            {
+                timer = 0;
+                spellcard = "6_none";
+
+                state = "7_doublespin"
+                timer = 0;
+
+                core.resetHealth(450);
+                engine.effects.endSpellcard()
+            }
+            else if(spellcard == "6_none")
+            {
+                timer = 0;
+                spellcard = "7_doublespark";
+
+                state = "8_doublespark"
+                timer = 0;
+
+                core.resetHealth(450);
+                engine.effects.startSpellcard(image_prefix+"marisa.png","Loving Heart [Double Spark]")
+            }
+            else if(spellcard == "7_doublespark")
+            {
+                timer = 0;
+                spellcard = "8_shootmoon";
+
+                state = "9_shootmoon"
+                timer = 0;
+
+                core.resetHealth(450);
+                engine.effects.endSpellcard()
+                engine.effects.startSpellcard(image_prefix+"marisa.png","Light Blast [Shoot the Moon]")
             }
         }
         timer += 1;
@@ -705,6 +840,154 @@ function Laser(bullet)
             var b = engine.makeBullet(engine.bosscore.x + Math.cos(dir/180 * Math.PI)*(radius-230), engine.bosscore.y + Math.sin(dir/180 * Math.PI)*(radius-230), 180 + dir, 2, Star(10, 3), image_prefix+"star_big_red.png")
         }
 
+        timer++;
+    }
+}
+
+
+function DoubleSpinSpawner(bullet)
+{
+    this.hitbox = new HitboxCircle(2);
+    this.kind = 0.5;
+
+    var timer = 0;
+    var dir = bullet.direction;
+    var radius = 0;
+    var num = 0;
+    var targetstar = image_prefix+"star_small_yellow.png";
+
+    var shootdir = 0;
+
+    this.update = function()
+    {
+        engine.setBulletPosition(bullet, engine.bosscore.x + Math.cos(dir/180 * Math.PI)*radius, engine.bosscore.y + Math.sin(dir/180 * Math.PI)*radius);
+        if(timer < 60)
+        {
+            radius += 4;
+        }
+        else
+        {
+            shootdir += 2;
+
+            if(shootdir > 360)
+            {
+                shootdir = 360 - shootdir;
+            }
+
+            if(timer % 4 == 0)
+            {
+                engine.makeBullet(bullet.x, bullet.y, dir + shootdir, 3, Star(6, 3), targetstar)
+
+                if(num == 2) {targetstar = image_prefix+"star_small_red.png"}
+                if(num == 4) {targetstar = image_prefix+"star_small_pink.png"}
+                if(num == 6) {targetstar = image_prefix+"star_small_blue.png"}
+                if(num == 8) {targetstar = image_prefix+"star_small_green.png"}
+                if(num == 8) {num = 0;}
+                num += 1;
+            }
+
+        }
+        dir -= 3.75*2;
+        timer += 1;
+    }
+}
+
+function MasterSpark(bullet)
+{
+    this.hitbox = new HitBoxRotatedRect(600, 0, 180 - bullet.direction);
+    this.kind = 2;
+
+    var dir = bullet.direction + 180;
+    var radius = 330;
+    var hitbox = this.hitbox;
+    var movement = 0;
+
+    var timer = 0;
+
+    engine.setBulletPosition(bullet, engine.bosscore.x + Math.cos(dir/180 * Math.PI)*radius, engine.bosscore.y + Math.sin(dir/180 * Math.PI)*radius)
+    // engine.setSpriteRotation(bullet.sprite, )
+
+    this.update = function()
+    {
+        if(timer < 10)
+        {
+            engine.setSpriteScale(bullet.sprite, 0.1 * timer/10, 1)
+            engine.effects.shake(2);
+        }
+        else if(timer < 70)
+        {
+            engine.setSpriteScale(bullet.sprite, 0.1, 1)
+            engine.effects.shake(3);
+        }
+        else if(timer < 120)
+        {
+            engine.setSpriteScale(bullet.sprite, 0.1 + 0.9*(timer-70)/50, 1)
+            engine.effects.shake(7);
+        }
+        else if(timer == 120)
+        {
+            bullet.kind = 0.5;
+            bullet.hitbox = new HitBoxRotatedRect(800, 300, 180 - bullet.direction);
+            refreshDebugHitbox(bullet);
+        }
+        else if(timer < 170)
+        {
+            engine.effects.shake(7);
+        }
+        else if(timer == 170)
+        {
+            bullet.hitbox = new HitBoxRotatedRect(600, 0, 180 - bullet.direction);
+            bullet.kind = 2;
+            refreshDebugHitbox(bullet);
+        }
+        else
+        {
+            engine.setSpriteOpacity(bullet.sprite, 1 - (timer-170)/50.0);
+        }
+        if(timer == 220)
+        {
+            engine.removeBullet(bullet);
+        }
+        timer++;
+    }
+}
+
+function MoonLaser(bullet)
+{
+    var dir = 270 + 10*(Math.random()*2 - 1);
+
+    this.hitbox = new HitBoxRotatedRect(1000, 0, dir);
+    this.kind = 2;
+
+    var radius = 400;
+    var hitbox = this.hitbox;
+    var movement = 0;
+
+    engine.setBulletPosition(bullet, bullet.x + Math.cos(dir/180 * Math.PI)*radius, bullet.y + Math.sin(dir/180 * Math.PI)*radius)
+    engine.setSpriteRotation(bullet.sprite, 90 - dir);
+    engine.setSpriteScale(bullet.sprite, 1, 3);
+    engine.setSpriteOpacity(bullet.sprite, 0.3);
+
+    var timer = 0;
+    var delay = Math.random()*20 + 30
+
+    this.update = function()
+    {
+        if(timer == 1)
+        {
+            bullet.kind = 2;
+        }
+        if(timer > delay)
+        {
+            bullet.hitbox = new HitBoxRotatedRect(1000, 10, dir);
+            bullet.kind = 0.5;
+            refreshDebugHitbox(bullet);
+            engine.setSpriteOpacity(bullet.sprite, 1);
+        }
+        if(timer > delay+30)
+        {
+            engine.removeBullet(bullet);
+        }
         timer++;
     }
 }

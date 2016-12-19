@@ -24,7 +24,6 @@ function Engine()
         var st = new PIXI.DisplayObjectContainer();
         layers[s] = st;
         stage.addChild(st);
-
     }
     // 0: bg-0
     // 1: bg-1
@@ -95,6 +94,11 @@ function Engine()
     this.setSpriteTexture = function(sprite, texturename)
     {
         sprite.setTexture(engine.textureFromName(texturename));
+    }
+
+    this.setSpriteAnchor = function(sprite, x, y)
+    {
+        sprite.anchor.set(x, y);
     }
 
     this.setSpriteOpacity = function(sprite, opacity)

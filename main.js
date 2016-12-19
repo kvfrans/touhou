@@ -28,9 +28,10 @@ var graphics = new PIXI.Graphics();
 loadImages();
 console.log("Loading!");
 loadBossResources("in_1_wriggle")
-loadBossResources("in_4_marisa")
+// loadBossResources("in_4_marisa")
+loadBossResources("in_5_reisen")
 // loadBoss("in_1_wriggle");
-loadBoss("in_4_marisa");
+loadBoss("in_5_reisen");
 
 loader.load(init);
 function init()

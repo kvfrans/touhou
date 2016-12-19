@@ -12,6 +12,8 @@ function Effects(engine)
 
     var timer = 0;
 
+    var screenshake = 0;
+
     this.effectsInit = function()
     {
         flashbackground = engine.makeNamedSprite("flashbackground", "images/white.png", 330, 450);
@@ -22,6 +24,17 @@ function Effects(engine)
 
     this.updateEffects = function()
     {
+
+        if(screenshake > 0)
+        {
+            screenshake -= 1;
+
+            for(var s = 0; s < 4; s++)
+            {
+                engine.layers[s].position.x = screenshake*((Math.random() * 2) - 1)
+                engine.layers[s].position.y = screenshake*((Math.random() * 2) - 1)
+            }
+        }
 
         if(spellcard_name != "none")
         {
@@ -71,6 +84,11 @@ function Effects(engine)
     {
         flashduration = flashlength;
         flashcountdown = flashlength;
+    }
+
+    this.shake = function(shakefactor)
+    {
+        screenshake = shakefactor;
     }
 
     this.displayOverlay = function(texturename)

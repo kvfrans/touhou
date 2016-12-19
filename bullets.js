@@ -1,5 +1,5 @@
 var show_hitboxes = true;
-// var show_hitboxes = false;
+var show_hitboxes = false;
 
 
 function Bullet(x, y, direction, speed, sprite, bulletclass)
@@ -19,36 +19,44 @@ function Bullet(x, y, direction, speed, sprite, bulletclass)
     this.hitbox = this.bulletclass.hitbox;
     this.kind = this.bulletclass.kind;
 
+    refreshDebugHitbox(this);
+
+}
+
+function refreshDebugHitbox(bullet)
+{
     if(show_hitboxes)
     {
-        if(this.kind == 0 || this.kind == 0.5)
+        if(bullet.kind == 0 || bullet.kind == 0.5)
         {
-            if(this.hitbox.type == "circle")
+            if(bullet.debug_sprite != "none")
             {
-                this.debug_sprite = new Sprite(engine.textureFromName("images/bullet_hitbox.png"));
-                this.debug_sprite.anchor.set(0.5,0.5);
-                this.debug_sprite.x = this.sprite.x
-                this.debug_sprite.y = this.sprite.y
-                this.debug_sprite.layernum = 2;
-                engine.setSpriteScale(this.debug_sprite, this.hitbox.radius / 16.0,this.hitbox.radius / 16.0)
-                // this.debug_sprite.scale.set(1, 1)
-                engine.layers[2].addChild(this.debug_sprite);
+                engine.removeSprite(bullet.debug_sprite);
             }
-            else if(this.hitbox.type == "rect")
+
+            if(bullet.hitbox.type == "circle")
             {
-                this.debug_sprite = new Sprite(engine.textureFromName("images/bullet_hitbox_rect.png"));
-                this.debug_sprite.anchor.set(0.5,0.5);
-                this.debug_sprite.x = this.sprite.x
-                this.debug_sprite.y = this.sprite.y
-                this.debug_sprite.layernum = 2;
-                engine.setSpriteScale(this.debug_sprite, this.hitbox.height / 32.0, this.hitbox.width / 32.0)
-                engine.setSpriteRotation(this.debug_sprite, -1*this.hitbox.rotation - 90)
-                // this.debug_sprite.scale.set(1, 1)
-                engine.layers[2].addChild(this.debug_sprite);
+                bullet.debug_sprite = new Sprite(engine.textureFromName("images/bullet_hitbox.png"));
+                bullet.debug_sprite.anchor.set(0.5,0.5);
+                bullet.debug_sprite.x = bullet.sprite.x
+                bullet.debug_sprite.y = bullet.sprite.y
+                bullet.debug_sprite.layernum = 3;
+                engine.setSpriteScale(bullet.debug_sprite, bullet.hitbox.radius / 16.0,bullet.hitbox.radius / 16.0)
+                engine.layers[3].addChild(bullet.debug_sprite);
+            }
+            else if(bullet.hitbox.type == "rect")
+            {
+                bullet.debug_sprite = new Sprite(engine.textureFromName("images/bullet_hitbox_rect.png"));
+                bullet.debug_sprite.anchor.set(0.5,0.5);
+                bullet.debug_sprite.x = bullet.sprite.x
+                bullet.debug_sprite.y = bullet.sprite.y
+                bullet.debug_sprite.layernum = 3;
+                engine.setSpriteScale(bullet.debug_sprite, bullet.hitbox.height / 32.0, bullet.hitbox.width / 32.0)
+                engine.setSpriteRotation(bullet.debug_sprite, -1*bullet.hitbox.rotation - 90)
+                engine.layers[3].addChild(bullet.debug_sprite);
             }
         }
     }
-
 }
 
 function HitboxCircle(radius)
@@ -122,7 +130,10 @@ var BulletHandler = function(engine)
 
                     if(distance < bullet.hitbox.radius + engine.player.radius)
                     {
-                        remove = true;
+                        if(bullet.kind == 0)
+                        {
+                            remove = true;
+                        }
                         hit = true;
                     }
                 }
