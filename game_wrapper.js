@@ -5,7 +5,7 @@ function GameWrapper()
     this.keyboard = new Keyboard();
 
     var menu_components = [];
-
+    // var score = engine.makeNamedText("score", "bing" + engine.player.score, 880, 370, 5);
     var title = engine.makeNamedSprite("title","images/easternland.png", 538, 100, 3);
     menu_components.push(title);
     // for(var i = 0; i < stages_available.length; i++)
@@ -75,6 +75,8 @@ function GameWrapper()
     {
         for (var i = stage.children.length - 1; i >= 0; i--) {	stage.removeChild(stage.children[i]);};
         console.log("called");
+
+
     }
 
     this.restart = function(stagename)
