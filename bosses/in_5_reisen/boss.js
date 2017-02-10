@@ -328,6 +328,20 @@ function Boss(engine)
             }
             else if(spellcard == "4_lateral")
             {
+                if(!localStorage['easternland'])
+                {
+                    console.log("Creating local easternland");
+                    var leaderboard = [engine.player.points]
+                    var jsoned = JSON.stringify(leaderboard)
+                    localStorage['easternland'] = jsoned;
+                }
+                else
+                {
+                    var storedNames = JSON.parse(localStorage['easternland']);
+                    storedNames.push(engine.player.points);
+                    var jsoned = JSON.stringify(storedNames)
+                    localStorage['easternland'] = jsoned;
+                }
                 win()
             }
         }
