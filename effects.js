@@ -28,6 +28,8 @@ function Effects(engine)
         engine.setSpriteScale(flashbackground, 50, 50);
         engine.setSpriteOpacity(flashbackground, 0);
 
+
+
     }
 
     this.updateEffects = function()

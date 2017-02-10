@@ -66,7 +66,7 @@ function Boss(engine)
         {
             if(timer == 1 && !has_starspun)
             {
-                engine.effects.cutscene("Marisa Kirisame", "What the fuck did you just fucking say about me, you little bitch? I’ll have you know I graduated top of my class in the Navy Seals, and I’ve been involved in numerous secret raids on Al-Quaeda, and I have over 300 confirmed kills. I am trained in gorilla warfare and I’m the top sniper in the entire US armed forces.", image_prefix+"marisa.png")
+                engine.effects.cutscene("Ordinary Magician", "Move and I'll shoot!!", image_prefix+"marisa.png")
 
                 has_starspun = true;
                 engine.effects.spellCharge();
@@ -154,7 +154,7 @@ function Boss(engine)
             {
                 if(!has_5spammed)
                 {
-                    engine.effects.cutscene("Marisa Kirisame", "Watch out for my spam move", image_prefix+"marisa.png")
+                    engine.effects.cutscene("Ordinary Magician", "Watch out for my special attack!", image_prefix+"marisa.png")
                     for(var k = 0; k < 15; k++)
                     {
                         var b = engine.makeBullet(core.x, core.y, k*36, 0, SpamSpawner, image_prefix+"spellcircle.png");

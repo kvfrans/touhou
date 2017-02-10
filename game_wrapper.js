@@ -65,9 +65,11 @@ function GameWrapper()
 
     this.restart = function(stagename)
     {
+        var points = engine.player.points;
         loadBoss(stagename);
         for (var i = stage.children.length - 1; i >= 0; i--) {	stage.removeChild(stage.children[i]);};
         engine = new Engine(gamewrapper);
         engine.activate();
+        engine.player.points = points;
     }
 }

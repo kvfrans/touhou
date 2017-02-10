@@ -10,7 +10,7 @@ function Player(engine)
     this.immunityCountDown = 0;
     this.health = 6;
     this.radius = 4;
-    this.points = 0;
+    this.points = 1;
     var player = this;
 
 
