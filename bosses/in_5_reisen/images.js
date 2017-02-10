@@ -2,8 +2,9 @@ function loadBossImages(bossname)
 {
     var to_load = [
         "boss.png",
-        "circle_spell.png",
+        "spellcircle.png",
         "redbullet.png",
+        "bluebullet.png",
         "reisen.png",
         "marisa.png",
     ];

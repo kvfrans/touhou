@@ -50,7 +50,7 @@ function Boss(engine)
         if(state == "1_leftleaf")
         {
             engine.effects.spellCharge();
-            var playerangle = Math.atan2(core.y - player.getY(), core.x - player.getX()) * 180 / Math.PI;
+            var playerangle = Math.atan2(core.y - player.y, core.x - player.x) * 180 / Math.PI;
             // make five rounds of yellow leafs
             for(var k = 0; k < 5; k++)
             {
@@ -67,7 +67,7 @@ function Boss(engine)
         }
         if(state == "2_rightleaf" && timer == 80)
         {
-            var playerangle = Math.atan2(core.y - player.getY(), core.x - player.getX()) * 180 / Math.PI;
+            var playerangle = Math.atan2(core.y - player.y, core.x - player.x) * 180 / Math.PI;
             // make five rounds of yellow leafs
             for(var k = 0; k < 5; k++)
             {
@@ -122,7 +122,7 @@ function Boss(engine)
 
         if(state == "3_tripleorbs")
         {
-            var playerangle = Math.atan2(core.y - player.getY(), core.x - player.getX()) * 180 / Math.PI;
+            var playerangle = Math.atan2(core.y - player.y, core.x - player.x) * 180 / Math.PI;
             repeat_count += 1;
             for(var i = 0; i < 3; i++)
             {
@@ -189,8 +189,8 @@ function Boss(engine)
 
                 }
 
-                engine.makeBullet(core.x, core.y, 45, 4, Spawner, image_prefix+"spirit_white.png");
-                engine.makeBullet(core.x, core.y, 135, 4, Spawner, image_prefix+"spirit_white.png");
+                engine.makeBullet(core.x, core.y, 45, 4, Spawner, image_prefix+"spellcircle.png");
+                engine.makeBullet(core.x, core.y, 135, 4, Spawner, image_prefix+"spellcircle.png");
                 state = "generic_move"
                 move_delay = 10;
                 desired_x = Math.round(Math.random() * 350) + 200
@@ -206,7 +206,7 @@ function Boss(engine)
             {
                 for(var i = 0; i < 5; i++)
                 {
-                    var b = engine.makeBullet(core.x, core.y, i*72 + timer, 6, ThreeStage, image_prefix+"orb_white.png");
+                    var b = engine.makeBullet(core.x, core.y, i*72 + timer, 6, ThreeStage, image_prefix+"orb_white_small.png");
                     b.bulletclass.setParams((timer % 15) / 5)
                 }
             }
@@ -402,8 +402,6 @@ function ThreeStage(bullet)
     var state = 0;
     var next;
 
-    engine.setSpriteScale(bullet.sprite, 0.5, 0.5);
-
     this.setParams = function(next_in)
     {
         next = next_in;
@@ -427,7 +425,7 @@ function ThreeStage(bullet)
         else if(state == 1 && timer == 30)
         {
             bullet.speed = 4;
-            engine.setSpriteScale(bullet.sprite, 1, 1);
+            engine.setSpriteTexture(bullet.sprite, image_prefix+"orb_white_big.png");
             engine.setBulletDirection(bullet, bullet.direction + 90);
             state = 2;
             timer = 0;
@@ -442,7 +440,7 @@ function ThreeStage(bullet)
             {
                 state = 3;
                 bullet.speed = 0;
-                engine.setSpriteScale(bullet.sprite, 0.5, 0.5);
+                engine.setSpriteTexture(bullet.sprite, image_prefix+"orb_white_small.png");
                 timer = 0;
             }
         }

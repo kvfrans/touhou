@@ -5,8 +5,9 @@ function loadBossImages(bossname)
         "leaf_blue.png",
         "leaf_yellow.png",
         "orb_yellow.png",
-        "spirit_white.png",
-        "orb_white.png",
+        "spellcircle.png",
+        "orb_white_big.png",
+        "orb_white_small.png",
     ];
 
     for(var i = 0; i < to_load.length; i++)

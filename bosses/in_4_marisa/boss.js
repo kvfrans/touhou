@@ -8,7 +8,7 @@ function Boss(engine)
     this.core = core;
     var image_prefix = "bosses/in_4_marisa/resources/";
     var state = "1_starspin";
-    // var state = "9_shootmoon";
+    var state = "8_doublespark";
 
     // var next_state = "1_starspin";
     var timer = 0;
@@ -66,11 +66,13 @@ function Boss(engine)
         {
             if(timer == 1 && !has_starspun)
             {
+                engine.effects.cutscene("Marisa Kirisame", "What the fuck did you just fucking say about me, you little bitch? I’ll have you know I graduated top of my class in the Navy Seals, and I’ve been involved in numerous secret raids on Al-Quaeda, and I have over 300 confirmed kills. I am trained in gorilla warfare and I’m the top sniper in the entire US armed forces.", image_prefix+"marisa.png")
+
                 has_starspun = true;
                 engine.effects.spellCharge();
                 for(var k = 0; k < 5; k++)
                 {
-                    var b = engine.makeBullet(core.x, core.y, k*72, 0, DelaySpinSpawner, image_prefix+"circle_spell.png");
+                    var b = engine.makeBullet(core.x, core.y, k*72, 0, DelaySpinSpawner, image_prefix+"spellcircle.png");
                     b.bulletclass.setParams(k)
                 }
             }
@@ -92,6 +94,7 @@ function Boss(engine)
             {
                 for(var i = 0; i < 9; i++)
                 {
+                    engine.effects.bulletSpawningAnimation(core.x, core.y, 5);
                     engine.makeBullet(core.x, core.y, i*40 + dir, 3, Star(10, 3), image_prefix+"star_big_red.png");
                     engine.makeBullet(core.x, core.y, i*40 + 20 + dir, 3, Star(10, -3), image_prefix+"star_big_blue.png");
                 }
@@ -114,10 +117,10 @@ function Boss(engine)
                 engine.effects.spellCharge();
                 for(var k = 0; k < 5; k++)
                 {
-                    var b = engine.makeBullet(core.x, core.y, k*72, 0, TriSpinSpawner, image_prefix+"circle_spell.png");
+                    var b = engine.makeBullet(core.x, core.y, k*72, 0, TriSpinSpawner, image_prefix+"spellcircle.png");
                     b.bulletclass.setParams(k)
 
-                    var b = engine.makeBullet(core.x, core.y, k*72, 0, TriSpinSpawnerSmall, image_prefix+"circle_spell.png");
+                    var b = engine.makeBullet(core.x, core.y, k*72, 0, TriSpinSpawnerSmall, image_prefix+"spellcircle.png");
                     b.bulletclass.setParams(k)
                 }
             }
@@ -140,7 +143,7 @@ function Boss(engine)
                 engine.effects.spellCharge();
                 for(var k = 0; k < 10; k++)
                 {
-                    var b = engine.makeBullet(core.x, core.y, k*36, 0, TwistSpawner, image_prefix+"circle_spell.png");
+                    var b = engine.makeBullet(core.x, core.y, k*36, 0, TwistSpawner, image_prefix+"spellcircle.png");
                     b.bulletclass.setParams(k)
                 }
             }
@@ -151,9 +154,10 @@ function Boss(engine)
             {
                 if(!has_5spammed)
                 {
+                    engine.effects.cutscene("Marisa Kirisame", "Watch out for my spam move", image_prefix+"marisa.png")
                     for(var k = 0; k < 15; k++)
                     {
-                        var b = engine.makeBullet(core.x, core.y, k*36, 0, SpamSpawner, image_prefix+"circle_spell.png");
+                        var b = engine.makeBullet(core.x, core.y, k*36, 0, SpamSpawner, image_prefix+"spellcircle.png");
                         b.bulletclass.setParams(k)
                     }
                     has_5spammed = true;
@@ -202,7 +206,7 @@ function Boss(engine)
                     engine.effects.spellCharge();
                     for(var k = 0; k < 12; k++)
                     {
-                        var b = engine.makeBullet(core.x, core.y, k*30, 0, DoubleSpinSpawner, image_prefix+"circle_spell.png");
+                        var b = engine.makeBullet(core.x, core.y, k*30, 0, DoubleSpinSpawner, image_prefix+"spellcircle.png");
                     }
                     has_7doubled = true;
                 }
@@ -248,8 +252,8 @@ function Boss(engine)
             {
                 engine.effects.spellCharge();
                 var playerangle = Math.atan2(core.y - engine.player.y, core.x - engine.player.x) * 180 / Math.PI;
-                var spark = engine.makeBullet(core.x, core.y, playerangle + 10, 0, MasterSpark, image_prefix+"masterspark_charge.png")
-                var spark = engine.makeBullet(core.x, core.y, playerangle - 10, 0, MasterSpark, image_prefix+"masterspark_charge.png")
+                var spark = engine.makeBullet(core.x, core.y, playerangle + 10, 0, MasterSpark, image_prefix+"masterspark.png")
+                var spark = engine.makeBullet(core.x, core.y, playerangle - 10, 0, MasterSpark, image_prefix+"masterspark.png")
             }
             if(timer == 200)
             {
@@ -263,11 +267,18 @@ function Boss(engine)
         }
         if(state == "9_shootmoon")
         {
-            if(timer % 100 == 0)
+            if(timer % 140 == 0)
             {
                 for(var k = 0; k < 12; k++)
                 {
-                    var b = engine.makeBullet(60*k + 60, 900, 270, 0, MoonLaser, image_prefix+"laser_green.png");
+                    if(k % 2 == 0)
+                    {
+                        var b = engine.makeBullet(60*k + 60, 800, 270, 0, MoonLaser, image_prefix+"laser_green.png");
+                    }
+                    else
+                    {
+                        var b = engine.makeBullet(60*k + 60, 800, 270, 0, MoonLaser, image_prefix+"laser_red.png");
+                    }
                 }
             }
             if(timer % 10 == 0)
@@ -445,6 +456,10 @@ function Boss(engine)
                 engine.effects.endSpellcard()
                 engine.effects.startSpellcard(image_prefix+"marisa.png","Light Blast [Shoot the Moon]")
             }
+            else if(spellcard == "8_shootmoon")
+            {
+                restart("in_5_reisen")
+            }
         }
         timer += 1;
     }
@@ -483,6 +498,8 @@ function DelaySpinSpawner(bullet)
         {
             if(timer % 10 == 0)
             {
+                engine.effects.bulletSpawningAnimation(bullet.x, bullet.y, 1);
+
                 engine.makeBullet(bullet.x, bullet.y, dir+90, 3, Star(6, 3), targetstar)
 
                 engine.makeBullet(bullet.x, bullet.y, dir, 3, Star(6, 3), targetstar)
@@ -530,6 +547,7 @@ function TriSpinSpawner(bullet)
         {
             if(timer % 12 == 0)
             {
+                engine.effects.bulletSpawningAnimation(bullet.x, bullet.y, 2);
                 engine.makeBullet(bullet.x, bullet.y, dir - 90, 2, Star(6, 3), targetstar)
                 engine.makeBullet(bullet.x, bullet.y, dir - 90 - 70, 2, Star(6, 3), targetstar)
                 engine.makeBullet(bullet.x, bullet.y, dir - 90 + 70, 2, Star(6, 3), targetstar)
@@ -812,15 +830,18 @@ function DelayAim(bullet)
 
 function Laser(bullet)
 {
-    this.hitbox = new HitBoxRotatedRect(400, 10, bullet.direction);
+    this.hitbox = new HitBoxRotatedRect(350, 10, bullet.direction);
     this.kind = 0.5;
 
     var dir = 0;
     var radius = 600;
+    var radius_small = 450;
     var hitbox = this.hitbox;
     var movement = 0;
 
     var timer = 0;
+
+    var circle = engine.makeBullet(engine.bosscore.x + Math.cos(dir/180 * Math.PI)*radius_small, engine.bosscore.y + Math.sin(dir/180 * Math.PI)*radius_small, 0, 0, Star(2, 3), image_prefix+"spellcircle.png");
 
     this.setParams = function(movement_in)
     {
@@ -830,16 +851,17 @@ function Laser(bullet)
 
     this.update = function()
     {
+
+        engine.setBulletPosition(circle, engine.bosscore.x + Math.cos(dir/180 * Math.PI)*radius_small, engine.bosscore.y + Math.sin(dir/180 * Math.PI)*radius_small);
+
         dir += movement;
         engine.setBulletPosition(bullet, engine.bosscore.x + Math.cos(dir/180 * Math.PI)*radius, engine.bosscore.y + Math.sin(dir/180 * Math.PI)*radius);
         engine.setSpriteRotation(bullet.sprite, dir + 90);
         hitbox.setRotation(-dir);
-
         if(timer % 30 == 0)
         {
             var b = engine.makeBullet(engine.bosscore.x + Math.cos(dir/180 * Math.PI)*(radius-230), engine.bosscore.y + Math.sin(dir/180 * Math.PI)*(radius-230), 180 + dir, 2, Star(10, 3), image_prefix+"star_big_red.png")
         }
-
         timer++;
     }
 }
@@ -874,7 +896,7 @@ function DoubleSpinSpawner(bullet)
                 shootdir = 360 - shootdir;
             }
 
-            if(timer % 4 == 0)
+            if(timer % 6 == 0)
             {
                 engine.makeBullet(bullet.x, bullet.y, dir + shootdir, 3, Star(6, 3), targetstar)
 
@@ -898,7 +920,7 @@ function MasterSpark(bullet)
     this.kind = 2;
 
     var dir = bullet.direction + 180;
-    var radius = 330;
+    var radius = 550;
     var hitbox = this.hitbox;
     var movement = 0;
 
@@ -927,7 +949,7 @@ function MasterSpark(bullet)
         else if(timer == 120)
         {
             bullet.kind = 0.5;
-            bullet.hitbox = new HitBoxRotatedRect(800, 300, 180 - bullet.direction);
+            bullet.hitbox = new HitBoxRotatedRect(1000, 300, 180 - bullet.direction);
             refreshDebugHitbox(bullet);
         }
         else if(timer < 170)
@@ -965,11 +987,11 @@ function MoonLaser(bullet)
 
     engine.setBulletPosition(bullet, bullet.x + Math.cos(dir/180 * Math.PI)*radius, bullet.y + Math.sin(dir/180 * Math.PI)*radius)
     engine.setSpriteRotation(bullet.sprite, 90 - dir);
-    engine.setSpriteScale(bullet.sprite, 1, 3);
-    engine.setSpriteOpacity(bullet.sprite, 0.3);
+    engine.setSpriteScale(bullet.sprite, 1, 2.5);
+    engine.setSpriteOpacity(bullet.sprite, 0.0);
 
     var timer = 0;
-    var delay = Math.random()*20 + 30
+    var delay = Math.round(Math.random()*20 + 60)
 
     this.update = function()
     {
@@ -977,7 +999,11 @@ function MoonLaser(bullet)
         {
             bullet.kind = 2;
         }
-        if(timer > delay)
+        if(timer == delay - 60)
+        {
+            engine.setSpriteOpacity(bullet.sprite, 0.3);
+        }
+        if(timer == delay)
         {
             bullet.hitbox = new HitBoxRotatedRect(1000, 10, dir);
             bullet.kind = 0.5;

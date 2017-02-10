@@ -2,7 +2,7 @@ function loadBossImages(bossname)
 {
     var to_load = [
         "boss.png",
-        "circle_spell.png",
+        "spellcircle.png",
         "star_small_yellow.png",
         "star_small_pink.png",
         "star_small_red.png",
@@ -13,8 +13,8 @@ function loadBossImages(bossname)
         "donald.png",
         "marisa.png",
         "laser_green.png",
+        "laser_red.png",
         "masterspark.png",
-        "masterspark_charge.png",
     ];
 
     for(var i = 0; i < to_load.length; i++)
