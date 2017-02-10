@@ -6,7 +6,7 @@ function GameWrapper()
 
     var menu_components = [];
 
-    var title = engine.makeNamedSprite("title","images/menu_title.png", 538, 300, 3);
+    var title = engine.makeNamedSprite("title","images/easternland.png", 538, 100, 3);
     menu_components.push(title);
     for(var i = 0; i < stages_available.length; i++)
     {

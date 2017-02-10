@@ -28,7 +28,8 @@ function loadImages()
         "menu_stageselect.png",
         "menu_clicker.png",
         "cutscene_talkbg.png",
-        "bullet_creation.png"
+        "bullet_creation.png",
+        "easternland.png"
     ];
 
     for(var i = 0; i < to_load.length; i++)

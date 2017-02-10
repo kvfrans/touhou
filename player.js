@@ -133,7 +133,8 @@ function Player(engine)
         player.sprite = sprite;
 
         hitbox_sprite = engine.makeNamedSprite("player_hitbox", "images/bullet_hitbox.png", player.x, player.y, 2)
-        engine.setSpriteScale(hitbox_sprite, player.radius / 16.0, player.radius / 16.0)
+        engine.setSpriteScale(hitbox_sprite, player.radius / 64.0, player.radius / 64.0)
+        // engine.setSpriteScale(hitbox_sprite, 0, 0)
     }
 }
 
