@@ -9,7 +9,7 @@ console.log("isMobile:" + isMobile);
 // 1075 full width
 var xratio = 775
 var yratio = 900
-var scaling = (window.innerHeight-32)/yratio; //margin 16 on all sides
+var scaling = (window.innerHeight-16)/yratio; //margin 16 on all sides
 // var scaling = 1;
 if (isMobile) {
     var scaling = (window.innerWidth-32)/xratio; //margin 16 on all sides
@@ -17,6 +17,10 @@ if (isMobile) {
 
 var renderer = PIXI.autoDetectRenderer((xratio+300) * scaling, yratio * scaling, {backgroundColor : 0x2C3E50});
 document.body.appendChild(renderer.view);
+renderer.view.style.position = 'absolute';
+renderer.view.style.left = '50%';
+renderer.view.style.top = '50%';
+renderer.view.style.transform = 'translate3d( -50%, -50%, 0 )';
 var stage = new PIXI.Container();
 var loader = PIXI.loader;
 var resources = PIXI.loader.resources;
@@ -36,7 +40,6 @@ for(var i = 0; i < stages_available.length; i++)
     loadBossResources(stages_available[i]);
 }
 // loadBoss("in_4_marisa");
-
 loader.load(init);
 function init()
 {

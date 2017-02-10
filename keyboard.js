@@ -128,7 +128,7 @@ function Keyboard()
     }
 
     // follow format "keyname",keynumber
-    var keyList = ["x",88,"z",90,"shift",16,"left",37,"up",38,"down",40,"right",39];
+    var keyList = ["x",88,"z",90,"shift",16,"left",37,"up",38,"down",40,"right",39,"esc",27];
 
     // the keyboard state dictionary. 0 = not pressed, 1 = held down, 2 = just pressed.
     this.keyStates = {}
@@ -140,6 +140,10 @@ function Keyboard()
         var keynum = keyList[i*2 + 1];
         var listener = this.makeListener(keynum, keyname);
         listener.press = function() {
+            if (this.keyname === "esc")
+            {
+                setTimeout(function() { window.close(); },50);
+            }
             keyListeners[this.keyname] = 2;
         };
         listener.release = function() {
