@@ -64,3 +64,8 @@ function restart(bossname)
 {
     gamewrapper.restart(bossname);
 }
+
+function win()
+{
+    gamewrapper.win();
+}

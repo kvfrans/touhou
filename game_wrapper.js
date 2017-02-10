@@ -28,13 +28,14 @@ function GameWrapper()
     var currentlyselected = 0;
 
     var leadershow = false;
+    var iswin = false;
 
 
     this.gameWrapperUpdate = function()
     {
         engine.engineUpdate();
 
-        if(!engine.active && !leadershow)
+        if(!engine.active && !leadershow && !iswin)
         {
             // if(this.keyboard.keyStates.down == 2)
             // {
@@ -72,6 +73,15 @@ function GameWrapper()
                 leadershow = false;
                 console.log("yeah");
                 this.restart("in_1_wriggle")
+            }
+        }
+
+        if(iswin)
+        {
+            if(this.keyboard.keyStates.x == 2)
+            {
+                iswin = false;
+                this.leaderboard()
             }
         }
 
@@ -113,6 +123,15 @@ function GameWrapper()
 
         var score = engine.makeNamedText("ins", "Press Z to Retry", 300, 700, 5);
 
+    }
+
+    this.win = function()
+    {
+        iswin = true;
+        for (var i = stage.children.length - 1; i >= 0; i--) {	stage.removeChild(stage.children[i]);};
+        engine = new Engine(gamewrapper);
+        w = engine.makeNamedSprite("win", "images/win.png", 500, 450, 5);
+        engine.setSpriteScale(w, 1/3.0, 1/3.0);
     }
 
     this.restart = function(stagename)

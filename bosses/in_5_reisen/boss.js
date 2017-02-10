@@ -328,7 +328,7 @@ function Boss(engine)
             }
             else if(spellcard == "4_lateral")
             {
-                leaderboard()
+                win()
             }
         }
         timer += 1;
