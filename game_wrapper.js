@@ -4,11 +4,15 @@ function GameWrapper()
     engine = new Engine(gamewrapper);
     this.keyboard = new Keyboard();
     var highScore = 0;
-
-    for(var i = 0; i < localStorage['easternland'].length; i++)
-    {
-        if(localStorage['easternland'][i] > highScore){
-            highScore = localStorage['easternland'][i];
+    if (localStorage['easternland'] === undefined) {
+        localStorage['easternland'] == [];
+    }
+    else {
+            for(var i = 0; i < localStorage['easternland'].length; i++)
+        {
+            if(localStorage['easternland'][i] > highScore){
+                highScore = localStorage['easternland'][i];
+            }
         }
     }
     console.log(localStorage['easternland']);
@@ -83,7 +87,7 @@ function GameWrapper()
     {
         for (var i = stage.children.length - 1; i >= 0; i--) {	stage.removeChild(stage.children[i]);};
         console.log("called");
-       
+
 
 
     }
