@@ -21,6 +21,7 @@ renderer.view.style.position = 'absolute';
 renderer.view.style.left = '50%';
 renderer.view.style.top = '50%';
 renderer.view.style.transform = 'translate3d( -50%, -50%, 0 )';
+renderer.backgroundColor = 0x451314
 var stage = new PIXI.Container();
 var loader = PIXI.loader;
 var resources = PIXI.loader.resources;
