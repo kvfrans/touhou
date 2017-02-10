@@ -11,10 +11,14 @@ function UI(engine)
 
     var player_health_icons = [];
 
+    var score;
+
     this.updateUI = function()
     {
         if(timer == 0)
         {
+            score = engine.makeNamedText("score", "0", 880, 370, 5);
+
             enemy_marker = engine.makeNamedSprite("enemy_marker", "images/enemy_marker.png", 375, 885, 5)
             engine.setSpritePosition(enemy_marker, engine.bosscore.x, 885);
 
@@ -41,6 +45,7 @@ function UI(engine)
             engine.setSpritePosition(enemy_marker, engine.bosscore.x, 885);
             engine.setSpriteScale(enemyhealth, (engine.bosscore.health / engine.bosscore.maxhealth)*775/4, 20/4)
 
+            engine.setTextContent(score, engine.player.points)
         }
 
         timer += 1;
