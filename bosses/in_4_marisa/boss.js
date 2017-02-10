@@ -48,7 +48,7 @@ function Boss(engine)
     this.bossInit = function()
     {
         console.log("marisa");
-        bossSprite = engine.makeNamedSprite("boss", image_prefix+"boss.png", core.x, core.y, 2)
+        bossSprite = engine.makeNamedSprite("boss", image_prefix+"boss.png", core.x, core.y, 4)
         console.log(bossSprite)
 
         // var sound = new Howl({
