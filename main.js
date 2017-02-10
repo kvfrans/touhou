@@ -52,6 +52,9 @@ function animate() {
     renderer.render(stage);
 }
 
+function leaderboard(){
+    gamewrapper.leaderboard();
+}
 
 function restart(bossname)
 {
