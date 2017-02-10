@@ -3,10 +3,9 @@ function GameWrapper()
     var gamewrapper = this;
     engine = new Engine(gamewrapper);
     this.keyboard = new Keyboard();
-
+    var title = engine.makeNamedSprite("title","images/easternland.png", 538, 100, 3);
     var menu_components = [];
-    // var score = engine.makeNamedText("score", "bing" + engine.player.score, 880, 370, 5);
-    var title = engine.makeNamedSprite("title","images/easternland.png", 538, 140, 3);
+
     menu_components.push(title);
     // for(var i = 0; i < stages_available.length; i++)
     // {
@@ -75,7 +74,18 @@ function GameWrapper()
     {
         for (var i = stage.children.length - 1; i >= 0; i--) {	stage.removeChild(stage.children[i]);};
         console.log("called");
+        engine = new Engine(gamewrapper);
 
+        var highScore = 0;
+
+        for(var i = 0; i < localStorage['easternland'].length; i++)
+        {
+            if(localStorage['easternland'][i] > highScore){
+                highScore = localStorage['easternland'][i];
+            }
+        }
+        console.log(localStorage['easternland']);
+        var score = engine.makeNamedText("score", "High Score: " + highScore, 100, 100, 5);
 
     }
 

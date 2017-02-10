@@ -34,7 +34,7 @@ function UI(engine)
             sidebar_bg.anchor.set(0,0);
             // engine.setSpriteScale(sidebar_bg, 300, 900)
 
-            for(var i = 0; i < 6; i++)
+            for(var i = 0; i < 3; i++)
             {
                 player_health_icons[i] = engine.makeNamedSprite("playerhealthicon"+i, "images/health_icon.png", 830 + i*34, 165, 5);
             }
@@ -53,7 +53,7 @@ function UI(engine)
 
     this.updatePlayerHealth = function()
     {
-        for(var i = 0; i < 6; i++)
+        for(var i = 0; i < 3; i++)
         {
             engine.setSpriteScale(player_health_icons[i], 0, 0);
         }

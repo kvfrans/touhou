@@ -196,7 +196,7 @@ var BulletHandler = function(engine)
 
                         if(engine.player.health < 0)
                         {
-                            leaderboard();
+                            engine.effects.gameover("Game Over", "You are out of lives! Press Z to Continue, or X to submit high scores.")
                         }
                     }
                 }

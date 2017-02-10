@@ -132,15 +132,24 @@ function Effects(engine)
                 {
                     cutscene_state = 0;
                     engine.removeSprite(cutscene_bg);
-                    engine.removeSprite(cutscene_pic);
                     engine.removeSprite(cutscene_text);
                     engine.removeSprite(cutscene_name);
                     cutscene_timer = 0;
                     engine.setPause(false);
                     engine.player.health = 3;
+                    engine.ui.updatePlayerHealth();
                 }
                 if(gamewrapper.keyboard.keyStates.x == 2)
                 {
+                    if(!localStorage['easternland'])
+                    {
+                        console.log("Creating local easternland");
+                        var leaderboard = [engine.player.points]
+                        var jsoned = JSON.stringify(leaderboard)
+                        localStorage['easternland'] = jsoned;
+                    }
+                    console.log(localStorage['easternland'])
+                    localStorage['easternland'].push(engine.player.points);
                     leaderboard()
                 }
             }
