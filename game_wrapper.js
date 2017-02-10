@@ -63,6 +63,11 @@ function GameWrapper()
         engine.activate();
     }
 
+    this.leaderboard = function()
+    {
+        for (var i = stage.children.length - 1; i >= 0; i--) {	stage.removeChild(stage.children[i]);};
+        console.log("called");
+    }
     this.restart = function(stagename)
     {
         var points = engine.player.points;
