@@ -55,7 +55,8 @@ function animate() {
     renderer.render(stage);
 }
 
-function leaderboard(){
+function leaderboard()
+{
     gamewrapper.leaderboard();
 }
 

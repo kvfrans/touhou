@@ -27,13 +27,14 @@ function GameWrapper()
     menu_components.push(selector);
     var currentlyselected = 0;
 
+    var leadershow = false;
 
 
     this.gameWrapperUpdate = function()
     {
         engine.engineUpdate();
 
-        if(!engine.active)
+        if(!engine.active && !leadershow)
         {
             // if(this.keyboard.keyStates.down == 2)
             // {
@@ -53,6 +54,7 @@ function GameWrapper()
             // }
             if(this.keyboard.keyStates.z == 2)
             {
+                console.log("hey")
                 for(var i = 0; i < menu_components.length; i++)
                 {
                     engine.removeSprite(menu_components[i]);
@@ -62,6 +64,17 @@ function GameWrapper()
                 engine.activate();
             }
         }
+
+        if(leadershow)
+        {
+            if(this.keyboard.keyStates.z == 2)
+            {
+                leadershow = false;
+                console.log("yeah");
+                this.restart("in_1_wriggle")
+            }
+        }
+
         this.keyboard.keyboardUpdate();
     }
 
@@ -72,20 +85,33 @@ function GameWrapper()
 
     this.leaderboard = function()
     {
+        leadershow = true;
+
+
         for (var i = stage.children.length - 1; i >= 0; i--) {	stage.removeChild(stage.children[i]);};
         console.log("called");
         engine = new Engine(gamewrapper);
 
         var highScore = 0;
 
-        for(var i = 0; i < localStorage['easternland'].length; i++)
+        var arr = JSON.parse(localStorage['easternland']);
+
+        var c = 0
+        for(var i = arr.length - 1; i >= 0; i--)
         {
-            if(localStorage['easternland'][i] > highScore){
-                highScore = localStorage['easternland'][i];
+            c += 1;
+            if(arr[i] > highScore){
+                highScore = arr[i];
+            }
+
+            if(c < 10)
+            {
+                engine.makeNamedText("score"+i, "" + arr[i], 300, 200 + 50*c, 5);
             }
         }
-        console.log(localStorage['easternland']);
-        var score = engine.makeNamedText("score", "High Score: " + highScore, 100, 100, 5);
+        var score = engine.makeNamedText("score", "High Score: " + highScore, 300, 100, 5);
+
+        var score = engine.makeNamedText("ins", "Press Z to Retry", 300, 700, 5);
 
     }
 

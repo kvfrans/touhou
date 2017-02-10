@@ -137,6 +137,7 @@ function Effects(engine)
                     cutscene_timer = 0;
                     engine.setPause(false);
                     engine.player.health = 3;
+                    engine.player.points = 1;
                     engine.ui.updatePlayerHealth();
                 }
                 if(gamewrapper.keyboard.keyStates.x == 2)
@@ -148,9 +149,14 @@ function Effects(engine)
                         var jsoned = JSON.stringify(leaderboard)
                         localStorage['easternland'] = jsoned;
                     }
-                    console.log(localStorage['easternland'])
-                    localStorage['easternland'].push(engine.player.points);
-                    leaderboard()
+                    else
+                    {
+                        var storedNames = JSON.parse(localStorage['easternland']);
+                        storedNames.push(engine.player.points);
+                        var jsoned = JSON.stringify(storedNames)
+                        localStorage['easternland'] = jsoned;
+                    }
+                    engine.gamewrapper.leaderboard()
                 }
             }
         }

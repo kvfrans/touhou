@@ -16,6 +16,8 @@ function Engine(gamewrapper)
     this.active = false;
     this.paused = false;
 
+    this.gamewrapper = gamewrapper
+
     var image_scaling = 4;
 
     var namedSprites = {};
