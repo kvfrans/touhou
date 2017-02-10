@@ -4,6 +4,7 @@ function loadBossImages(bossname)
         "boss.png",
         "circle_spell.png",
         "redbullet.png",
+        "bluebullet.png",
         "reisen.png",
         "marisa.png",
     ];

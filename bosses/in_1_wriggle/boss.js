@@ -50,7 +50,7 @@ function Boss(engine)
         if(state == "1_leftleaf")
         {
             engine.effects.spellCharge();
-            var playerangle = Math.atan2(core.y - player.getY(), core.x - player.getX()) * 180 / Math.PI;
+            var playerangle = Math.atan2(core.y - player.y, core.x - player.x) * 180 / Math.PI;
             // make five rounds of yellow leafs
             for(var k = 0; k < 5; k++)
             {
@@ -67,7 +67,7 @@ function Boss(engine)
         }
         if(state == "2_rightleaf" && timer == 80)
         {
-            var playerangle = Math.atan2(core.y - player.getY(), core.x - player.getX()) * 180 / Math.PI;
+            var playerangle = Math.atan2(core.y - player.y, core.x - player.x) * 180 / Math.PI;
             // make five rounds of yellow leafs
             for(var k = 0; k < 5; k++)
             {
@@ -122,7 +122,7 @@ function Boss(engine)
 
         if(state == "3_tripleorbs")
         {
-            var playerangle = Math.atan2(core.y - player.getY(), core.x - player.getX()) * 180 / Math.PI;
+            var playerangle = Math.atan2(core.y - player.y, core.x - player.x) * 180 / Math.PI;
             repeat_count += 1;
             for(var i = 0; i < 3; i++)
             {

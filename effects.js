@@ -14,6 +14,14 @@ function Effects(engine)
 
     var screenshake = 0;
 
+    var cutscene_state = 0;
+    var cutscene_bg;
+    var cutscene_pic;
+    var cutscene_text;
+    var cutscene_name;
+    var cutscene_string;
+    var cutscene_timer = 0;
+
     this.effectsInit = function()
     {
         flashbackground = engine.makeNamedSprite("flashbackground", "images/white.png", 330, 450);
@@ -77,6 +85,33 @@ function Effects(engine)
             engine.setSpriteScale(bg.sprite, 3.3, 3.3)
         }
 
+        if(cutscene_state == 1)
+        {
+            cutscene_timer += 1;
+            if(cutscene_timer < cutscene_string.length)
+            {
+                engine.setTextContent(cutscene_text, cutscene_string.substr(0, cutscene_timer));
+                if(gamewrapper.keyboard.keyStates.z == 2)
+                {
+                    cutscene_timer = cutscene_string.length - 2;
+                }
+            }
+            else
+            {
+                engine.setTextContent(cutscene_text, cutscene_string);
+                if(gamewrapper.keyboard.keyStates.z == 2)
+                {
+                    cutscene_state = 0;
+                    engine.removeSprite(cutscene_bg);
+                    engine.removeSprite(cutscene_pic);
+                    engine.removeSprite(cutscene_text);
+                    engine.removeSprite(cutscene_name);
+                    cutscene_timer = 0;
+                    engine.setPause(false);
+                }
+            }
+        }
+
         timer += 1;
     }
 
@@ -135,7 +170,6 @@ function Effects(engine)
         }
         for(var i = spellcard_bg.length - 1; i >= 0; i--)
         {
-            console.log("rip");
             engine.removeSprite(spellcard_bg[i].sprite);
             engine.removeBullet(spellcard_bg[i]);
         }
@@ -151,6 +185,7 @@ function Effects(engine)
             spellcard_circle.push(b);
         }
     }
+
     this.spellChargePlayer = function()
     {
         for(var i = 0; i < 120; i++)
@@ -160,6 +195,28 @@ function Effects(engine)
             engine.setSpriteScale(b.sprite, Math.random()*3, 3)
             spellcard_circle.push(b);
         }
+    }
+
+    this.cutscene = function(talkername, text, texturename)
+    {
+        engine.setPause(true);
+        cutscene_state = 1;
+        cutscene_bg = engine.makeNamedSprite("cutscene_bg", "images/cutscene_talkbg.png", 385, 700, 3);
+        engine.setSpriteOpacity(cutscene_bg, 0.9);
+        cutscene_pic = engine.makeNamedSprite("cutscene_pic", texturename, 585, 300, 2);
+        cutscene_name = engine.makeNamedText("cutscene_text", talkername, 50, 400, 3);
+        cutscene_text = engine.makeNamedText("cutscene_text", "", 50, 500, 3);
+        // engine.setSpriteScale(cutscene_text, 0.5, 0.5);
+        engine.setTextStyle(cutscene_text, "Arial", 30, 0xFFFFFF, false);
+        engine.setTextWrap(cutscene_text, true, 600);
+        cutscene_string = text;
+        cutscene_timer = 0;
+    }
+
+    this.bulletSpawningAnimation = function(x, y, scale)
+    {
+        var b = engine.makeBullet(x, y, 0, 0, SpawningAnimation, "images/bullet_creation.png", 4);
+        b.bulletclass.setParams(scale);
     }
 
 }
@@ -280,10 +337,10 @@ function Score(bullet)
     {
         timer += 1;
 
-        var playerangle = 180 + Math.atan2(bullet.y - engine.player.getY(), bullet.x - engine.player.getX()) * 180 / Math.PI;
+        var playerangle = 180 + Math.atan2(bullet.y - engine.player.y, bullet.x - engine.player.x) * 180 / Math.PI;
         engine.setBulletDirection(bullet, playerangle);
 
-        var dist = Math.pow(bullet.y - engine.player.getY(), 2) + Math.pow(bullet.x - engine.player.getX(), 2)
+        var dist = Math.pow(bullet.y - engine.player.y, 2) + Math.pow(bullet.x - engine.player.x, 2)
         if(dist < 400)
         {
             engine.removeBullet(bullet);
@@ -299,5 +356,35 @@ function Bg(bullet)
 
     this.update = function()
     {
+    }
+}
+
+function SpawningAnimation(bullet)
+{
+    this.kind = 2;
+    var timer = 0;
+    var scale = 1;
+
+    this.setParams = function(scale_in)
+    {
+        scale = scale_in;
+        engine.setSpriteScale(bullet.sprite, scale, scale);
+    }
+    this.update = function()
+    {
+        if(timer < 5)
+        {
+            engine.setSpriteOpacity(bullet.sprite, timer/5);
+        }
+        if(timer > 5)
+        {
+            engine.setSpriteOpacity(bullet.sprite, 1 - (timer-5)/10);
+            engine.setSpriteScale(bullet.sprite, scale * (1 - (timer-5)/10), scale * (1 - (timer-5)/10));
+        }
+        if(timer == 15)
+        {
+            engine.removeBullet(bullet);
+        }
+        timer++;
     }
 }

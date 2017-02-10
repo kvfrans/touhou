@@ -1,12 +1,11 @@
 // Main engine (handles helper funcs, connecting all modules together)
 
-function Engine()
+function Engine(gamewrapper)
 {
     var engine = this;
 
-    var keyboard = new Keyboard();
     var player = new Player(this);
-    var boss = new Boss(this);
+    var boss;
     var bulletHandler = new BulletHandler(this);
     var effects = new Effects(this);
     var ui = new UI(this);
@@ -14,6 +13,8 @@ function Engine()
     this.player = player;
     this.ui = ui;
 
+    this.active = false;
+    this.paused = false;
 
     var namedSprites = {};
 
@@ -36,12 +37,17 @@ function Engine()
     // called every frame
     this.engineUpdate = function()
     {
-        player.playerUpdate(keyboard.keyStates);
-        boss.bossUpdate(player);
-        bulletHandler.bulletUpdate();
-        keyboard.keyboardUpdate();
-        effects.updateEffects();
-        ui.updateUI();
+        if(this.active)
+        {
+            if(!this.paused)
+            {
+                player.playerUpdate(gamewrapper.keyboard.keyStates);
+                boss.bossUpdate(player);
+                bulletHandler.bulletUpdate();
+                ui.updateUI();
+            }
+            effects.updateEffects();
+        }
     }
 
     this.makeNamedSprite = function(name, texturename, x, y, layer)
@@ -65,7 +71,7 @@ function Engine()
         // default layer = mid-0 (2)
         layer = typeof layer !== 'undefined' ? layer : 2;
 
-        var sprite = new PIXI.Text(text ,{font : 'Arial', fontSize: 40, fill : 0xD2527F, align : 'center', dropShadow: true});
+        var sprite = new PIXI.Text(text ,{font : 'Arial', fontSize: 40, fill : 0xD2527F, align : 'left', dropShadow: true});
         sprite.x = engine.convertCoord(x);
         sprite.y = engine.convertCoord(y);
         sprite.scale.set(scaling,scaling);
@@ -73,6 +79,28 @@ function Engine()
         layers[layer].addChild(sprite);
         namedSprites[name] = sprite;
         return sprite;
+    }
+
+    this.setTextStyle = function(text, font, fontSize, fillcolor, shadow)
+    {
+        text.style.font = font;
+        text.style.fontSize = fontSize;
+        text.style.fill = fillcolor;
+        text.style.dropShadow = shadow;
+        text.dirty = true;
+    }
+
+    this.setTextContent = function(text, content)
+    {
+        text.text = content;
+        text.dirty = true;
+    }
+
+    this.setTextWrap = function(text, wrap, wrapwidth)
+    {
+        text.style.wordWrap = wrap;
+        text.style.wordWrapWidth = wrapwidth;
+        text.dirty = true;
     }
 
     this.setSpritePosition = function(sprite, x, y)
@@ -196,10 +224,20 @@ function Engine()
         }
     }
 
-    player.playerInit();
-    boss.bossInit();
-    effects.effectsInit();
-    this.bosscore = boss.core;
-    this.bullethandler = bulletHandler;
+    this.activate = function()
+    {
+        boss = new Boss(engine);
+        this.active = true;
+        player.playerInit();
+        boss.bossInit();
+        effects.effectsInit();
+        this.bosscore = boss.core;
+        this.bullethandler = bulletHandler;
+    }
+
+    this.setPause = function(paused)
+    {
+        this.paused = paused;
+    }
 
 }
