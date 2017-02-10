@@ -446,15 +446,16 @@ function Boss(engine)
             }
             else if(spellcard == "7_doublespark")
             {
-                timer = 0;
-                spellcard = "8_shootmoon";
-
-                state = "9_shootmoon"
-                timer = 0;
-
-                core.resetHealth(450);
-                engine.effects.endSpellcard()
-                engine.effects.startSpellcard(image_prefix+"marisa.png","Light Blast [Shoot the Moon]")
+                // timer = 0;
+                // spellcard = "8_shootmoon";
+                //
+                // state = "9_shootmoon"
+                // timer = 0;
+                //
+                // core.resetHealth(250);
+                // engine.effects.endSpellcard()
+                // engine.effects.startSpellcard(image_prefix+"marisa.png","Light Blast [Shoot the Moon]")
+                restart("in_5_reisen")
             }
             else if(spellcard == "8_shootmoon")
             {

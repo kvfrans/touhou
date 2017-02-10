@@ -8,7 +8,7 @@ function Player(engine)
     var sprite;
     var hitbox_sprite;
     this.immunityCountDown = 0;
-    this.health = 6;
+    this.health = 3;
     this.radius = 4;
     this.points = 1;
     var player = this;
@@ -84,7 +84,7 @@ function Player(engine)
                         var b = engine.makeBullet(player.x - 13, player.y, 270, 60, PlayerBullet, "images/focus_bullet.png");
                         b = engine.makeBullet(player.x, player.y, 270, 60, PlayerBullet, "images/focus_bullet.png");
                         b = engine.makeBullet(player.x + 13, player.y, 270, 60, PlayerBullet, "images/focus_bullet.png");
-                        shoot_cooldown = 9;
+                        shoot_cooldown = 6;
                     }
                 }
                 //unshift is normal fire
@@ -99,7 +99,7 @@ function Player(engine)
                         b = engine.makeBullet(player.x, player.y + 4, 270, 30, PlayerBullet, "images/player_bullet.png");
 
                         b = engine.makeBullet(player.x + 10, player.y, 280, 30, PlayerBullet, "images/player_bullet.png");
-                        shoot_cooldown = 2;
+                        shoot_cooldown = 9;
                     }
                 }
 

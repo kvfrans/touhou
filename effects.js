@@ -114,6 +114,38 @@ function Effects(engine)
             }
         }
 
+        if(cutscene_state == 10)
+        {
+            cutscene_timer += 1;
+            if(cutscene_timer < cutscene_string.length)
+            {
+                engine.setTextContent(cutscene_text, cutscene_string.substr(0, cutscene_timer));
+                if(gamewrapper.keyboard.keyStates.z == 2)
+                {
+                    cutscene_timer = cutscene_string.length - 2;
+                }
+            }
+            else
+            {
+                engine.setTextContent(cutscene_text, cutscene_string);
+                if(gamewrapper.keyboard.keyStates.z == 2)
+                {
+                    cutscene_state = 0;
+                    engine.removeSprite(cutscene_bg);
+                    engine.removeSprite(cutscene_pic);
+                    engine.removeSprite(cutscene_text);
+                    engine.removeSprite(cutscene_name);
+                    cutscene_timer = 0;
+                    engine.setPause(false);
+                    engine.player.health = 3;
+                }
+                if(gamewrapper.keyboard.keyStates.x == 2)
+                {
+                    leaderboard()
+                }
+            }
+        }
+
         timer += 1;
     }
 
@@ -206,6 +238,21 @@ function Effects(engine)
         cutscene_bg = engine.makeNamedSprite("cutscene_bg", "images/cutscene_talkbg.png", 385, 700, 3);
         engine.setSpriteOpacity(cutscene_bg, 0.9);
         cutscene_pic = engine.makeNamedSprite("cutscene_pic", texturename, 585, 300, 2);
+        cutscene_name = engine.makeNamedText("cutscene_text", talkername, 50, 400, 3);
+        cutscene_text = engine.makeNamedText("cutscene_text", "", 50, 500, 3);
+        // engine.setSpriteScale(cutscene_text, 0.5, 0.5);
+        engine.setTextStyle(cutscene_text, "Arial", 30, 0xFFFFFF, false);
+        engine.setTextWrap(cutscene_text, true, 600);
+        cutscene_string = text;
+        cutscene_timer = 0;
+    }
+
+    this.gameover = function(talkername, text)
+    {
+        engine.setPause(true);
+        cutscene_state = 10;
+        cutscene_bg = engine.makeNamedSprite("cutscene_bg", "images/cutscene_talkbg.png", 385, 700, 3);
+        engine.setSpriteOpacity(cutscene_bg, 0.9);
         cutscene_name = engine.makeNamedText("cutscene_text", talkername, 50, 400, 3);
         cutscene_text = engine.makeNamedText("cutscene_text", "", 50, 500, 3);
         // engine.setSpriteScale(cutscene_text, 0.5, 0.5);

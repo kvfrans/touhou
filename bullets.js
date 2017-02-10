@@ -193,6 +193,11 @@ var BulletHandler = function(engine)
                         engine.effects.flash(10);
                         engine.effects.spellChargePlayer();
                         engine.makeBullet(engine.player.getX(), engine.player.getY(), 0, 0, PlayerClearingBullet, "images/spell_circle.png")
+
+                        if(engine.player.health < 0)
+                        {
+                            leaderboard();
+                        }
                     }
                 }
             }
