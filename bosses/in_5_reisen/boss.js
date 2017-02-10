@@ -326,6 +326,10 @@ function Boss(engine)
                 core.resetHealth(550);
                 engine.effects.startSpellcard(image_prefix+"reisen.png","Lunatic Gaze [Illusion Seeker]")
             }
+            else if(spellcard == "4_lateral")
+            {
+                leaderboard()
+            }
         }
         timer += 1;
     }
