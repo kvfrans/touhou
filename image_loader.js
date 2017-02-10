@@ -24,7 +24,6 @@ function loadImages()
         "sidebar.png",
         "health_icon.png",
         "spell_circle.png",
-        "menu_title.png",
         "menu_stageselect.png",
         "menu_clicker.png",
         "cutscene_talkbg.png",
