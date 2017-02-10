@@ -32,14 +32,14 @@ function UI(engine)
 
             for(var i = 0; i < 6; i++)
             {
-                player_health_icons[i] = engine.makeNamedSprite("playerhealthicon"+i, "images/health_icon.png", 910 + i*28, 165, 5);
+                player_health_icons[i] = engine.makeNamedSprite("playerhealthicon"+i, "images/health_icon.png", 830 + i*34, 165, 5);
             }
 
         }
         else
         {
             engine.setSpritePosition(enemy_marker, engine.bosscore.x, 885);
-            engine.setSpriteScale(enemyhealth, (engine.bosscore.health / engine.bosscore.maxhealth)*775, 20)
+            engine.setSpriteScale(enemyhealth, (engine.bosscore.health / engine.bosscore.maxhealth)*775/4, 20/4)
 
         }
 

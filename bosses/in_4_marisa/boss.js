@@ -8,7 +8,7 @@ function Boss(engine)
     this.core = core;
     var image_prefix = "bosses/in_4_marisa/resources/";
     var state = "1_starspin";
-    var state = "8_doublespark";
+    // var state = "8_doublespark";
 
     // var next_state = "1_starspin";
     var timer = 0;

@@ -49,13 +49,13 @@ function Effects(engine)
             if(spellcard_timer < 40)
             {
                 engine.setSpriteOpacity(spellcard_name, spellcard_timer / 40.0)
-                engine.setSpriteScale(spellcard_name, (1-spellcard_timer/40.0)*4 + 1, 1);
+                engine.setSpriteScale(spellcard_name, ((1-spellcard_timer/40.0)*3 + 1)/4, 1/3);
             }
             else if(spellcard_timer > 60 && spellcard_timer < 90)
             {
                 var scaling = ((spellcard_timer-60)/30.0)
                 engine.setSpritePosition(spellcard_name, 50, 400 - 350*scaling)
-                engine.setSpriteScale(spellcard_name, 1 - 0.5*scaling, 1 - 0.5*scaling);
+                engine.setSpriteScale(spellcard_name, (1 - 0.5*scaling)/3, (1 - 0.5*scaling)/3);
             }
             if(spellcard_timer % 845 == 0)
             {
@@ -152,7 +152,7 @@ function Effects(engine)
         engine.effects.flash(10);
 
         var bg = engine.makeBullet(375, 456, 270, 1, Bg, "images/spellcard_bg.png", 1)
-        engine.setSpriteScale(bg.sprite, 3.3, 3.3)
+        engine.setSpriteScale(bg.sprite, 3.3/4, 3.3/4)
         spellcard_bg.push(bg);
 
     }
