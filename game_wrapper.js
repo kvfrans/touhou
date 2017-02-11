@@ -16,7 +16,8 @@ function GameWrapper()
     // }
     for(var i = 0; i < 1; i++)
     {
-        var ss = engine.makeNamedSprite("stageselect"+i, "images/menu_stageselect.png", 0, 0, 5);
+        var ss = engine.makeNamedSprite("stageselect"+i, "images/menu_stageselect.png", 550, 450, 5);
+        engine.setSpriteScale(ss, 1/4.0, 1/4.0)
         var st = engine.makeNamedText("stageselect_text"+i, "", 408, 280 + i*200, 3);
         menu_components.push(ss);
         menu_components.push(st);
